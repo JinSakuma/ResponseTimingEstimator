@@ -8,5 +8,5 @@ notebook/
 espnet/
 espnet2/
 exp/
-_old/
+*/_old/
 
