@@ -1,0 +1,52 @@
+{
+    "exp_base": "exp",
+    "exp_name": "turn_shift/gmf_transformer_early",
+    "cuda": true,
+    "gpu_device": 0,
+    "seed": 1234,
+    "data_loader_workers": 1,
+    "data_params": {
+        "harpervalley_root": "/mnt/aoni04/jsakuma/development/harper-valley/dump",
+        "wav_maxlen": 2000,
+        "transcript_maxlen": 200,
+        "n_mels": 80,
+        "n_fft": 368,
+        "win_length": 368,
+        "hop_length": 160,
+        "min_utterance_length": 1,
+        "min_speaker_utterances": 0,
+		"bert_max_length": 70,
+        "speaker_split": true,
+		"append_eos_token": false
+    },
+    "model_params": {
+        "num_layers": 2,
+        "acoustic_input_dim": 128,
+        "timing_input_dim": 4,
+        "acoustic_hidden_dim": 512,
+        "acoustic_encoding_dim": 128,
+        "semantic_encoding_dim": 128,
+        "timing_encoding_dim": 128,
+        "encoding_dim": 128,
+        "bert_hidden_dim": 768,
+        "bidirectional": false
+    },
+    "loss_params": {
+        "asr_weight": 0.0,
+        "task_type_weight": 0.0,
+        "dialog_acts_weight": 0.5,
+        "system_acts_weight": 0.5,
+        "timing_weight": 0.0
+    },
+    "optim_params": {
+        "batch_size": 4,
+        "learning_rate": 1e-4,
+        "weight_decay": 0,
+        "grad_clip": 1,
+        "validate_freq": 5
+    },
+    "num_epochs": 15,
+    "validate": true,
+    "is_use_wandb": false,
+    "vad_continue_from_checkpoint": "exp/vad/M1/vad_best_val_loss_model.pth"
+}
