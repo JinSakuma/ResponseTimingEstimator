@@ -9,5 +9,7 @@ notebook/
 espnet/
 espnet2/
 exp/
-*/_old/
+samples/
+_old/
+src/models/_old/
 
