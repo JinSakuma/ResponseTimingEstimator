@@ -5,11 +5,10 @@ import argparse
 import numpy as np
 from dotmap import DotMap
 
-from src.datasets.dataset import get_dataloader, get_dataset
-# from src.datasets.dataset_rtnet import get_dataloader, get_dataset
+from src.datasets.dataset_asr_kana import get_dataloader, get_dataset
 from src.utils.utils import load_config
-from src.utils.trainer_timing import trainer
-from src.models.model4_wo_etau import TimingEstimator
+from src.utils.trainer_asr import trainer
+from src.models.asr.rnn.model import LSTMModel
 
 
 def run(args):
@@ -22,10 +21,10 @@ def run(args):
     else:
         device = torch.device('cpu')
     
-    train_dataset = get_dataset(config, 'train', ['M1'])
-    val_dataset = get_dataset(config, 'valid', ['M1'])
-    #train_dataset = get_dataset(config, 'train')
-    #val_dataset = get_dataset(config, 'valid')
+    train_dataset = get_dataset(config, 'train')
+    val_dataset = get_dataset(config, 'valid')
+    #train_dataset = get_dataset(config, 'train', ['M1'])
+    #val_dataset = get_dataset(config, 'valid', ['M1'])
     # test_dataset = get_dataset(config, 'test')
     
     train_loader = get_dataloader(train_dataset, config, 'train')
@@ -37,10 +36,8 @@ def run(args):
     del train_dataset
     del val_dataset
     
-    model = TimingEstimator(config, device)
+    model = LSTMModel(config, device)
     model.to(device)
-
-    # model.vad.load_state_dict(torch.load(config.vad_continue_from_checkpoint), strict=False)
     
     parameters = model.configure_optimizer_parameters()
     optimizer = torch.optim.AdamW(
