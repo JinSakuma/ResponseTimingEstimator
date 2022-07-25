@@ -1,3 +1,4 @@
+import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -16,6 +17,8 @@ class GMFModel(nn.Module):
         super().__init__()
         self.config = config
         self.device = device
+        alpha = config.loss_params.loss_weight
+        self.weights = torch.tensor([1.0, alpha])#.to(device)
         
         self.R = 60
         
@@ -51,6 +54,7 @@ class GMFModel(nn.Module):
             self.config.model_params.semantic_encoding_dim,
             self.config.model_params.timing_encoding_dim,
             self.config.model_params.encoding_dim,
+            self.weights,
         )
         self.gfblock = gfblock
 
@@ -67,14 +71,17 @@ class GMFModel(nn.Module):
     def forward(self, batch, split='train'):
         chs = batch[0]
         texts = batch[1]
-        vads = batch[2]
-        #turn = batch[3].to(self.device)
-        #last_ipu = batch[4].to(self.device)
-        targets = batch[5].to(self.device)
-        feats = batch[6].to(self.device)
-        input_lengths = batch[7] #.to(self.device)
-        offsets = batch[8]
-        indices = batch[9]
+        # kanas = batch[2]
+        # idxs = batch[3]
+        
+        vads = batch[4]
+        #turn = batch[5].to(self.device)
+        #last_ipu = batch[6].to(self.device)
+        targets = batch[7].to(self.device)
+        feats = batch[8].to(self.device)
+        input_lengths = batch[9] #.to(self.device)
+        offsets = batch[10]
+        indices = batch[11]
         batch_size = int(len(chs))
 
         
@@ -97,11 +104,22 @@ class GMFModel(nn.Module):
             ends = np.where(res==1)[0]+1
 
             if len(ends)>0:
-                ends = ends[ends<=timing-offsets[i]//50+1]
+                ends = ends[ends<=5+timing-offsets[i]//50+1]                                
             elif offsets[i]<=0:
                 ends = np.array([input_lengths[i]-1])
+#             else:                
+#                 raise NotImplemented
+                
+            if len(ends)==0:
+                ends = np.array([input_lengths[i]-1])
+                ends_ = np.array([input_lengths[i]-1])
             else:
-                raise NotImplemented
+                ends_ = ends.copy()
+                for j in range(len(ends)):                   
+                    if ends[j]+4 < input_lengths[i]:
+                        ends_[j] = ends[j] + 4
+                        
+                
             # ends += 4
             # print(timing)
             # print(starts)
@@ -111,8 +129,10 @@ class GMFModel(nn.Module):
                 tmp[:-1] = 0
                 tmp[-1] = 1
             except:
-                ends = np.where(res==1)[0]+1
-                print(ends)
+                print(np.where(res==1)[0]+1)
+                print(tmp)
+                print(len(targets[i]))
+                print(ends, len(ends))
                 print(timing)
                 print(offsets[i]//50+1)
                 print(aaa)
@@ -120,7 +140,7 @@ class GMFModel(nn.Module):
 
             r_a_list.append(r_a_tmp[i][ends])
             targets_list.append(tmp)
-            text_list += np.array(texts[i])[ends].tolist()
+            text_list += np.array(texts[i])[ends_].tolist()
             ends_list += ends.tolist()
             interval = [0]+list(ends[1:]-ends[:-1])
             intervals_list+=interval

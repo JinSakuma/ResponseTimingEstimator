@@ -1,0 +1,1808 @@
+2022-06-25 16:56:37,509 (asr:411) INFO: Vocabulary size: 126
+2022-06-25 16:57:00,686 (lm:199) INFO: Vocabulary size: 126
+2022-06-25 16:57:02,545 (asr_inference_streaming:144) INFO: BatchBeamSearchOnline implementation is selected.
+2022-06-25 16:57:02,563 (asr_inference_streaming:150) INFO: Beam_search: BatchBeamSearchOnline(
+  (nn_dict): ModuleDict(
+    (decoder): TransformerDecoder(
+      (embed): Sequential(
+        (0): Embedding(126, 256)
+        (1): PositionalEncoding(
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+      (after_norm): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+      (output_layer): Linear(in_features=256, out_features=126, bias=True)
+      (decoders): MultiSequential(
+        (0): DecoderLayer(
+          (self_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (src_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (feed_forward): PositionwiseFeedForward(
+            (w_1): Linear(in_features=256, out_features=2048, bias=True)
+            (w_2): Linear(in_features=2048, out_features=256, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+            (activation): ReLU()
+          )
+          (norm1): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm2): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm3): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+        (1): DecoderLayer(
+          (self_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (src_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (feed_forward): PositionwiseFeedForward(
+            (w_1): Linear(in_features=256, out_features=2048, bias=True)
+            (w_2): Linear(in_features=2048, out_features=256, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+            (activation): ReLU()
+          )
+          (norm1): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm2): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm3): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+        (2): DecoderLayer(
+          (self_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (src_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (feed_forward): PositionwiseFeedForward(
+            (w_1): Linear(in_features=256, out_features=2048, bias=True)
+            (w_2): Linear(in_features=2048, out_features=256, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+            (activation): ReLU()
+          )
+          (norm1): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm2): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm3): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+        (3): DecoderLayer(
+          (self_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (src_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (feed_forward): PositionwiseFeedForward(
+            (w_1): Linear(in_features=256, out_features=2048, bias=True)
+            (w_2): Linear(in_features=2048, out_features=256, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+            (activation): ReLU()
+          )
+          (norm1): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm2): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm3): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+        (4): DecoderLayer(
+          (self_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (src_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (feed_forward): PositionwiseFeedForward(
+            (w_1): Linear(in_features=256, out_features=2048, bias=True)
+            (w_2): Linear(in_features=2048, out_features=256, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+            (activation): ReLU()
+          )
+          (norm1): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm2): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm3): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+        (5): DecoderLayer(
+          (self_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (src_attn): MultiHeadedAttention(
+            (linear_q): Linear(in_features=256, out_features=256, bias=True)
+            (linear_k): Linear(in_features=256, out_features=256, bias=True)
+            (linear_v): Linear(in_features=256, out_features=256, bias=True)
+            (linear_out): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (feed_forward): PositionwiseFeedForward(
+            (w_1): Linear(in_features=256, out_features=2048, bias=True)
+            (w_2): Linear(in_features=2048, out_features=256, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+            (activation): ReLU()
+          )
+          (norm1): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm2): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (norm3): LayerNorm((256,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+  )
+)
+2022-06-25 16:57:02,563 (asr_inference_streaming:151) INFO: Decoding device=cuda:1, dtype=float32
+2022-06-25 16:57:02,723 (asr_inference_streaming:169) INFO: Text tokenizer: WordTokenizer(delimiter="None")
+2022-06-25 16:57:03,397 (batch_beam_search_online:148) DEBUG: Start processing block: 0
+2022-06-25 16:57:03,397 (batch_beam_search_online:151) DEBUG:   Feature length: 8, current position: 0
+2022-06-25 16:57:03,399 (batch_beam_search_online:186) DEBUG: position 0
+2022-06-25 16:57:03,421 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:03,421 (batch_beam_search_online:283) INFO:  -5.35 * 0.5 =  -2.68 for decoder
+2022-06-25 16:57:03,422 (batch_beam_search_online:283) INFO:  -0.00 * 0.5 =  -0.00 for ctc
+2022-06-25 16:57:03,422 (batch_beam_search_online:285) INFO: total log probability: -2.68
+2022-06-25 16:57:03,422 (batch_beam_search_online:286) INFO: normalized log probability: -1.34
+2022-06-25 16:57:03,422 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:03,422 (batch_beam_search_online:292) INFO: best hypo: 
+
+2022-06-25 16:57:03,422 (batch_beam_search_online:167) DEBUG: Finished processing block: 0
+2022-06-25 16:57:03,461 (batch_beam_search_online:148) DEBUG: Start processing block: 1
+2022-06-25 16:57:03,461 (batch_beam_search_online:151) DEBUG:   Feature length: 12, current position: 0
+2022-06-25 16:57:03,462 (batch_beam_search_online:186) DEBUG: position 0
+2022-06-25 16:57:03,482 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:03,482 (batch_beam_search:315) DEBUG: best hypo: ちょ
+2022-06-25 16:57:03,483 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:03,483 (batch_beam_search_online:186) DEBUG: position 1
+2022-06-25 16:57:03,505 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:03,505 (batch_beam_search_online:283) INFO:  -7.82 * 0.5 =  -3.91 for decoder
+2022-06-25 16:57:03,505 (batch_beam_search_online:283) INFO:  -0.01 * 0.5 =  -0.00 for ctc
+2022-06-25 16:57:03,505 (batch_beam_search_online:285) INFO: total log probability: -3.92
+2022-06-25 16:57:03,505 (batch_beam_search_online:286) INFO: normalized log probability: -1.31
+2022-06-25 16:57:03,505 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:03,505 (batch_beam_search_online:292) INFO: best hypo: ちょ
+
+2022-06-25 16:57:03,505 (batch_beam_search_online:167) DEBUG: Finished processing block: 1
+2022-06-25 16:57:03,548 (batch_beam_search_online:148) DEBUG: Start processing block: 2
+2022-06-25 16:57:03,548 (batch_beam_search_online:151) DEBUG:   Feature length: 16, current position: 1
+2022-06-25 16:57:03,549 (batch_beam_search_online:186) DEBUG: position 1
+2022-06-25 16:57:03,572 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:03,572 (batch_beam_search_online:283) INFO:  -6.86 * 0.5 =  -3.43 for decoder
+2022-06-25 16:57:03,572 (batch_beam_search_online:283) INFO:  -0.01 * 0.5 =  -0.01 for ctc
+2022-06-25 16:57:03,572 (batch_beam_search_online:285) INFO: total log probability: -3.43
+2022-06-25 16:57:03,572 (batch_beam_search_online:286) INFO: normalized log probability: -1.14
+2022-06-25 16:57:03,572 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:03,572 (batch_beam_search_online:292) INFO: best hypo: ちょ
+
+2022-06-25 16:57:03,572 (batch_beam_search_online:167) DEBUG: Finished processing block: 2
+2022-06-25 16:57:03,612 (batch_beam_search_online:148) DEBUG: Start processing block: 3
+2022-06-25 16:57:03,612 (batch_beam_search_online:151) DEBUG:   Feature length: 20, current position: 1
+2022-06-25 16:57:03,613 (batch_beam_search_online:186) DEBUG: position 1
+2022-06-25 16:57:03,637 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:03,637 (batch_beam_search_online:283) INFO:  -6.64 * 0.5 =  -3.32 for decoder
+2022-06-25 16:57:03,637 (batch_beam_search_online:283) INFO:  -0.01 * 0.5 =  -0.01 for ctc
+2022-06-25 16:57:03,637 (batch_beam_search_online:285) INFO: total log probability: -3.33
+2022-06-25 16:57:03,637 (batch_beam_search_online:286) INFO: normalized log probability: -1.11
+2022-06-25 16:57:03,637 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:03,638 (batch_beam_search_online:292) INFO: best hypo: ちょ
+
+2022-06-25 16:57:03,638 (batch_beam_search_online:167) DEBUG: Finished processing block: 3
+2022-06-25 16:57:03,680 (batch_beam_search_online:148) DEBUG: Start processing block: 4
+2022-06-25 16:57:03,680 (batch_beam_search_online:151) DEBUG:   Feature length: 24, current position: 1
+2022-06-25 16:57:03,681 (batch_beam_search_online:186) DEBUG: position 1
+2022-06-25 16:57:03,706 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:03,706 (batch_beam_search:315) DEBUG: best hypo: ちょっ
+2022-06-25 16:57:03,707 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:03,707 (batch_beam_search_online:186) DEBUG: position 2
+2022-06-25 16:57:03,732 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:03,732 (batch_beam_search_online:283) INFO:  -7.57 * 0.5 =  -3.78 for decoder
+2022-06-25 16:57:03,732 (batch_beam_search_online:283) INFO:  -0.04 * 0.5 =  -0.02 for ctc
+2022-06-25 16:57:03,732 (batch_beam_search_online:285) INFO: total log probability: -3.81
+2022-06-25 16:57:03,733 (batch_beam_search_online:286) INFO: normalized log probability: -0.95
+2022-06-25 16:57:03,733 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:03,733 (batch_beam_search_online:292) INFO: best hypo: ちょっ
+
+2022-06-25 16:57:03,733 (batch_beam_search_online:167) DEBUG: Finished processing block: 4
+2022-06-25 16:57:03,769 (batch_beam_search_online:148) DEBUG: Start processing block: 5
+2022-06-25 16:57:03,769 (batch_beam_search_online:151) DEBUG:   Feature length: 28, current position: 1
+2022-06-25 16:57:03,770 (batch_beam_search_online:186) DEBUG: position 1
+2022-06-25 16:57:03,792 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:03,793 (batch_beam_search:315) DEBUG: best hypo: ちょっ
+2022-06-25 16:57:03,793 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:03,793 (batch_beam_search_online:186) DEBUG: position 2
+2022-06-25 16:57:03,815 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:03,815 (batch_beam_search:315) DEBUG: best hypo: ちょっと
+2022-06-25 16:57:03,816 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:03,816 (batch_beam_search_online:186) DEBUG: position 3
+2022-06-25 16:57:03,838 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:03,838 (batch_beam_search_online:283) INFO:  -6.57 * 0.5 =  -3.28 for decoder
+2022-06-25 16:57:03,838 (batch_beam_search_online:283) INFO:  -0.04 * 0.5 =  -0.02 for ctc
+2022-06-25 16:57:03,838 (batch_beam_search_online:285) INFO: total log probability: -3.30
+2022-06-25 16:57:03,838 (batch_beam_search_online:286) INFO: normalized log probability: -0.66
+2022-06-25 16:57:03,838 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:03,838 (batch_beam_search_online:292) INFO: best hypo: ちょっと
+
+2022-06-25 16:57:03,838 (batch_beam_search_online:167) DEBUG: Finished processing block: 5
+2022-06-25 16:57:03,874 (batch_beam_search_online:148) DEBUG: Start processing block: 6
+2022-06-25 16:57:03,874 (batch_beam_search_online:151) DEBUG:   Feature length: 32, current position: 2
+2022-06-25 16:57:03,875 (batch_beam_search_online:186) DEBUG: position 2
+2022-06-25 16:57:03,898 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:03,898 (batch_beam_search:315) DEBUG: best hypo: ちょっと
+2022-06-25 16:57:03,899 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:03,899 (batch_beam_search_online:186) DEBUG: position 3
+2022-06-25 16:57:03,921 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:03,921 (batch_beam_search:315) DEBUG: best hypo: ちょっとな
+2022-06-25 16:57:03,922 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:03,922 (batch_beam_search_online:186) DEBUG: position 4
+2022-06-25 16:57:03,945 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:03,945 (batch_beam_search_online:283) INFO:  -7.61 * 0.5 =  -3.80 for decoder
+2022-06-25 16:57:03,945 (batch_beam_search_online:283) INFO:  -0.76 * 0.5 =  -0.38 for ctc
+2022-06-25 16:57:03,945 (batch_beam_search_online:285) INFO: total log probability: -4.18
+2022-06-25 16:57:03,945 (batch_beam_search_online:286) INFO: normalized log probability: -0.70
+2022-06-25 16:57:03,945 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:03,945 (batch_beam_search_online:292) INFO: best hypo: ちょっとな
+
+2022-06-25 16:57:03,945 (batch_beam_search_online:167) DEBUG: Finished processing block: 6
+2022-06-25 16:57:03,978 (batch_beam_search_online:148) DEBUG: Start processing block: 7
+2022-06-25 16:57:03,978 (batch_beam_search_online:151) DEBUG:   Feature length: 36, current position: 3
+2022-06-25 16:57:03,979 (batch_beam_search_online:186) DEBUG: position 3
+2022-06-25 16:57:04,003 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,003 (batch_beam_search:315) DEBUG: best hypo: ちょっとな
+2022-06-25 16:57:04,004 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,004 (batch_beam_search_online:186) DEBUG: position 4
+2022-06-25 16:57:04,027 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,028 (batch_beam_search:315) DEBUG: best hypo: ちょっとなん
+2022-06-25 16:57:04,028 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,028 (batch_beam_search_online:186) DEBUG: position 5
+2022-06-25 16:57:04,051 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:04,052 (batch_beam_search_online:283) INFO:  -8.16 * 0.5 =  -4.08 for decoder
+2022-06-25 16:57:04,052 (batch_beam_search_online:283) INFO:  -0.76 * 0.5 =  -0.38 for ctc
+2022-06-25 16:57:04,052 (batch_beam_search_online:285) INFO: total log probability: -4.46
+2022-06-25 16:57:04,052 (batch_beam_search_online:286) INFO: normalized log probability: -0.64
+2022-06-25 16:57:04,052 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:04,052 (batch_beam_search_online:292) INFO: best hypo: ちょっとなん
+
+2022-06-25 16:57:04,052 (batch_beam_search_online:167) DEBUG: Finished processing block: 7
+2022-06-25 16:57:04,087 (batch_beam_search_online:148) DEBUG: Start processing block: 8
+2022-06-25 16:57:04,088 (batch_beam_search_online:151) DEBUG:   Feature length: 40, current position: 4
+2022-06-25 16:57:04,088 (batch_beam_search_online:186) DEBUG: position 4
+2022-06-25 16:57:04,113 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,113 (batch_beam_search:315) DEBUG: best hypo: ちょっとなん
+2022-06-25 16:57:04,114 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,114 (batch_beam_search_online:186) DEBUG: position 5
+2022-06-25 16:57:04,138 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,138 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんか
+2022-06-25 16:57:04,139 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,139 (batch_beam_search_online:186) DEBUG: position 6
+2022-06-25 16:57:04,163 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:04,163 (batch_beam_search_online:283) INFO:  -6.36 * 0.5 =  -3.18 for decoder
+2022-06-25 16:57:04,164 (batch_beam_search_online:283) INFO:  -0.76 * 0.5 =  -0.38 for ctc
+2022-06-25 16:57:04,164 (batch_beam_search_online:285) INFO: total log probability: -3.56
+2022-06-25 16:57:04,164 (batch_beam_search_online:286) INFO: normalized log probability: -0.44
+2022-06-25 16:57:04,164 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:04,164 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんか
+
+2022-06-25 16:57:04,164 (batch_beam_search_online:167) DEBUG: Finished processing block: 8
+2022-06-25 16:57:04,200 (batch_beam_search_online:148) DEBUG: Start processing block: 9
+2022-06-25 16:57:04,200 (batch_beam_search_online:151) DEBUG:   Feature length: 44, current position: 5
+2022-06-25 16:57:04,201 (batch_beam_search_online:186) DEBUG: position 5
+2022-06-25 16:57:04,226 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,226 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんか
+2022-06-25 16:57:04,227 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,227 (batch_beam_search_online:186) DEBUG: position 6
+2022-06-25 16:57:04,252 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,252 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそ
+2022-06-25 16:57:04,253 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,253 (batch_beam_search_online:186) DEBUG: position 7
+2022-06-25 16:57:04,278 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:04,278 (batch_beam_search_online:283) INFO:  -7.02 * 0.5 =  -3.51 for decoder
+2022-06-25 16:57:04,278 (batch_beam_search_online:283) INFO:  -0.76 * 0.5 =  -0.38 for ctc
+2022-06-25 16:57:04,278 (batch_beam_search_online:285) INFO: total log probability: -3.89
+2022-06-25 16:57:04,278 (batch_beam_search_online:286) INFO: normalized log probability: -0.43
+2022-06-25 16:57:04,278 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:04,278 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそ
+
+2022-06-25 16:57:04,279 (batch_beam_search_online:167) DEBUG: Finished processing block: 9
+2022-06-25 16:57:04,311 (batch_beam_search_online:148) DEBUG: Start processing block: 10
+2022-06-25 16:57:04,312 (batch_beam_search_online:151) DEBUG:   Feature length: 48, current position: 6
+2022-06-25 16:57:04,312 (batch_beam_search_online:186) DEBUG: position 6
+2022-06-25 16:57:04,339 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,339 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそ
+2022-06-25 16:57:04,339 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,340 (batch_beam_search_online:186) DEBUG: position 7
+2022-06-25 16:57:04,365 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,366 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかその
+2022-06-25 16:57:04,366 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,366 (batch_beam_search_online:186) DEBUG: position 8
+2022-06-25 16:57:04,392 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:04,392 (batch_beam_search_online:283) INFO:  -5.65 * 0.5 =  -2.83 for decoder
+2022-06-25 16:57:04,392 (batch_beam_search_online:283) INFO:  -0.78 * 0.5 =  -0.39 for ctc
+2022-06-25 16:57:04,392 (batch_beam_search_online:285) INFO: total log probability: -3.22
+2022-06-25 16:57:04,392 (batch_beam_search_online:286) INFO: normalized log probability: -0.32
+2022-06-25 16:57:04,392 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:04,393 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかその
+
+2022-06-25 16:57:04,393 (batch_beam_search_online:167) DEBUG: Finished processing block: 10
+2022-06-25 16:57:04,428 (batch_beam_search_online:148) DEBUG: Start processing block: 11
+2022-06-25 16:57:04,428 (batch_beam_search_online:151) DEBUG:   Feature length: 52, current position: 7
+2022-06-25 16:57:04,429 (batch_beam_search_online:186) DEBUG: position 7
+2022-06-25 16:57:04,456 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,457 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかその
+2022-06-25 16:57:04,457 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,457 (batch_beam_search_online:186) DEBUG: position 8
+2022-06-25 16:57:04,484 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,484 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのび
+2022-06-25 16:57:04,485 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,485 (batch_beam_search_online:186) DEBUG: position 9
+2022-06-25 16:57:04,511 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:04,511 (batch_beam_search_online:283) INFO:  -6.26 * 0.5 =  -3.13 for decoder
+2022-06-25 16:57:04,511 (batch_beam_search_online:283) INFO:  -0.79 * 0.5 =  -0.40 for ctc
+2022-06-25 16:57:04,512 (batch_beam_search_online:285) INFO: total log probability: -3.53
+2022-06-25 16:57:04,512 (batch_beam_search_online:286) INFO: normalized log probability: -0.32
+2022-06-25 16:57:04,512 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:04,512 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのび
+
+2022-06-25 16:57:04,512 (batch_beam_search_online:167) DEBUG: Finished processing block: 11
+2022-06-25 16:57:04,545 (batch_beam_search_online:148) DEBUG: Start processing block: 12
+2022-06-25 16:57:04,545 (batch_beam_search_online:151) DEBUG:   Feature length: 56, current position: 8
+2022-06-25 16:57:04,546 (batch_beam_search_online:186) DEBUG: position 8
+2022-06-25 16:57:04,573 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,574 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのび
+2022-06-25 16:57:04,574 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,574 (batch_beam_search_online:186) DEBUG: position 9
+2022-06-25 16:57:04,602 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,602 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびー
+2022-06-25 16:57:04,603 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,603 (batch_beam_search_online:186) DEBUG: position 10
+2022-06-25 16:57:04,630 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:04,630 (batch_beam_search_online:283) INFO:  -7.77 * 0.5 =  -3.89 for decoder
+2022-06-25 16:57:04,630 (batch_beam_search_online:283) INFO:  -0.79 * 0.5 =  -0.40 for ctc
+2022-06-25 16:57:04,630 (batch_beam_search_online:285) INFO: total log probability: -4.28
+2022-06-25 16:57:04,630 (batch_beam_search_online:286) INFO: normalized log probability: -0.36
+2022-06-25 16:57:04,630 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:04,631 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびー
+
+2022-06-25 16:57:04,631 (batch_beam_search_online:167) DEBUG: Finished processing block: 12
+2022-06-25 16:57:04,666 (batch_beam_search_online:148) DEBUG: Start processing block: 13
+2022-06-25 16:57:04,666 (batch_beam_search_online:151) DEBUG:   Feature length: 60, current position: 9
+2022-06-25 16:57:04,667 (batch_beam_search_online:186) DEBUG: position 9
+2022-06-25 16:57:04,696 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,696 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびー
+2022-06-25 16:57:04,697 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,697 (batch_beam_search_online:186) DEBUG: position 10
+2022-06-25 16:57:04,725 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,725 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーる
+2022-06-25 16:57:04,726 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,726 (batch_beam_search_online:186) DEBUG: position 11
+2022-06-25 16:57:04,754 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:04,754 (batch_beam_search_online:283) INFO:  -6.36 * 0.5 =  -3.18 for decoder
+2022-06-25 16:57:04,754 (batch_beam_search_online:283) INFO:  -0.79 * 0.5 =  -0.40 for ctc
+2022-06-25 16:57:04,754 (batch_beam_search_online:285) INFO: total log probability: -3.58
+2022-06-25 16:57:04,754 (batch_beam_search_online:286) INFO: normalized log probability: -0.28
+2022-06-25 16:57:04,754 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:04,755 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーる
+
+2022-06-25 16:57:04,755 (batch_beam_search_online:167) DEBUG: Finished processing block: 13
+2022-06-25 16:57:04,788 (batch_beam_search_online:148) DEBUG: Start processing block: 14
+2022-06-25 16:57:04,788 (batch_beam_search_online:151) DEBUG:   Feature length: 64, current position: 10
+2022-06-25 16:57:04,789 (batch_beam_search_online:186) DEBUG: position 10
+2022-06-25 16:57:04,818 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,818 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーる
+2022-06-25 16:57:04,819 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,819 (batch_beam_search_online:186) DEBUG: position 11
+2022-06-25 16:57:04,848 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,848 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるの
+2022-06-25 16:57:04,849 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,849 (batch_beam_search_online:186) DEBUG: position 12
+2022-06-25 16:57:04,877 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:04,877 (batch_beam_search_online:283) INFO:  -7.47 * 0.5 =  -3.73 for decoder
+2022-06-25 16:57:04,877 (batch_beam_search_online:283) INFO:  -0.79 * 0.5 =  -0.40 for ctc
+2022-06-25 16:57:04,877 (batch_beam_search_online:285) INFO: total log probability: -4.13
+2022-06-25 16:57:04,878 (batch_beam_search_online:286) INFO: normalized log probability: -0.29
+2022-06-25 16:57:04,878 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:04,878 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるの
+
+2022-06-25 16:57:04,878 (batch_beam_search_online:167) DEBUG: Finished processing block: 14
+2022-06-25 16:57:04,913 (batch_beam_search_online:148) DEBUG: Start processing block: 15
+2022-06-25 16:57:04,913 (batch_beam_search_online:151) DEBUG:   Feature length: 68, current position: 11
+2022-06-25 16:57:04,914 (batch_beam_search_online:186) DEBUG: position 11
+2022-06-25 16:57:04,944 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,945 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるの
+2022-06-25 16:57:04,945 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,946 (batch_beam_search_online:186) DEBUG: position 12
+2022-06-25 16:57:04,975 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:04,975 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのー
+2022-06-25 16:57:04,976 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:04,976 (batch_beam_search_online:186) DEBUG: position 13
+2022-06-25 16:57:05,006 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:05,006 (batch_beam_search_online:283) INFO:  -2.29 * 0.5 =  -1.14 for decoder
+2022-06-25 16:57:05,006 (batch_beam_search_online:283) INFO:  -1.19 * 0.5 =  -0.60 for ctc
+2022-06-25 16:57:05,006 (batch_beam_search_online:285) INFO: total log probability: -1.74
+2022-06-25 16:57:05,006 (batch_beam_search_online:286) INFO: normalized log probability: -0.12
+2022-06-25 16:57:05,006 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:05,006 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのー
+
+2022-06-25 16:57:05,006 (batch_beam_search_online:167) DEBUG: Finished processing block: 15
+2022-06-25 16:57:05,039 (batch_beam_search_online:148) DEBUG: Start processing block: 16
+2022-06-25 16:57:05,040 (batch_beam_search_online:151) DEBUG:   Feature length: 72, current position: 12
+2022-06-25 16:57:05,041 (batch_beam_search_online:186) DEBUG: position 12
+2022-06-25 16:57:05,071 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,071 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのー
+2022-06-25 16:57:05,072 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,072 (batch_beam_search_online:186) DEBUG: position 13
+2022-06-25 16:57:05,103 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:05,103 (batch_beam_search_online:283) INFO:  -5.28 * 0.5 =  -2.64 for decoder
+2022-06-25 16:57:05,103 (batch_beam_search_online:283) INFO:  -1.19 * 0.5 =  -0.60 for ctc
+2022-06-25 16:57:05,103 (batch_beam_search_online:285) INFO: total log probability: -3.24
+2022-06-25 16:57:05,103 (batch_beam_search_online:286) INFO: normalized log probability: -0.22
+2022-06-25 16:57:05,103 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:05,103 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのー
+
+2022-06-25 16:57:05,103 (batch_beam_search_online:167) DEBUG: Finished processing block: 16
+2022-06-25 16:57:05,139 (batch_beam_search_online:148) DEBUG: Start processing block: 17
+2022-06-25 16:57:05,139 (batch_beam_search_online:151) DEBUG:   Feature length: 76, current position: 12
+2022-06-25 16:57:05,140 (batch_beam_search_online:186) DEBUG: position 12
+2022-06-25 16:57:05,172 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,172 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのー
+2022-06-25 16:57:05,173 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,173 (batch_beam_search_online:186) DEBUG: position 13
+2022-06-25 16:57:05,204 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:05,204 (batch_beam_search_online:283) INFO: -12.12 * 0.5 =  -6.06 for decoder
+2022-06-25 16:57:05,204 (batch_beam_search_online:283) INFO:  -2.00 * 0.5 =  -1.00 for ctc
+2022-06-25 16:57:05,205 (batch_beam_search_online:285) INFO: total log probability: -7.06
+2022-06-25 16:57:05,205 (batch_beam_search_online:286) INFO: normalized log probability: -0.47
+2022-06-25 16:57:05,205 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:05,205 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのの
+
+2022-06-25 16:57:05,205 (batch_beam_search_online:167) DEBUG: Finished processing block: 17
+2022-06-25 16:57:05,241 (batch_beam_search_online:148) DEBUG: Start processing block: 18
+2022-06-25 16:57:05,241 (batch_beam_search_online:151) DEBUG:   Feature length: 80, current position: 12
+2022-06-25 16:57:05,242 (batch_beam_search_online:186) DEBUG: position 12
+2022-06-25 16:57:05,274 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,275 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのー
+2022-06-25 16:57:05,275 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,275 (batch_beam_search_online:186) DEBUG: position 13
+2022-06-25 16:57:05,308 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,308 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーの
+2022-06-25 16:57:05,309 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,309 (batch_beam_search_online:186) DEBUG: position 14
+2022-06-25 16:57:05,341 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:05,341 (batch_beam_search_online:283) INFO:  -9.44 * 0.5 =  -4.72 for decoder
+2022-06-25 16:57:05,342 (batch_beam_search_online:283) INFO:  -2.00 * 0.5 =  -1.00 for ctc
+2022-06-25 16:57:05,342 (batch_beam_search_online:285) INFO: total log probability: -5.72
+2022-06-25 16:57:05,342 (batch_beam_search_online:286) INFO: normalized log probability: -0.36
+2022-06-25 16:57:05,342 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:05,342 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるののみ
+
+2022-06-25 16:57:05,342 (batch_beam_search_online:167) DEBUG: Finished processing block: 18
+2022-06-25 16:57:05,375 (batch_beam_search_online:148) DEBUG: Start processing block: 19
+2022-06-25 16:57:05,375 (batch_beam_search_online:151) DEBUG:   Feature length: 84, current position: 13
+2022-06-25 16:57:05,376 (batch_beam_search_online:186) DEBUG: position 13
+2022-06-25 16:57:05,409 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,410 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーの
+2022-06-25 16:57:05,410 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,411 (batch_beam_search_online:186) DEBUG: position 14
+2022-06-25 16:57:05,444 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,444 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみ
+2022-06-25 16:57:05,445 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,445 (batch_beam_search_online:186) DEBUG: position 15
+2022-06-25 16:57:05,478 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,479 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほ
+2022-06-25 16:57:05,479 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,480 (batch_beam_search_online:186) DEBUG: position 16
+2022-06-25 16:57:05,512 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:05,512 (batch_beam_search_online:283) INFO: -10.44 * 0.5 =  -5.22 for decoder
+2022-06-25 16:57:05,512 (batch_beam_search_online:283) INFO:  -2.00 * 0.5 =  -1.00 for ctc
+2022-06-25 16:57:05,512 (batch_beam_search_online:285) INFO: total log probability: -6.22
+2022-06-25 16:57:05,512 (batch_beam_search_online:286) INFO: normalized log probability: -0.35
+2022-06-25 16:57:05,513 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:05,513 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるののみほう
+
+2022-06-25 16:57:05,513 (batch_beam_search_online:167) DEBUG: Finished processing block: 19
+2022-06-25 16:57:05,548 (batch_beam_search_online:148) DEBUG: Start processing block: 20
+2022-06-25 16:57:05,548 (batch_beam_search_online:151) DEBUG:   Feature length: 88, current position: 15
+2022-06-25 16:57:05,549 (batch_beam_search_online:186) DEBUG: position 15
+2022-06-25 16:57:05,583 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,584 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほ
+2022-06-25 16:57:05,584 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,584 (batch_beam_search_online:186) DEBUG: position 16
+2022-06-25 16:57:05,618 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,619 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほう
+2022-06-25 16:57:05,619 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,619 (batch_beam_search_online:186) DEBUG: position 17
+2022-06-25 16:57:05,653 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,653 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだ
+2022-06-25 16:57:05,654 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,654 (batch_beam_search_online:186) DEBUG: position 18
+2022-06-25 16:57:05,687 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:05,687 (batch_beam_search_online:283) INFO:  -8.93 * 0.5 =  -4.47 for decoder
+2022-06-25 16:57:05,688 (batch_beam_search_online:283) INFO:  -1.24 * 0.5 =  -0.62 for ctc
+2022-06-25 16:57:05,688 (batch_beam_search_online:285) INFO: total log probability: -5.09
+2022-06-25 16:57:05,688 (batch_beam_search_online:286) INFO: normalized log probability: -0.25
+2022-06-25 16:57:05,688 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:05,688 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだ
+
+2022-06-25 16:57:05,688 (batch_beam_search_online:167) DEBUG: Finished processing block: 20
+2022-06-25 16:57:05,721 (batch_beam_search_online:148) DEBUG: Start processing block: 21
+2022-06-25 16:57:05,721 (batch_beam_search_online:151) DEBUG:   Feature length: 92, current position: 17
+2022-06-25 16:57:05,722 (batch_beam_search_online:186) DEBUG: position 17
+2022-06-25 16:57:05,756 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,757 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだ
+2022-06-25 16:57:05,757 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,757 (batch_beam_search_online:186) DEBUG: position 18
+2022-06-25 16:57:05,790 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:05,790 (batch_beam_search_online:283) INFO:  -5.20 * 0.5 =  -2.60 for decoder
+2022-06-25 16:57:05,790 (batch_beam_search_online:283) INFO:  -2.00 * 0.5 =  -1.00 for ctc
+2022-06-25 16:57:05,791 (batch_beam_search_online:285) INFO: total log probability: -3.60
+2022-06-25 16:57:05,791 (batch_beam_search_online:286) INFO: normalized log probability: -0.18
+2022-06-25 16:57:05,791 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:05,791 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるののみほうだい
+
+2022-06-25 16:57:05,791 (batch_beam_search_online:167) DEBUG: Finished processing block: 21
+2022-06-25 16:57:05,825 (batch_beam_search_online:148) DEBUG: Start processing block: 22
+2022-06-25 16:57:05,825 (batch_beam_search_online:151) DEBUG:   Feature length: 96, current position: 17
+2022-06-25 16:57:05,826 (batch_beam_search_online:186) DEBUG: position 17
+2022-06-25 16:57:05,860 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,861 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだ
+2022-06-25 16:57:05,861 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,861 (batch_beam_search_online:186) DEBUG: position 18
+2022-06-25 16:57:05,895 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,896 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだい
+2022-06-25 16:57:05,897 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:05,897 (batch_beam_search_online:186) DEBUG: position 19
+2022-06-25 16:57:05,930 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:05,930 (batch_beam_search_online:283) INFO:  -7.61 * 0.5 =  -3.81 for decoder
+2022-06-25 16:57:05,931 (batch_beam_search_online:283) INFO:  -5.59 * 0.5 =  -2.80 for ctc
+2022-06-25 16:57:05,931 (batch_beam_search_online:285) INFO: total log probability: -6.60
+2022-06-25 16:57:05,931 (batch_beam_search_online:286) INFO: normalized log probability: -0.31
+2022-06-25 16:57:05,931 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:05,931 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだい
+
+2022-06-25 16:57:05,931 (batch_beam_search_online:167) DEBUG: Finished processing block: 22
+2022-06-25 16:57:05,963 (batch_beam_search_online:148) DEBUG: Start processing block: 23
+2022-06-25 16:57:05,963 (batch_beam_search_online:151) DEBUG:   Feature length: 100, current position: 18
+2022-06-25 16:57:05,964 (batch_beam_search_online:186) DEBUG: position 18
+2022-06-25 16:57:05,999 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:05,999 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだい
+2022-06-25 16:57:06,000 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,000 (batch_beam_search_online:186) DEBUG: position 19
+2022-06-25 16:57:06,035 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,035 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっ
+2022-06-25 16:57:06,036 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,036 (batch_beam_search_online:186) DEBUG: position 20
+2022-06-25 16:57:06,070 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,071 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいって
+2022-06-25 16:57:06,072 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,072 (batch_beam_search_online:186) DEBUG: position 21
+2022-06-25 16:57:06,106 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,106 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいってゆ
+2022-06-25 16:57:06,107 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,107 (batch_beam_search_online:186) DEBUG: position 22
+2022-06-25 16:57:06,141 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:06,141 (batch_beam_search_online:283) INFO: -10.54 * 0.5 =  -5.27 for decoder
+2022-06-25 16:57:06,141 (batch_beam_search_online:283) INFO:  -1.65 * 0.5 =  -0.83 for ctc
+2022-06-25 16:57:06,141 (batch_beam_search_online:285) INFO: total log probability: -6.10
+2022-06-25 16:57:06,142 (batch_beam_search_online:286) INFO: normalized log probability: -0.25
+2022-06-25 16:57:06,142 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:06,142 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいってゆ
+
+2022-06-25 16:57:06,142 (batch_beam_search_online:167) DEBUG: Finished processing block: 23
+2022-06-25 16:57:06,176 (batch_beam_search_online:148) DEBUG: Start processing block: 24
+2022-06-25 16:57:06,176 (batch_beam_search_online:151) DEBUG:   Feature length: 104, current position: 21
+2022-06-25 16:57:06,177 (batch_beam_search_online:186) DEBUG: position 21
+2022-06-25 16:57:06,213 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,213 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいってい
+2022-06-25 16:57:06,214 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,214 (batch_beam_search_online:186) DEBUG: position 22
+2022-06-25 16:57:06,249 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,249 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていう
+2022-06-25 16:57:06,250 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,250 (batch_beam_search_online:186) DEBUG: position 23
+2022-06-25 16:57:06,285 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,285 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうか
+2022-06-25 16:57:06,286 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,286 (batch_beam_search_online:186) DEBUG: position 24
+2022-06-25 16:57:06,320 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:06,321 (batch_beam_search_online:283) INFO:  -7.91 * 0.5 =  -3.95 for decoder
+2022-06-25 16:57:06,321 (batch_beam_search_online:283) INFO:  -2.24 * 0.5 =  -1.12 for ctc
+2022-06-25 16:57:06,321 (batch_beam_search_online:285) INFO: total log probability: -5.08
+2022-06-25 16:57:06,321 (batch_beam_search_online:286) INFO: normalized log probability: -0.20
+2022-06-25 16:57:06,321 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:06,321 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうか
+
+2022-06-25 16:57:06,321 (batch_beam_search_online:167) DEBUG: Finished processing block: 24
+2022-06-25 16:57:06,356 (batch_beam_search_online:148) DEBUG: Start processing block: 25
+2022-06-25 16:57:06,356 (batch_beam_search_online:151) DEBUG:   Feature length: 108, current position: 23
+2022-06-25 16:57:06,357 (batch_beam_search_online:186) DEBUG: position 23
+2022-06-25 16:57:06,392 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,393 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうか
+2022-06-25 16:57:06,394 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,394 (batch_beam_search_online:186) DEBUG: position 24
+2022-06-25 16:57:06,429 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,429 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかん
+2022-06-25 16:57:06,430 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,430 (batch_beam_search_online:186) DEBUG: position 25
+2022-06-25 16:57:06,466 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:06,466 (batch_beam_search_online:283) INFO:  -8.43 * 0.5 =  -4.22 for decoder
+2022-06-25 16:57:06,466 (batch_beam_search_online:283) INFO:  -2.24 * 0.5 =  -1.12 for ctc
+2022-06-25 16:57:06,466 (batch_beam_search_online:285) INFO: total log probability: -5.34
+2022-06-25 16:57:06,466 (batch_beam_search_online:286) INFO: normalized log probability: -0.20
+2022-06-25 16:57:06,466 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:06,466 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかん
+
+2022-06-25 16:57:06,466 (batch_beam_search_online:167) DEBUG: Finished processing block: 25
+2022-06-25 16:57:06,498 (batch_beam_search_online:148) DEBUG: Start processing block: 26
+2022-06-25 16:57:06,498 (batch_beam_search_online:151) DEBUG:   Feature length: 112, current position: 24
+2022-06-25 16:57:06,499 (batch_beam_search_online:186) DEBUG: position 24
+2022-06-25 16:57:06,536 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,536 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかん
+2022-06-25 16:57:06,537 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,537 (batch_beam_search_online:186) DEBUG: position 25
+2022-06-25 16:57:06,573 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,573 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじ
+2022-06-25 16:57:06,574 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,574 (batch_beam_search_online:186) DEBUG: position 26
+2022-06-25 16:57:06,610 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:06,610 (batch_beam_search_online:283) INFO:  -6.35 * 0.5 =  -3.18 for decoder
+2022-06-25 16:57:06,610 (batch_beam_search_online:283) INFO:  -2.24 * 0.5 =  -1.12 for ctc
+2022-06-25 16:57:06,610 (batch_beam_search_online:285) INFO: total log probability: -4.30
+2022-06-25 16:57:06,610 (batch_beam_search_online:286) INFO: normalized log probability: -0.15
+2022-06-25 16:57:06,610 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:06,611 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじ
+
+2022-06-25 16:57:06,611 (batch_beam_search_online:167) DEBUG: Finished processing block: 26
+2022-06-25 16:57:06,648 (batch_beam_search_online:148) DEBUG: Start processing block: 27
+2022-06-25 16:57:06,648 (batch_beam_search_online:151) DEBUG:   Feature length: 116, current position: 25
+2022-06-25 16:57:06,649 (batch_beam_search_online:186) DEBUG: position 25
+2022-06-25 16:57:06,686 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,687 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじ
+2022-06-25 16:57:06,687 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,688 (batch_beam_search_online:186) DEBUG: position 26
+2022-06-25 16:57:06,724 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,725 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだ
+2022-06-25 16:57:06,726 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,726 (batch_beam_search_online:186) DEBUG: position 27
+2022-06-25 16:57:06,764 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:06,765 (batch_beam_search_online:283) INFO:  -7.91 * 0.5 =  -3.96 for decoder
+2022-06-25 16:57:06,765 (batch_beam_search_online:283) INFO:  -2.25 * 0.5 =  -1.12 for ctc
+2022-06-25 16:57:06,765 (batch_beam_search_online:285) INFO: total log probability: -5.08
+2022-06-25 16:57:06,765 (batch_beam_search_online:286) INFO: normalized log probability: -0.18
+2022-06-25 16:57:06,765 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:06,765 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだ
+
+2022-06-25 16:57:06,765 (batch_beam_search_online:167) DEBUG: Finished processing block: 27
+2022-06-25 16:57:06,797 (batch_beam_search_online:148) DEBUG: Start processing block: 28
+2022-06-25 16:57:06,797 (batch_beam_search_online:151) DEBUG:   Feature length: 120, current position: 26
+2022-06-25 16:57:06,798 (batch_beam_search_online:186) DEBUG: position 26
+2022-06-25 16:57:06,836 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,839 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだ
+2022-06-25 16:57:06,839 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,840 (batch_beam_search_online:186) DEBUG: position 27
+2022-06-25 16:57:06,877 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:06,877 (batch_beam_search_online:283) INFO: -10.30 * 0.5 =  -5.15 for decoder
+2022-06-25 16:57:06,878 (batch_beam_search_online:283) INFO:  -2.25 * 0.5 =  -1.12 for ctc
+2022-06-25 16:57:06,878 (batch_beam_search_online:285) INFO: total log probability: -6.27
+2022-06-25 16:57:06,878 (batch_beam_search_online:286) INFO: normalized log probability: -0.22
+2022-06-25 16:57:06,878 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:06,878 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだ
+
+2022-06-25 16:57:06,878 (batch_beam_search_online:167) DEBUG: Finished processing block: 28
+2022-06-25 16:57:06,913 (batch_beam_search_online:148) DEBUG: Start processing block: 29
+2022-06-25 16:57:06,913 (batch_beam_search_online:151) DEBUG:   Feature length: 124, current position: 26
+2022-06-25 16:57:06,914 (batch_beam_search_online:186) DEBUG: position 26
+2022-06-25 16:57:06,955 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,955 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだ
+2022-06-25 16:57:06,956 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,956 (batch_beam_search_online:186) DEBUG: position 27
+2022-06-25 16:57:06,995 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:06,995 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+2022-06-25 16:57:06,996 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:06,996 (batch_beam_search_online:186) DEBUG: position 28
+2022-06-25 16:57:07,035 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:07,035 (batch_beam_search_online:283) INFO:  -3.56 * 0.5 =  -1.78 for decoder
+2022-06-25 16:57:07,035 (batch_beam_search_online:283) INFO:  -2.25 * 0.5 =  -1.12 for ctc
+2022-06-25 16:57:07,035 (batch_beam_search_online:285) INFO: total log probability: -2.90
+2022-06-25 16:57:07,035 (batch_beam_search_online:286) INFO: normalized log probability: -0.10
+2022-06-25 16:57:07,035 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:07,036 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+
+2022-06-25 16:57:07,036 (batch_beam_search_online:167) DEBUG: Finished processing block: 29
+2022-06-25 16:57:07,070 (batch_beam_search_online:148) DEBUG: Start processing block: 30
+2022-06-25 16:57:07,070 (batch_beam_search_online:151) DEBUG:   Feature length: 128, current position: 27
+2022-06-25 16:57:07,071 (batch_beam_search_online:186) DEBUG: position 27
+2022-06-25 16:57:07,111 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:07,112 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+2022-06-25 16:57:07,113 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:07,113 (batch_beam_search_online:186) DEBUG: position 28
+2022-06-25 16:57:07,153 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:07,153 (batch_beam_search_online:283) INFO:  -4.11 * 0.5 =  -2.05 for decoder
+2022-06-25 16:57:07,153 (batch_beam_search_online:283) INFO:  -2.51 * 0.5 =  -1.26 for ctc
+2022-06-25 16:57:07,153 (batch_beam_search_online:285) INFO: total log probability: -3.31
+2022-06-25 16:57:07,153 (batch_beam_search_online:286) INFO: normalized log probability: -0.11
+2022-06-25 16:57:07,153 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:07,154 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+
+2022-06-25 16:57:07,154 (batch_beam_search_online:167) DEBUG: Finished processing block: 30
+2022-06-25 16:57:07,190 (batch_beam_search_online:148) DEBUG: Start processing block: 31
+2022-06-25 16:57:07,190 (batch_beam_search_online:151) DEBUG:   Feature length: 132, current position: 27
+2022-06-25 16:57:07,191 (batch_beam_search_online:186) DEBUG: position 27
+2022-06-25 16:57:07,232 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:07,233 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+2022-06-25 16:57:07,234 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:07,234 (batch_beam_search_online:186) DEBUG: position 28
+2022-06-25 16:57:07,276 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:07,276 (batch_beam_search_online:283) INFO:  -3.69 * 0.5 =  -1.84 for decoder
+2022-06-25 16:57:07,276 (batch_beam_search_online:283) INFO:  -2.51 * 0.5 =  -1.26 for ctc
+2022-06-25 16:57:07,277 (batch_beam_search_online:285) INFO: total log probability: -3.10
+2022-06-25 16:57:07,277 (batch_beam_search_online:286) INFO: normalized log probability: -0.10
+2022-06-25 16:57:07,277 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:07,277 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+
+2022-06-25 16:57:07,277 (batch_beam_search_online:167) DEBUG: Finished processing block: 31
+2022-06-25 16:57:07,309 (batch_beam_search_online:148) DEBUG: Start processing block: 32
+2022-06-25 16:57:07,309 (batch_beam_search_online:151) DEBUG:   Feature length: 136, current position: 27
+2022-06-25 16:57:07,310 (batch_beam_search_online:186) DEBUG: position 27
+2022-06-25 16:57:07,352 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:07,353 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+2022-06-25 16:57:07,354 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:07,354 (batch_beam_search_online:186) DEBUG: position 28
+2022-06-25 16:57:07,398 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:07,398 (batch_beam_search_online:283) INFO:  -3.84 * 0.5 =  -1.92 for decoder
+2022-06-25 16:57:07,398 (batch_beam_search_online:283) INFO:  -2.51 * 0.5 =  -1.26 for ctc
+2022-06-25 16:57:07,399 (batch_beam_search_online:285) INFO: total log probability: -3.18
+2022-06-25 16:57:07,399 (batch_beam_search_online:286) INFO: normalized log probability: -0.11
+2022-06-25 16:57:07,399 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:07,399 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+
+2022-06-25 16:57:07,399 (batch_beam_search_online:167) DEBUG: Finished processing block: 32
+2022-06-25 16:57:07,434 (batch_beam_search_online:148) DEBUG: Start processing block: 33
+2022-06-25 16:57:07,434 (batch_beam_search_online:151) DEBUG:   Feature length: 140, current position: 27
+2022-06-25 16:57:07,435 (batch_beam_search_online:186) DEBUG: position 27
+2022-06-25 16:57:07,478 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:07,478 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+2022-06-25 16:57:07,479 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:07,479 (batch_beam_search_online:186) DEBUG: position 28
+2022-06-25 16:57:07,528 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:07,529 (batch_beam_search_online:283) INFO:  -3.81 * 0.5 =  -1.90 for decoder
+2022-06-25 16:57:07,529 (batch_beam_search_online:283) INFO:  -2.51 * 0.5 =  -1.26 for ctc
+2022-06-25 16:57:07,529 (batch_beam_search_online:285) INFO: total log probability: -3.16
+2022-06-25 16:57:07,529 (batch_beam_search_online:286) INFO: normalized log probability: -0.11
+2022-06-25 16:57:07,529 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:07,530 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+
+2022-06-25 16:57:07,530 (batch_beam_search_online:167) DEBUG: Finished processing block: 33
+2022-06-25 16:57:07,567 (batch_beam_search_online:148) DEBUG: Start processing block: 34
+2022-06-25 16:57:07,567 (batch_beam_search_online:151) DEBUG:   Feature length: 144, current position: 27
+2022-06-25 16:57:07,568 (batch_beam_search_online:186) DEBUG: position 27
+2022-06-25 16:57:07,613 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:07,613 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+2022-06-25 16:57:07,614 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:07,614 (batch_beam_search_online:186) DEBUG: position 28
+2022-06-25 16:57:07,657 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:07,657 (batch_beam_search_online:283) INFO:  -3.82 * 0.5 =  -1.91 for decoder
+2022-06-25 16:57:07,658 (batch_beam_search_online:283) INFO:  -2.51 * 0.5 =  -1.26 for ctc
+2022-06-25 16:57:07,658 (batch_beam_search_online:285) INFO: total log probability: -3.16
+2022-06-25 16:57:07,658 (batch_beam_search_online:286) INFO: normalized log probability: -0.11
+2022-06-25 16:57:07,658 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:07,658 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+
+2022-06-25 16:57:07,658 (batch_beam_search_online:167) DEBUG: Finished processing block: 34
+2022-06-25 16:57:07,690 (batch_beam_search_online:148) DEBUG: Start processing block: 35
+2022-06-25 16:57:07,690 (batch_beam_search_online:151) DEBUG:   Feature length: 148, current position: 27
+2022-06-25 16:57:07,691 (batch_beam_search_online:186) DEBUG: position 27
+2022-06-25 16:57:07,736 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:07,736 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+2022-06-25 16:57:07,737 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:07,737 (batch_beam_search_online:186) DEBUG: position 28
+2022-06-25 16:57:07,781 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:07,781 (batch_beam_search_online:283) INFO:  -4.38 * 0.5 =  -2.19 for decoder
+2022-06-25 16:57:07,781 (batch_beam_search_online:283) INFO:  -2.51 * 0.5 =  -1.26 for ctc
+2022-06-25 16:57:07,782 (batch_beam_search_online:285) INFO: total log probability: -3.45
+2022-06-25 16:57:07,782 (batch_beam_search_online:286) INFO: normalized log probability: -0.11
+2022-06-25 16:57:07,782 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:07,782 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+
+2022-06-25 16:57:07,782 (batch_beam_search_online:167) DEBUG: Finished processing block: 35
+2022-06-25 16:57:07,816 (batch_beam_search_online:148) DEBUG: Start processing block: 36
+2022-06-25 16:57:07,817 (batch_beam_search_online:151) DEBUG:   Feature length: 152, current position: 27
+2022-06-25 16:57:07,818 (batch_beam_search_online:186) DEBUG: position 27
+2022-06-25 16:57:07,863 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:07,864 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだと
+2022-06-25 16:57:07,864 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:07,864 (batch_beam_search_online:186) DEBUG: position 28
+2022-06-25 16:57:07,910 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:07,910 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとー
+2022-06-25 16:57:07,911 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:07,911 (batch_beam_search_online:186) DEBUG: position 29
+2022-06-25 16:57:07,956 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:07,957 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーた
+2022-06-25 16:57:07,957 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:07,957 (batch_beam_search_online:186) DEBUG: position 30
+2022-06-25 16:57:08,002 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:08,003 (batch_beam_search_online:283) INFO:  -8.68 * 0.5 =  -4.34 for decoder
+2022-06-25 16:57:08,003 (batch_beam_search_online:283) INFO:  -3.75 * 0.5 =  -1.87 for ctc
+2022-06-25 16:57:08,003 (batch_beam_search_online:285) INFO: total log probability: -6.21
+2022-06-25 16:57:08,003 (batch_beam_search_online:286) INFO: normalized log probability: -0.19
+2022-06-25 16:57:08,003 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:08,003 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーた
+
+2022-06-25 16:57:08,003 (batch_beam_search_online:167) DEBUG: Finished processing block: 36
+2022-06-25 16:57:08,035 (batch_beam_search_online:148) DEBUG: Start processing block: 37
+2022-06-25 16:57:08,035 (batch_beam_search_online:151) DEBUG:   Feature length: 156, current position: 29
+2022-06-25 16:57:08,036 (batch_beam_search_online:186) DEBUG: position 29
+2022-06-25 16:57:08,083 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:08,083 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーた
+2022-06-25 16:57:08,084 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:08,084 (batch_beam_search_online:186) DEBUG: position 30
+2022-06-25 16:57:08,130 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:08,130 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶ
+2022-06-25 16:57:08,131 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:08,131 (batch_beam_search_online:186) DEBUG: position 31
+2022-06-25 16:57:08,177 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:08,177 (batch_beam_search_online:283) INFO: -10.63 * 0.5 =  -5.31 for decoder
+2022-06-25 16:57:08,177 (batch_beam_search_online:283) INFO:  -3.76 * 0.5 =  -1.88 for ctc
+2022-06-25 16:57:08,177 (batch_beam_search_online:285) INFO: total log probability: -7.19
+2022-06-25 16:57:08,177 (batch_beam_search_online:286) INFO: normalized log probability: -0.22
+2022-06-25 16:57:08,177 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:08,178 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶ
+
+2022-06-25 16:57:08,178 (batch_beam_search_online:167) DEBUG: Finished processing block: 37
+2022-06-25 16:57:08,212 (batch_beam_search_online:148) DEBUG: Start processing block: 38
+2022-06-25 16:57:08,212 (batch_beam_search_online:151) DEBUG:   Feature length: 160, current position: 30
+2022-06-25 16:57:08,213 (batch_beam_search_online:186) DEBUG: position 30
+2022-06-25 16:57:08,260 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:08,261 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶ
+2022-06-25 16:57:08,261 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:08,261 (batch_beam_search_online:186) DEBUG: position 31
+2022-06-25 16:57:08,308 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:08,308 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶん
+2022-06-25 16:57:08,309 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:08,309 (batch_beam_search_online:186) DEBUG: position 32
+2022-06-25 16:57:08,356 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:08,356 (batch_beam_search_online:283) INFO:  -7.48 * 0.5 =  -3.74 for decoder
+2022-06-25 16:57:08,356 (batch_beam_search_online:283) INFO:  -5.18 * 0.5 =  -2.59 for ctc
+2022-06-25 16:57:08,356 (batch_beam_search_online:285) INFO: total log probability: -6.33
+2022-06-25 16:57:08,356 (batch_beam_search_online:286) INFO: normalized log probability: -0.19
+2022-06-25 16:57:08,356 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:08,357 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶん
+
+2022-06-25 16:57:08,357 (batch_beam_search_online:167) DEBUG: Finished processing block: 38
+2022-06-25 16:57:08,389 (batch_beam_search_online:148) DEBUG: Start processing block: 39
+2022-06-25 16:57:08,389 (batch_beam_search_online:151) DEBUG:   Feature length: 164, current position: 31
+2022-06-25 16:57:08,390 (batch_beam_search_online:186) DEBUG: position 31
+2022-06-25 16:57:08,438 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:08,438 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶん
+2022-06-25 16:57:08,439 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:08,439 (batch_beam_search_online:186) DEBUG: position 32
+2022-06-25 16:57:08,486 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:08,487 (batch_beam_search_online:283) INFO:  -7.20 * 0.5 =  -3.60 for decoder
+2022-06-25 16:57:08,487 (batch_beam_search_online:283) INFO:  -5.36 * 0.5 =  -2.68 for ctc
+2022-06-25 16:57:08,487 (batch_beam_search_online:285) INFO: total log probability: -6.28
+2022-06-25 16:57:08,487 (batch_beam_search_online:286) INFO: normalized log probability: -0.18
+2022-06-25 16:57:08,487 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:08,487 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶん
+
+2022-06-25 16:57:08,487 (batch_beam_search_online:167) DEBUG: Finished processing block: 39
+2022-06-25 16:57:08,521 (batch_beam_search_online:148) DEBUG: Start processing block: 40
+2022-06-25 16:57:08,522 (batch_beam_search_online:151) DEBUG:   Feature length: 168, current position: 31
+2022-06-25 16:57:08,522 (batch_beam_search_online:186) DEBUG: position 31
+2022-06-25 16:57:08,571 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:08,572 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶん
+2022-06-25 16:57:08,572 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:08,572 (batch_beam_search_online:186) DEBUG: position 32
+2022-06-25 16:57:08,621 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:08,621 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんの
+2022-06-25 16:57:08,622 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:08,622 (batch_beam_search_online:186) DEBUG: position 33
+2022-06-25 16:57:08,670 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:08,671 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんのあ
+2022-06-25 16:57:08,672 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:08,672 (batch_beam_search_online:186) DEBUG: position 34
+2022-06-25 16:57:08,720 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:08,720 (batch_beam_search_online:283) INFO: -10.07 * 0.5 =  -5.04 for decoder
+2022-06-25 16:57:08,720 (batch_beam_search_online:283) INFO:  -7.70 * 0.5 =  -3.85 for ctc
+2022-06-25 16:57:08,720 (batch_beam_search_online:285) INFO: total log probability: -8.88
+2022-06-25 16:57:08,720 (batch_beam_search_online:286) INFO: normalized log probability: -0.25
+2022-06-25 16:57:08,720 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:08,721 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんあの
+
+2022-06-25 16:57:08,721 (batch_beam_search_online:167) DEBUG: Finished processing block: 40
+2022-06-25 16:57:08,753 (batch_beam_search_online:148) DEBUG: Start processing block: 41
+2022-06-25 16:57:08,753 (batch_beam_search_online:151) DEBUG:   Feature length: 172, current position: 33
+2022-06-25 16:57:08,754 (batch_beam_search_online:186) DEBUG: position 33
+2022-06-25 16:57:08,803 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:08,803 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんのー
+2022-06-25 16:57:08,804 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:08,804 (batch_beam_search_online:186) DEBUG: position 34
+2022-06-25 16:57:08,853 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:08,853 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんのーの
+2022-06-25 16:57:08,854 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:08,854 (batch_beam_search_online:186) DEBUG: position 35
+2022-06-25 16:57:08,903 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:08,903 (batch_beam_search_online:283) INFO:  -8.13 * 0.5 =  -4.07 for decoder
+2022-06-25 16:57:08,903 (batch_beam_search_online:283) INFO:  -6.65 * 0.5 =  -3.32 for ctc
+2022-06-25 16:57:08,903 (batch_beam_search_online:285) INFO: total log probability: -7.39
+2022-06-25 16:57:08,903 (batch_beam_search_online:286) INFO: normalized log probability: -0.20
+2022-06-25 16:57:08,903 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:08,904 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+
+2022-06-25 16:57:08,904 (batch_beam_search_online:167) DEBUG: Finished processing block: 41
+2022-06-25 16:57:08,938 (batch_beam_search_online:148) DEBUG: Start processing block: 42
+2022-06-25 16:57:08,938 (batch_beam_search_online:151) DEBUG:   Feature length: 176, current position: 34
+2022-06-25 16:57:08,939 (batch_beam_search_online:186) DEBUG: position 34
+2022-06-25 16:57:08,989 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:08,990 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+2022-06-25 16:57:08,990 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:08,990 (batch_beam_search_online:186) DEBUG: position 35
+2022-06-25 16:57:09,040 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:09,040 (batch_beam_search_online:283) INFO:  -7.24 * 0.5 =  -3.62 for decoder
+2022-06-25 16:57:09,040 (batch_beam_search_online:283) INFO:  -6.54 * 0.5 =  -3.27 for ctc
+2022-06-25 16:57:09,041 (batch_beam_search_online:285) INFO: total log probability: -6.89
+2022-06-25 16:57:09,041 (batch_beam_search_online:286) INFO: normalized log probability: -0.19
+2022-06-25 16:57:09,041 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:09,041 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+
+2022-06-25 16:57:09,041 (batch_beam_search_online:167) DEBUG: Finished processing block: 42
+2022-06-25 16:57:09,075 (batch_beam_search_online:148) DEBUG: Start processing block: 43
+2022-06-25 16:57:09,075 (batch_beam_search_online:151) DEBUG:   Feature length: 180, current position: 34
+2022-06-25 16:57:09,076 (batch_beam_search_online:186) DEBUG: position 34
+2022-06-25 16:57:09,127 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:09,128 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+2022-06-25 16:57:09,128 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:09,128 (batch_beam_search_online:186) DEBUG: position 35
+2022-06-25 16:57:09,179 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:09,179 (batch_beam_search_online:283) INFO:  -7.16 * 0.5 =  -3.58 for decoder
+2022-06-25 16:57:09,179 (batch_beam_search_online:283) INFO:  -6.54 * 0.5 =  -3.27 for ctc
+2022-06-25 16:57:09,179 (batch_beam_search_online:285) INFO: total log probability: -6.85
+2022-06-25 16:57:09,180 (batch_beam_search_online:286) INFO: normalized log probability: -0.19
+2022-06-25 16:57:09,180 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:09,180 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+
+2022-06-25 16:57:09,180 (batch_beam_search_online:167) DEBUG: Finished processing block: 43
+2022-06-25 16:57:09,212 (batch_beam_search_online:148) DEBUG: Start processing block: 44
+2022-06-25 16:57:09,212 (batch_beam_search_online:151) DEBUG:   Feature length: 184, current position: 34
+2022-06-25 16:57:09,213 (batch_beam_search_online:186) DEBUG: position 34
+2022-06-25 16:57:09,265 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:09,266 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+2022-06-25 16:57:09,266 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:09,266 (batch_beam_search_online:186) DEBUG: position 35
+2022-06-25 16:57:09,318 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:09,318 (batch_beam_search_online:283) INFO:  -7.16 * 0.5 =  -3.58 for decoder
+2022-06-25 16:57:09,318 (batch_beam_search_online:283) INFO:  -6.54 * 0.5 =  -3.27 for ctc
+2022-06-25 16:57:09,318 (batch_beam_search_online:285) INFO: total log probability: -6.85
+2022-06-25 16:57:09,318 (batch_beam_search_online:286) INFO: normalized log probability: -0.19
+2022-06-25 16:57:09,318 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:09,319 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+
+2022-06-25 16:57:09,319 (batch_beam_search_online:167) DEBUG: Finished processing block: 44
+2022-06-25 16:57:09,353 (batch_beam_search_online:148) DEBUG: Start processing block: 45
+2022-06-25 16:57:09,353 (batch_beam_search_online:151) DEBUG:   Feature length: 188, current position: 34
+2022-06-25 16:57:09,354 (batch_beam_search_online:186) DEBUG: position 34
+2022-06-25 16:57:09,407 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:09,407 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+2022-06-25 16:57:09,408 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:09,408 (batch_beam_search_online:186) DEBUG: position 35
+2022-06-25 16:57:09,461 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:09,461 (batch_beam_search_online:283) INFO:  -7.16 * 0.5 =  -3.58 for decoder
+2022-06-25 16:57:09,461 (batch_beam_search_online:283) INFO:  -6.54 * 0.5 =  -3.27 for ctc
+2022-06-25 16:57:09,461 (batch_beam_search_online:285) INFO: total log probability: -6.85
+2022-06-25 16:57:09,461 (batch_beam_search_online:286) INFO: normalized log probability: -0.19
+2022-06-25 16:57:09,461 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:09,462 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+
+2022-06-25 16:57:09,462 (batch_beam_search_online:167) DEBUG: Finished processing block: 45
+2022-06-25 16:57:09,494 (batch_beam_search_online:148) DEBUG: Start processing block: 46
+2022-06-25 16:57:09,494 (batch_beam_search_online:151) DEBUG:   Feature length: 192, current position: 34
+2022-06-25 16:57:09,495 (batch_beam_search_online:186) DEBUG: position 34
+2022-06-25 16:57:09,549 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:09,549 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+2022-06-25 16:57:09,550 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:09,550 (batch_beam_search_online:186) DEBUG: position 35
+2022-06-25 16:57:09,604 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:09,604 (batch_beam_search_online:283) INFO:  -7.16 * 0.5 =  -3.58 for decoder
+2022-06-25 16:57:09,605 (batch_beam_search_online:283) INFO:  -6.54 * 0.5 =  -3.27 for ctc
+2022-06-25 16:57:09,605 (batch_beam_search_online:285) INFO: total log probability: -6.85
+2022-06-25 16:57:09,605 (batch_beam_search_online:286) INFO: normalized log probability: -0.19
+2022-06-25 16:57:09,605 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:09,605 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+
+2022-06-25 16:57:09,605 (batch_beam_search_online:167) DEBUG: Finished processing block: 46
+2022-06-25 16:57:09,640 (batch_beam_search_online:148) DEBUG: Start processing block: 47
+2022-06-25 16:57:09,640 (batch_beam_search_online:151) DEBUG:   Feature length: 196, current position: 34
+2022-06-25 16:57:09,641 (batch_beam_search_online:186) DEBUG: position 34
+2022-06-25 16:57:09,695 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:09,696 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののー
+2022-06-25 16:57:09,697 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:09,697 (batch_beam_search_online:186) DEBUG: position 35
+2022-06-25 16:57:09,752 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:09,752 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーお
+2022-06-25 16:57:09,753 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:09,753 (batch_beam_search_online:186) DEBUG: position 36
+2022-06-25 16:57:09,807 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:09,808 (batch_beam_search_online:283) INFO: -10.50 * 0.5 =  -5.25 for decoder
+2022-06-25 16:57:09,808 (batch_beam_search_online:283) INFO:  -6.56 * 0.5 =  -3.28 for ctc
+2022-06-25 16:57:09,808 (batch_beam_search_online:285) INFO: total log probability: -8.53
+2022-06-25 16:57:09,808 (batch_beam_search_online:286) INFO: normalized log probability: -0.22
+2022-06-25 16:57:09,808 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:09,808 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーお
+
+2022-06-25 16:57:09,809 (batch_beam_search_online:167) DEBUG: Finished processing block: 47
+2022-06-25 16:57:09,840 (batch_beam_search_online:148) DEBUG: Start processing block: 48
+2022-06-25 16:57:09,840 (batch_beam_search_online:151) DEBUG:   Feature length: 200, current position: 35
+2022-06-25 16:57:09,841 (batch_beam_search_online:186) DEBUG: position 35
+2022-06-25 16:57:09,897 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:09,897 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーお
+2022-06-25 16:57:09,898 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:09,898 (batch_beam_search_online:186) DEBUG: position 36
+2022-06-25 16:57:09,954 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:09,955 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおん
+2022-06-25 16:57:09,955 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:09,955 (batch_beam_search_online:186) DEBUG: position 37
+2022-06-25 16:57:10,010 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:10,010 (batch_beam_search_online:283) INFO: -14.00 * 0.5 =  -7.00 for decoder
+2022-06-25 16:57:10,010 (batch_beam_search_online:283) INFO:  -6.56 * 0.5 =  -3.28 for ctc
+2022-06-25 16:57:10,011 (batch_beam_search_online:285) INFO: total log probability: -10.28
+2022-06-25 16:57:10,011 (batch_beam_search_online:286) INFO: normalized log probability: -0.26
+2022-06-25 16:57:10,011 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:10,011 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおん
+
+2022-06-25 16:57:10,011 (batch_beam_search_online:167) DEBUG: Finished processing block: 48
+2022-06-25 16:57:10,045 (batch_beam_search_online:148) DEBUG: Start processing block: 49
+2022-06-25 16:57:10,045 (batch_beam_search_online:151) DEBUG:   Feature length: 204, current position: 36
+2022-06-25 16:57:10,046 (batch_beam_search_online:186) DEBUG: position 36
+2022-06-25 16:57:10,102 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:10,103 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおん
+2022-06-25 16:57:10,103 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:10,104 (batch_beam_search_online:186) DEBUG: position 37
+2022-06-25 16:57:10,159 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:10,160 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんな
+2022-06-25 16:57:10,161 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:10,161 (batch_beam_search_online:186) DEBUG: position 38
+2022-06-25 16:57:10,216 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:10,217 (batch_beam_search_online:283) INFO:  -9.21 * 0.5 =  -4.61 for decoder
+2022-06-25 16:57:10,217 (batch_beam_search_online:283) INFO:  -6.56 * 0.5 =  -3.28 for ctc
+2022-06-25 16:57:10,217 (batch_beam_search_online:285) INFO: total log probability: -7.89
+2022-06-25 16:57:10,217 (batch_beam_search_online:286) INFO: normalized log probability: -0.20
+2022-06-25 16:57:10,217 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:10,217 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんな
+
+2022-06-25 16:57:10,218 (batch_beam_search_online:167) DEBUG: Finished processing block: 49
+2022-06-25 16:57:10,252 (batch_beam_search_online:148) DEBUG: Start processing block: 50
+2022-06-25 16:57:10,252 (batch_beam_search_online:151) DEBUG:   Feature length: 208, current position: 37
+2022-06-25 16:57:10,253 (batch_beam_search_online:186) DEBUG: position 37
+2022-06-25 16:57:10,310 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:10,310 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんな
+2022-06-25 16:57:10,311 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:10,311 (batch_beam_search_online:186) DEBUG: position 38
+2022-06-25 16:57:10,368 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:10,369 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろ
+2022-06-25 16:57:10,369 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:10,369 (batch_beam_search_online:186) DEBUG: position 39
+2022-06-25 16:57:10,426 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:10,426 (batch_beam_search_online:283) INFO: -11.08 * 0.5 =  -5.54 for decoder
+2022-06-25 16:57:10,426 (batch_beam_search_online:283) INFO:  -6.57 * 0.5 =  -3.28 for ctc
+2022-06-25 16:57:10,426 (batch_beam_search_online:285) INFO: total log probability: -8.82
+2022-06-25 16:57:10,426 (batch_beam_search_online:286) INFO: normalized log probability: -0.22
+2022-06-25 16:57:10,426 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:10,427 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろ
+
+2022-06-25 16:57:10,427 (batch_beam_search_online:167) DEBUG: Finished processing block: 50
+2022-06-25 16:57:10,459 (batch_beam_search_online:148) DEBUG: Start processing block: 51
+2022-06-25 16:57:10,459 (batch_beam_search_online:151) DEBUG:   Feature length: 212, current position: 38
+2022-06-25 16:57:10,460 (batch_beam_search_online:186) DEBUG: position 38
+2022-06-25 16:57:10,518 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:10,519 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろ
+2022-06-25 16:57:10,519 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:10,519 (batch_beam_search_online:186) DEBUG: position 39
+2022-06-25 16:57:10,577 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:10,577 (batch_beam_search_online:283) INFO: -13.18 * 0.5 =  -6.59 for decoder
+2022-06-25 16:57:10,577 (batch_beam_search_online:283) INFO:  -6.57 * 0.5 =  -3.29 for ctc
+2022-06-25 16:57:10,577 (batch_beam_search_online:285) INFO: total log probability: -9.88
+2022-06-25 16:57:10,578 (batch_beam_search_online:286) INFO: normalized log probability: -0.24
+2022-06-25 16:57:10,578 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:10,578 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろ
+
+2022-06-25 16:57:10,578 (batch_beam_search_online:167) DEBUG: Finished processing block: 51
+2022-06-25 16:57:10,612 (batch_beam_search_online:148) DEBUG: Start processing block: 52
+2022-06-25 16:57:10,612 (batch_beam_search_online:151) DEBUG:   Feature length: 216, current position: 38
+2022-06-25 16:57:10,613 (batch_beam_search_online:186) DEBUG: position 38
+2022-06-25 16:57:10,673 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:10,673 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろ
+2022-06-25 16:57:10,674 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:10,674 (batch_beam_search_online:186) DEBUG: position 39
+2022-06-25 16:57:10,733 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:10,733 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこ
+2022-06-25 16:57:10,734 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:10,734 (batch_beam_search_online:186) DEBUG: position 40
+2022-06-25 16:57:10,792 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:10,792 (batch_beam_search_online:283) INFO: -12.18 * 0.5 =  -6.09 for decoder
+2022-06-25 16:57:10,792 (batch_beam_search_online:283) INFO:  -6.57 * 0.5 =  -3.29 for ctc
+2022-06-25 16:57:10,793 (batch_beam_search_online:285) INFO: total log probability: -9.38
+2022-06-25 16:57:10,793 (batch_beam_search_online:286) INFO: normalized log probability: -0.22
+2022-06-25 16:57:10,793 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:10,793 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこ
+
+2022-06-25 16:57:10,793 (batch_beam_search_online:167) DEBUG: Finished processing block: 52
+2022-06-25 16:57:10,825 (batch_beam_search_online:148) DEBUG: Start processing block: 53
+2022-06-25 16:57:10,825 (batch_beam_search_online:151) DEBUG:   Feature length: 220, current position: 39
+2022-06-25 16:57:10,826 (batch_beam_search_online:186) DEBUG: position 39
+2022-06-25 16:57:10,885 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:10,886 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこ
+2022-06-25 16:57:10,887 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:10,887 (batch_beam_search_online:186) DEBUG: position 40
+2022-06-25 16:57:10,946 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:10,946 (batch_beam_search_online:283) INFO: -13.77 * 0.5 =  -6.88 for decoder
+2022-06-25 16:57:10,946 (batch_beam_search_online:283) INFO:  -8.43 * 0.5 =  -4.22 for ctc
+2022-06-25 16:57:10,946 (batch_beam_search_online:285) INFO: total log probability: -11.10
+2022-06-25 16:57:10,946 (batch_beam_search_online:286) INFO: normalized log probability: -0.26
+2022-06-25 16:57:10,946 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:10,947 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこ
+
+2022-06-25 16:57:10,947 (batch_beam_search_online:167) DEBUG: Finished processing block: 53
+2022-06-25 16:57:10,981 (batch_beam_search_online:148) DEBUG: Start processing block: 54
+2022-06-25 16:57:10,981 (batch_beam_search_online:151) DEBUG:   Feature length: 224, current position: 39
+2022-06-25 16:57:10,982 (batch_beam_search_online:186) DEBUG: position 39
+2022-06-25 16:57:11,045 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:11,045 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこ
+2022-06-25 16:57:11,046 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:11,046 (batch_beam_search_online:186) DEBUG: position 40
+2022-06-25 16:57:11,108 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:11,124 (batch_beam_search_online:283) INFO: -15.19 * 0.5 =  -7.59 for decoder
+2022-06-25 16:57:11,124 (batch_beam_search_online:283) INFO:  -8.43 * 0.5 =  -4.22 for ctc
+2022-06-25 16:57:11,124 (batch_beam_search_online:285) INFO: total log probability: -11.81
+2022-06-25 16:57:11,124 (batch_beam_search_online:286) INFO: normalized log probability: -0.28
+2022-06-25 16:57:11,124 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:11,125 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこ
+
+2022-06-25 16:57:11,125 (batch_beam_search_online:167) DEBUG: Finished processing block: 54
+2022-06-25 16:57:11,157 (batch_beam_search_online:148) DEBUG: Start processing block: 55
+2022-06-25 16:57:11,157 (batch_beam_search_online:151) DEBUG:   Feature length: 228, current position: 39
+2022-06-25 16:57:11,158 (batch_beam_search_online:186) DEBUG: position 39
+2022-06-25 16:57:11,219 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:11,219 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこ
+2022-06-25 16:57:11,220 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:11,220 (batch_beam_search_online:186) DEBUG: position 40
+2022-06-25 16:57:11,281 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:11,282 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこー
+2022-06-25 16:57:11,282 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:11,283 (batch_beam_search_online:186) DEBUG: position 41
+2022-06-25 16:57:11,343 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:11,344 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーが
+2022-06-25 16:57:11,344 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:11,344 (batch_beam_search_online:186) DEBUG: position 42
+2022-06-25 16:57:11,405 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:11,405 (batch_beam_search_online:283) INFO: -13.77 * 0.5 =  -6.89 for decoder
+2022-06-25 16:57:11,405 (batch_beam_search_online:283) INFO:  -6.83 * 0.5 =  -3.42 for ctc
+2022-06-25 16:57:11,405 (batch_beam_search_online:285) INFO: total log probability: -10.30
+2022-06-25 16:57:11,405 (batch_beam_search_online:286) INFO: normalized log probability: -0.23
+2022-06-25 16:57:11,405 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:11,406 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーが
+
+2022-06-25 16:57:11,406 (batch_beam_search_online:167) DEBUG: Finished processing block: 55
+2022-06-25 16:57:11,440 (batch_beam_search_online:148) DEBUG: Start processing block: 56
+2022-06-25 16:57:11,440 (batch_beam_search_online:151) DEBUG:   Feature length: 232, current position: 41
+2022-06-25 16:57:11,441 (batch_beam_search_online:186) DEBUG: position 41
+2022-06-25 16:57:11,503 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:11,504 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーが
+2022-06-25 16:57:11,504 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:11,504 (batch_beam_search_online:186) DEBUG: position 42
+2022-06-25 16:57:11,566 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:11,567 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわ
+2022-06-25 16:57:11,567 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:11,567 (batch_beam_search_online:186) DEBUG: position 43
+2022-06-25 16:57:11,630 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:11,630 (batch_beam_search_online:283) INFO: -14.22 * 0.5 =  -7.11 for decoder
+2022-06-25 16:57:11,630 (batch_beam_search_online:283) INFO:  -6.84 * 0.5 =  -3.42 for ctc
+2022-06-25 16:57:11,630 (batch_beam_search_online:285) INFO: total log probability: -10.53
+2022-06-25 16:57:11,630 (batch_beam_search_online:286) INFO: normalized log probability: -0.23
+2022-06-25 16:57:11,630 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:11,631 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわ
+
+2022-06-25 16:57:11,631 (batch_beam_search_online:167) DEBUG: Finished processing block: 56
+2022-06-25 16:57:11,663 (batch_beam_search_online:148) DEBUG: Start processing block: 57
+2022-06-25 16:57:11,663 (batch_beam_search_online:151) DEBUG:   Feature length: 236, current position: 42
+2022-06-25 16:57:11,664 (batch_beam_search_online:186) DEBUG: position 42
+2022-06-25 16:57:11,729 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:11,730 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわ
+2022-06-25 16:57:11,731 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:11,731 (batch_beam_search_online:186) DEBUG: position 43
+2022-06-25 16:57:11,793 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:11,794 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわが
+2022-06-25 16:57:11,794 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:11,794 (batch_beam_search_online:186) DEBUG: position 44
+2022-06-25 16:57:11,857 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:11,857 (batch_beam_search_online:283) INFO: -15.08 * 0.5 =  -7.54 for decoder
+2022-06-25 16:57:11,857 (batch_beam_search_online:283) INFO:  -7.23 * 0.5 =  -3.62 for ctc
+2022-06-25 16:57:11,857 (batch_beam_search_online:285) INFO: total log probability: -11.15
+2022-06-25 16:57:11,857 (batch_beam_search_online:286) INFO: normalized log probability: -0.24
+2022-06-25 16:57:11,857 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:11,858 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわが
+
+2022-06-25 16:57:11,858 (batch_beam_search_online:167) DEBUG: Finished processing block: 57
+2022-06-25 16:57:11,892 (batch_beam_search_online:148) DEBUG: Start processing block: 58
+2022-06-25 16:57:11,892 (batch_beam_search_online:151) DEBUG:   Feature length: 240, current position: 43
+2022-06-25 16:57:11,893 (batch_beam_search_online:186) DEBUG: position 43
+2022-06-25 16:57:11,957 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:11,958 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわが
+2022-06-25 16:57:11,958 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:11,958 (batch_beam_search_online:186) DEBUG: position 44
+2022-06-25 16:57:12,022 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:12,022 (batch_beam_search_online:283) INFO: -14.37 * 0.5 =  -7.19 for decoder
+2022-06-25 16:57:12,022 (batch_beam_search_online:283) INFO:  -7.45 * 0.5 =  -3.72 for ctc
+2022-06-25 16:57:12,022 (batch_beam_search_online:285) INFO: total log probability: -10.91
+2022-06-25 16:57:12,022 (batch_beam_search_online:286) INFO: normalized log probability: -0.24
+2022-06-25 16:57:12,022 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:12,023 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわが
+
+2022-06-25 16:57:12,023 (batch_beam_search_online:167) DEBUG: Finished processing block: 58
+2022-06-25 16:57:12,057 (batch_beam_search_online:148) DEBUG: Start processing block: 59
+2022-06-25 16:57:12,057 (batch_beam_search_online:151) DEBUG:   Feature length: 244, current position: 43
+2022-06-25 16:57:12,058 (batch_beam_search_online:186) DEBUG: position 43
+2022-06-25 16:57:12,127 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:12,128 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわが
+2022-06-25 16:57:12,128 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:12,128 (batch_beam_search_online:186) DEBUG: position 44
+2022-06-25 16:57:12,195 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:12,195 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがの
+2022-06-25 16:57:12,196 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:12,196 (batch_beam_search_online:186) DEBUG: position 45
+2022-06-25 16:57:12,260 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:12,260 (batch_beam_search_online:283) INFO: -12.86 * 0.5 =  -6.43 for decoder
+2022-06-25 16:57:12,260 (batch_beam_search_online:283) INFO:  -7.45 * 0.5 =  -3.72 for ctc
+2022-06-25 16:57:12,260 (batch_beam_search_online:285) INFO: total log probability: -10.16
+2022-06-25 16:57:12,260 (batch_beam_search_online:286) INFO: normalized log probability: -0.22
+2022-06-25 16:57:12,261 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:12,261 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがの
+
+2022-06-25 16:57:12,261 (batch_beam_search_online:167) DEBUG: Finished processing block: 59
+2022-06-25 16:57:12,297 (batch_beam_search_online:148) DEBUG: Start processing block: 60
+2022-06-25 16:57:12,297 (batch_beam_search_online:151) DEBUG:   Feature length: 248, current position: 44
+2022-06-25 16:57:12,298 (batch_beam_search_online:186) DEBUG: position 44
+2022-06-25 16:57:12,366 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:12,367 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがの
+2022-06-25 16:57:12,367 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:12,367 (batch_beam_search_online:186) DEBUG: position 45
+2022-06-25 16:57:12,432 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:12,433 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみ
+2022-06-25 16:57:12,434 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:12,434 (batch_beam_search_online:186) DEBUG: position 46
+2022-06-25 16:57:12,498 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:12,498 (batch_beam_search_online:283) INFO: -13.03 * 0.5 =  -6.52 for decoder
+2022-06-25 16:57:12,498 (batch_beam_search_online:283) INFO:  -7.45 * 0.5 =  -3.72 for ctc
+2022-06-25 16:57:12,498 (batch_beam_search_online:285) INFO: total log probability: -10.24
+2022-06-25 16:57:12,498 (batch_beam_search_online:286) INFO: normalized log probability: -0.21
+2022-06-25 16:57:12,498 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:12,499 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみ
+
+2022-06-25 16:57:12,499 (batch_beam_search_online:167) DEBUG: Finished processing block: 60
+2022-06-25 16:57:12,536 (batch_beam_search_online:148) DEBUG: Start processing block: 61
+2022-06-25 16:57:12,536 (batch_beam_search_online:151) DEBUG:   Feature length: 252, current position: 45
+2022-06-25 16:57:12,537 (batch_beam_search_online:186) DEBUG: position 45
+2022-06-25 16:57:12,603 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:12,603 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみ
+2022-06-25 16:57:12,604 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:12,604 (batch_beam_search_online:186) DEBUG: position 46
+2022-06-25 16:57:12,670 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:12,671 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほ
+2022-06-25 16:57:12,672 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:12,672 (batch_beam_search_online:186) DEBUG: position 47
+2022-06-25 16:57:12,739 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:12,739 (batch_beam_search_online:283) INFO: -18.39 * 0.5 =  -9.19 for decoder
+2022-06-25 16:57:12,739 (batch_beam_search_online:283) INFO: -17.55 * 0.5 =  -8.77 for ctc
+2022-06-25 16:57:12,739 (batch_beam_search_online:285) INFO: total log probability: -17.97
+2022-06-25 16:57:12,740 (batch_beam_search_online:286) INFO: normalized log probability: -0.37
+2022-06-25 16:57:12,740 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:12,740 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほ
+
+2022-06-25 16:57:12,740 (batch_beam_search_online:167) DEBUG: Finished processing block: 61
+2022-06-25 16:57:12,772 (batch_beam_search_online:148) DEBUG: Start processing block: 62
+2022-06-25 16:57:12,772 (batch_beam_search_online:151) DEBUG:   Feature length: 256, current position: 46
+2022-06-25 16:57:12,773 (batch_beam_search_online:186) DEBUG: position 46
+2022-06-25 16:57:12,840 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:12,841 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほ
+2022-06-25 16:57:12,841 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:12,841 (batch_beam_search_online:186) DEBUG: position 47
+2022-06-25 16:57:12,908 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:12,909 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほう
+2022-06-25 16:57:12,909 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:12,909 (batch_beam_search_online:186) DEBUG: position 48
+2022-06-25 16:57:12,978 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:12,979 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだ
+2022-06-25 16:57:12,979 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:12,980 (batch_beam_search_online:186) DEBUG: position 49
+2022-06-25 16:57:13,046 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:13,046 (batch_beam_search_online:283) INFO: -18.41 * 0.5 =  -9.21 for decoder
+2022-06-25 16:57:13,046 (batch_beam_search_online:283) INFO: -14.75 * 0.5 =  -7.38 for ctc
+2022-06-25 16:57:13,046 (batch_beam_search_online:285) INFO: total log probability: -16.58
+2022-06-25 16:57:13,046 (batch_beam_search_online:286) INFO: normalized log probability: -0.33
+2022-06-25 16:57:13,046 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:13,047 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだ
+
+2022-06-25 16:57:13,047 (batch_beam_search_online:167) DEBUG: Finished processing block: 62
+2022-06-25 16:57:13,081 (batch_beam_search_online:148) DEBUG: Start processing block: 63
+2022-06-25 16:57:13,081 (batch_beam_search_online:151) DEBUG:   Feature length: 260, current position: 48
+2022-06-25 16:57:13,082 (batch_beam_search_online:186) DEBUG: position 48
+2022-06-25 16:57:13,150 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:13,151 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだ
+2022-06-25 16:57:13,151 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:13,152 (batch_beam_search_online:186) DEBUG: position 49
+2022-06-25 16:57:13,220 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:13,221 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだい
+2022-06-25 16:57:13,222 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:13,222 (batch_beam_search_online:186) DEBUG: position 50
+2022-06-25 16:57:13,288 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:13,288 (batch_beam_search_online:283) INFO: -16.65 * 0.5 =  -8.32 for decoder
+2022-06-25 16:57:13,288 (batch_beam_search_online:283) INFO: -16.62 * 0.5 =  -8.31 for ctc
+2022-06-25 16:57:13,288 (batch_beam_search_online:285) INFO: total log probability: -16.63
+2022-06-25 16:57:13,289 (batch_beam_search_online:286) INFO: normalized log probability: -0.32
+2022-06-25 16:57:13,289 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:13,289 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだい
+
+2022-06-25 16:57:13,289 (batch_beam_search_online:167) DEBUG: Finished processing block: 63
+2022-06-25 16:57:13,321 (batch_beam_search_online:148) DEBUG: Start processing block: 64
+2022-06-25 16:57:13,321 (batch_beam_search_online:151) DEBUG:   Feature length: 264, current position: 49
+2022-06-25 16:57:13,322 (batch_beam_search_online:186) DEBUG: position 49
+2022-06-25 16:57:13,393 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:13,394 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだい
+2022-06-25 16:57:13,394 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:13,394 (batch_beam_search_online:186) DEBUG: position 50
+2022-06-25 16:57:13,462 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:13,463 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいで
+2022-06-25 16:57:13,464 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:13,464 (batch_beam_search_online:186) DEBUG: position 51
+2022-06-25 16:57:13,531 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:13,532 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいでき
+2022-06-25 16:57:13,533 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:13,533 (batch_beam_search_online:186) DEBUG: position 52
+2022-06-25 16:57:13,603 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:13,603 (batch_beam_search_online:283) INFO: -20.00 * 0.5 = -10.00 for decoder
+2022-06-25 16:57:13,603 (batch_beam_search_online:283) INFO:  -7.50 * 0.5 =  -3.75 for ctc
+2022-06-25 16:57:13,603 (batch_beam_search_online:285) INFO: total log probability: -13.75
+2022-06-25 16:57:13,603 (batch_beam_search_online:286) INFO: normalized log probability: -0.25
+2022-06-25 16:57:13,603 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:13,604 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいでき
+
+2022-06-25 16:57:13,604 (batch_beam_search_online:167) DEBUG: Finished processing block: 64
+2022-06-25 16:57:13,638 (batch_beam_search_online:148) DEBUG: Start processing block: 65
+2022-06-25 16:57:13,638 (batch_beam_search_online:151) DEBUG:   Feature length: 268, current position: 51
+2022-06-25 16:57:13,639 (batch_beam_search_online:186) DEBUG: position 51
+2022-06-25 16:57:13,709 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:13,710 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいでき
+2022-06-25 16:57:13,710 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:13,710 (batch_beam_search_online:186) DEBUG: position 52
+2022-06-25 16:57:13,781 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:13,782 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできな
+2022-06-25 16:57:13,783 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:13,783 (batch_beam_search_online:186) DEBUG: position 53
+2022-06-25 16:57:13,851 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:13,851 (batch_beam_search_online:283) INFO: -20.84 * 0.5 = -10.42 for decoder
+2022-06-25 16:57:13,851 (batch_beam_search_online:283) INFO:  -7.60 * 0.5 =  -3.80 for ctc
+2022-06-25 16:57:13,851 (batch_beam_search_online:285) INFO: total log probability: -14.22
+2022-06-25 16:57:13,851 (batch_beam_search_online:286) INFO: normalized log probability: -0.26
+2022-06-25 16:57:13,851 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:13,852 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできな
+
+2022-06-25 16:57:13,852 (batch_beam_search_online:167) DEBUG: Finished processing block: 65
+2022-06-25 16:57:13,884 (batch_beam_search_online:148) DEBUG: Start processing block: 66
+2022-06-25 16:57:13,884 (batch_beam_search_online:151) DEBUG:   Feature length: 272, current position: 52
+2022-06-25 16:57:13,885 (batch_beam_search_online:186) DEBUG: position 52
+2022-06-25 16:57:13,955 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:13,955 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできな
+2022-06-25 16:57:13,956 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:13,956 (batch_beam_search_online:186) DEBUG: position 53
+2022-06-25 16:57:14,029 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:14,030 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできない
+2022-06-25 16:57:14,031 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:14,031 (batch_beam_search_online:186) DEBUG: position 54
+2022-06-25 16:57:14,100 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:14,100 (batch_beam_search_online:283) INFO: -16.79 * 0.5 =  -8.40 for decoder
+2022-06-25 16:57:14,100 (batch_beam_search_online:283) INFO:  -7.57 * 0.5 =  -3.78 for ctc
+2022-06-25 16:57:14,100 (batch_beam_search_online:285) INFO: total log probability: -12.18
+2022-06-25 16:57:14,101 (batch_beam_search_online:286) INFO: normalized log probability: -0.22
+2022-06-25 16:57:14,101 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:14,101 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできない
+
+2022-06-25 16:57:14,101 (batch_beam_search_online:167) DEBUG: Finished processing block: 66
+2022-06-25 16:57:14,137 (batch_beam_search_online:148) DEBUG: Start processing block: 67
+2022-06-25 16:57:14,137 (batch_beam_search_online:151) DEBUG:   Feature length: 276, current position: 53
+2022-06-25 16:57:14,138 (batch_beam_search_online:186) DEBUG: position 53
+2022-06-25 16:57:14,208 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:14,209 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできない
+2022-06-25 16:57:14,210 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:14,210 (batch_beam_search_online:186) DEBUG: position 54
+2022-06-25 16:57:14,280 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:14,281 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっ
+2022-06-25 16:57:14,281 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:14,281 (batch_beam_search_online:186) DEBUG: position 55
+2022-06-25 16:57:14,351 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:14,352 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないって
+2022-06-25 16:57:14,353 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:14,353 (batch_beam_search_online:186) DEBUG: position 56
+2022-06-25 16:57:14,422 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:14,422 (batch_beam_search_online:283) INFO: -18.34 * 0.5 =  -9.17 for decoder
+2022-06-25 16:57:14,423 (batch_beam_search_online:283) INFO:  -7.51 * 0.5 =  -3.76 for ctc
+2022-06-25 16:57:14,423 (batch_beam_search_online:285) INFO: total log probability: -12.93
+2022-06-25 16:57:14,423 (batch_beam_search_online:286) INFO: normalized log probability: -0.22
+2022-06-25 16:57:14,423 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:14,423 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないって
+
+2022-06-25 16:57:14,424 (batch_beam_search_online:167) DEBUG: Finished processing block: 67
+2022-06-25 16:57:14,458 (batch_beam_search_online:148) DEBUG: Start processing block: 68
+2022-06-25 16:57:14,458 (batch_beam_search_online:151) DEBUG:   Feature length: 280, current position: 55
+2022-06-25 16:57:14,459 (batch_beam_search_online:186) DEBUG: position 55
+2022-06-25 16:57:14,530 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:14,531 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないって
+2022-06-25 16:57:14,531 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:14,531 (batch_beam_search_online:186) DEBUG: position 56
+2022-06-25 16:57:14,602 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:14,603 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆ
+2022-06-25 16:57:14,603 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:14,604 (batch_beam_search_online:186) DEBUG: position 57
+2022-06-25 16:57:14,674 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:14,675 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆう
+2022-06-25 16:57:14,675 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:14,675 (batch_beam_search_online:186) DEBUG: position 58
+2022-06-25 16:57:14,745 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:14,745 (batch_beam_search_online:283) INFO: -21.85 * 0.5 = -10.92 for decoder
+2022-06-25 16:57:14,745 (batch_beam_search_online:283) INFO:  -7.80 * 0.5 =  -3.90 for ctc
+2022-06-25 16:57:14,745 (batch_beam_search_online:285) INFO: total log probability: -14.83
+2022-06-25 16:57:14,745 (batch_beam_search_online:286) INFO: normalized log probability: -0.25
+2022-06-25 16:57:14,745 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:14,746 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆう
+
+2022-06-25 16:57:14,746 (batch_beam_search_online:167) DEBUG: Finished processing block: 68
+2022-06-25 16:57:14,778 (batch_beam_search_online:148) DEBUG: Start processing block: 69
+2022-06-25 16:57:14,778 (batch_beam_search_online:151) DEBUG:   Feature length: 284, current position: 57
+2022-06-25 16:57:14,779 (batch_beam_search_online:186) DEBUG: position 57
+2022-06-25 16:57:14,850 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:14,851 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆう
+2022-06-25 16:57:14,852 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:14,852 (batch_beam_search_online:186) DEBUG: position 58
+2022-06-25 16:57:14,922 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:14,923 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうか
+2022-06-25 16:57:14,924 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:14,924 (batch_beam_search_online:186) DEBUG: position 59
+2022-06-25 16:57:14,994 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:14,994 (batch_beam_search_online:283) INFO: -21.57 * 0.5 = -10.79 for decoder
+2022-06-25 16:57:14,994 (batch_beam_search_online:283) INFO:  -7.81 * 0.5 =  -3.90 for ctc
+2022-06-25 16:57:14,994 (batch_beam_search_online:285) INFO: total log probability: -14.69
+2022-06-25 16:57:14,995 (batch_beam_search_online:286) INFO: normalized log probability: -0.24
+2022-06-25 16:57:14,995 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:14,995 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうか
+
+2022-06-25 16:57:14,996 (batch_beam_search_online:167) DEBUG: Finished processing block: 69
+2022-06-25 16:57:15,030 (batch_beam_search_online:148) DEBUG: Start processing block: 70
+2022-06-25 16:57:15,030 (batch_beam_search_online:151) DEBUG:   Feature length: 288, current position: 58
+2022-06-25 16:57:15,031 (batch_beam_search_online:186) DEBUG: position 58
+2022-06-25 16:57:15,103 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:15,104 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうか
+2022-06-25 16:57:15,105 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:15,105 (batch_beam_search_online:186) DEBUG: position 59
+2022-06-25 16:57:15,177 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:15,178 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかん
+2022-06-25 16:57:15,179 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:15,179 (batch_beam_search_online:186) DEBUG: position 60
+2022-06-25 16:57:15,250 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:15,251 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじ
+2022-06-25 16:57:15,252 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:15,252 (batch_beam_search_online:186) DEBUG: position 61
+2022-06-25 16:57:15,323 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:15,323 (batch_beam_search_online:283) INFO: -18.85 * 0.5 =  -9.43 for decoder
+2022-06-25 16:57:15,323 (batch_beam_search_online:283) INFO:  -7.82 * 0.5 =  -3.91 for ctc
+2022-06-25 16:57:15,323 (batch_beam_search_online:285) INFO: total log probability: -13.33
+2022-06-25 16:57:15,323 (batch_beam_search_online:286) INFO: normalized log probability: -0.21
+2022-06-25 16:57:15,323 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:15,324 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじ
+
+2022-06-25 16:57:15,324 (batch_beam_search_online:167) DEBUG: Finished processing block: 70
+2022-06-25 16:57:15,356 (batch_beam_search_online:148) DEBUG: Start processing block: 71
+2022-06-25 16:57:15,356 (batch_beam_search_online:151) DEBUG:   Feature length: 292, current position: 60
+2022-06-25 16:57:15,357 (batch_beam_search_online:186) DEBUG: position 60
+2022-06-25 16:57:15,430 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:15,430 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじ
+2022-06-25 16:57:15,431 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:15,431 (batch_beam_search_online:186) DEBUG: position 61
+2022-06-25 16:57:15,503 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:15,503 (batch_beam_search_online:283) INFO: -21.05 * 0.5 = -10.52 for decoder
+2022-06-25 16:57:15,503 (batch_beam_search_online:283) INFO:  -7.84 * 0.5 =  -3.92 for ctc
+2022-06-25 16:57:15,503 (batch_beam_search_online:285) INFO: total log probability: -14.44
+2022-06-25 16:57:15,503 (batch_beam_search_online:286) INFO: normalized log probability: -0.23
+2022-06-25 16:57:15,503 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 1
+2022-06-25 16:57:15,504 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじ
+
+2022-06-25 16:57:15,504 (batch_beam_search_online:167) DEBUG: Finished processing block: 71
+2022-06-25 16:57:15,538 (batch_beam_search_online:148) DEBUG: Start processing block: 72
+2022-06-25 16:57:15,539 (batch_beam_search_online:151) DEBUG:   Feature length: 296, current position: 60
+2022-06-25 16:57:15,539 (batch_beam_search_online:186) DEBUG: position 60
+2022-06-25 16:57:15,613 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:15,614 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじ
+2022-06-25 16:57:15,615 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:15,615 (batch_beam_search_online:186) DEBUG: position 61
+2022-06-25 16:57:15,688 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:15,689 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじな
+2022-06-25 16:57:15,690 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:15,690 (batch_beam_search_online:186) DEBUG: position 62
+2022-06-25 16:57:15,763 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:15,763 (batch_beam_search_online:283) INFO: -17.65 * 0.5 =  -8.83 for decoder
+2022-06-25 16:57:15,763 (batch_beam_search_online:283) INFO:  -7.86 * 0.5 =  -3.93 for ctc
+2022-06-25 16:57:15,763 (batch_beam_search_online:285) INFO: total log probability: -12.76
+2022-06-25 16:57:15,763 (batch_beam_search_online:286) INFO: normalized log probability: -0.20
+2022-06-25 16:57:15,763 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:15,764 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじな
+
+2022-06-25 16:57:15,764 (batch_beam_search_online:167) DEBUG: Finished processing block: 72
+2022-06-25 16:57:15,796 (batch_beam_search_online:148) DEBUG: Start processing block: 73
+2022-06-25 16:57:15,796 (batch_beam_search_online:151) DEBUG:   Feature length: 300, current position: 61
+2022-06-25 16:57:15,797 (batch_beam_search_online:186) DEBUG: position 61
+2022-06-25 16:57:15,871 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:15,872 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじな
+2022-06-25 16:57:15,873 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:15,873 (batch_beam_search_online:186) DEBUG: position 62
+2022-06-25 16:57:15,946 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:15,947 (batch_beam_search_online:283) INFO: -17.84 * 0.5 =  -8.92 for decoder
+2022-06-25 16:57:15,947 (batch_beam_search_online:283) INFO:  -7.87 * 0.5 =  -3.93 for ctc
+2022-06-25 16:57:15,947 (batch_beam_search_online:285) INFO: total log probability: -12.86
+2022-06-25 16:57:15,947 (batch_beam_search_online:286) INFO: normalized log probability: -0.20
+2022-06-25 16:57:15,947 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:15,948 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじな
+
+2022-06-25 16:57:15,948 (batch_beam_search_online:167) DEBUG: Finished processing block: 73
+2022-06-25 16:57:15,982 (batch_beam_search_online:148) DEBUG: Start processing block: 74
+2022-06-25 16:57:15,982 (batch_beam_search_online:151) DEBUG:   Feature length: 304, current position: 61
+2022-06-25 16:57:15,983 (batch_beam_search_online:186) DEBUG: position 61
+2022-06-25 16:57:16,058 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:16,059 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじな
+2022-06-25 16:57:16,060 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:16,060 (batch_beam_search_online:186) DEBUG: position 62
+2022-06-25 16:57:16,134 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:16,135 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじなっ
+2022-06-25 16:57:16,136 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:16,136 (batch_beam_search_online:186) DEBUG: position 63
+2022-06-25 16:57:16,210 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:16,211 (batch_beam_search_online:283) INFO: -22.94 * 0.5 = -11.47 for decoder
+2022-06-25 16:57:16,211 (batch_beam_search_online:283) INFO:  -7.87 * 0.5 =  -3.94 for ctc
+2022-06-25 16:57:16,211 (batch_beam_search_online:285) INFO: total log probability: -15.40
+2022-06-25 16:57:16,211 (batch_beam_search_online:286) INFO: normalized log probability: -0.24
+2022-06-25 16:57:16,211 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:16,212 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじなっ
+
+2022-06-25 16:57:16,212 (batch_beam_search_online:167) DEBUG: Finished processing block: 74
+2022-06-25 16:57:16,246 (batch_beam_search_online:148) DEBUG: Start processing block: 75
+2022-06-25 16:57:16,246 (batch_beam_search_online:151) DEBUG:   Feature length: 308, current position: 62
+2022-06-25 16:57:16,247 (batch_beam_search_online:186) DEBUG: position 62
+2022-06-25 16:57:16,323 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:16,324 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじなっ
+2022-06-25 16:57:16,325 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:16,325 (batch_beam_search_online:186) DEBUG: position 63
+2022-06-25 16:57:16,401 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:16,402 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじなっちゃ
+2022-06-25 16:57:16,403 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:16,403 (batch_beam_search_online:186) DEBUG: position 64
+2022-06-25 16:57:16,478 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:16,478 (batch_beam_search_online:283) INFO: -23.56 * 0.5 = -11.78 for decoder
+2022-06-25 16:57:16,478 (batch_beam_search_online:283) INFO:  -7.87 * 0.5 =  -3.94 for ctc
+2022-06-25 16:57:16,478 (batch_beam_search_online:285) INFO: total log probability: -15.72
+2022-06-25 16:57:16,478 (batch_beam_search_online:286) INFO: normalized log probability: -0.24
+2022-06-25 16:57:16,478 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:16,479 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじなっちゃ
+
+2022-06-25 16:57:16,479 (batch_beam_search_online:167) DEBUG: Finished processing block: 75
+2022-06-25 16:57:16,511 (batch_beam_search_online:148) DEBUG: Start processing block: 76
+2022-06-25 16:57:16,511 (batch_beam_search_online:151) DEBUG:   Feature length: 312, current position: 63
+2022-06-25 16:57:16,512 (batch_beam_search_online:186) DEBUG: position 63
+2022-06-25 16:57:16,589 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:16,590 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじなっちゃ
+2022-06-25 16:57:16,591 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:16,591 (batch_beam_search_online:186) DEBUG: position 64
+2022-06-25 16:57:16,667 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:16,668 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじなっちゃう
+2022-06-25 16:57:16,669 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:16,669 (batch_beam_search_online:186) DEBUG: position 65
+2022-06-25 16:57:16,745 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:16,745 (batch_beam_search_online:283) INFO: -29.07 * 0.5 = -14.54 for decoder
+2022-06-25 16:57:16,745 (batch_beam_search_online:283) INFO:  -7.88 * 0.5 =  -3.94 for ctc
+2022-06-25 16:57:16,745 (batch_beam_search_online:285) INFO: total log probability: -18.48
+2022-06-25 16:57:16,746 (batch_beam_search_online:286) INFO: normalized log probability: -0.28
+2022-06-25 16:57:16,746 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:16,746 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじなっちゃう
+
+2022-06-25 16:57:16,747 (batch_beam_search_online:167) DEBUG: Finished processing block: 76
+2022-06-25 16:57:16,781 (batch_beam_search_online:148) DEBUG: Start processing block: 77
+2022-06-25 16:57:16,781 (batch_beam_search_online:151) DEBUG:   Feature length: 316, current position: 64
+2022-06-25 16:57:16,782 (batch_beam_search_online:186) DEBUG: position 64
+2022-06-25 16:57:16,859 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:16,860 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじなっちゃう
+2022-06-25 16:57:16,860 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:16,861 (batch_beam_search_online:186) DEBUG: position 65
+2022-06-25 16:57:16,938 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:16,939 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうと
+2022-06-25 16:57:16,939 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:16,939 (batch_beam_search_online:186) DEBUG: position 66
+2022-06-25 16:57:17,016 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:17,016 (batch_beam_search_online:283) INFO: -25.46 * 0.5 = -12.73 for decoder
+2022-06-25 16:57:17,016 (batch_beam_search_online:283) INFO:  -9.03 * 0.5 =  -4.51 for ctc
+2022-06-25 16:57:17,016 (batch_beam_search_online:285) INFO: total log probability: -17.24
+2022-06-25 16:57:17,016 (batch_beam_search_online:286) INFO: normalized log probability: -0.25
+2022-06-25 16:57:17,016 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:17,017 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうと
+
+2022-06-25 16:57:17,017 (batch_beam_search_online:167) DEBUG: Finished processing block: 77
+2022-06-25 16:57:17,049 (batch_beam_search_online:148) DEBUG: Start processing block: 78
+2022-06-25 16:57:17,049 (batch_beam_search_online:151) DEBUG:   Feature length: 320, current position: 65
+2022-06-25 16:57:17,050 (batch_beam_search_online:186) DEBUG: position 65
+2022-06-25 16:57:17,129 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:17,131 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうと
+2022-06-25 16:57:17,132 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:17,132 (batch_beam_search_online:186) DEBUG: position 66
+2022-06-25 16:57:17,210 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:17,211 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとお
+2022-06-25 16:57:17,212 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:17,212 (batch_beam_search_online:186) DEBUG: position 67
+2022-06-25 16:57:17,289 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:17,290 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおも
+2022-06-25 16:57:17,291 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:17,291 (batch_beam_search_online:186) DEBUG: position 68
+2022-06-25 16:57:17,368 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:17,369 (batch_beam_search_online:283) INFO: -24.97 * 0.5 = -12.49 for decoder
+2022-06-25 16:57:17,369 (batch_beam_search_online:283) INFO:  -9.11 * 0.5 =  -4.56 for ctc
+2022-06-25 16:57:17,369 (batch_beam_search_online:285) INFO: total log probability: -17.04
+2022-06-25 16:57:17,369 (batch_beam_search_online:286) INFO: normalized log probability: -0.24
+2022-06-25 16:57:17,369 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:17,370 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおも
+
+2022-06-25 16:57:17,370 (batch_beam_search_online:167) DEBUG: Finished processing block: 78
+2022-06-25 16:57:17,404 (batch_beam_search_online:148) DEBUG: Start processing block: 79
+2022-06-25 16:57:17,405 (batch_beam_search_online:151) DEBUG:   Feature length: 324, current position: 67
+2022-06-25 16:57:17,406 (batch_beam_search_online:186) DEBUG: position 67
+2022-06-25 16:57:17,484 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:17,485 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおも
+2022-06-25 16:57:17,486 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:17,486 (batch_beam_search_online:186) DEBUG: position 68
+2022-06-25 16:57:17,564 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:17,565 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもう
+2022-06-25 16:57:17,566 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:17,566 (batch_beam_search_online:186) DEBUG: position 69
+2022-06-25 16:57:17,644 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:17,645 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうん
+2022-06-25 16:57:17,645 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:17,645 (batch_beam_search_online:186) DEBUG: position 70
+2022-06-25 16:57:17,723 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:17,723 (batch_beam_search_online:283) INFO: -28.46 * 0.5 = -14.23 for decoder
+2022-06-25 16:57:17,723 (batch_beam_search_online:283) INFO:  -9.02 * 0.5 =  -4.51 for ctc
+2022-06-25 16:57:17,723 (batch_beam_search_online:285) INFO: total log probability: -18.74
+2022-06-25 16:57:17,723 (batch_beam_search_online:286) INFO: normalized log probability: -0.26
+2022-06-25 16:57:17,723 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:17,724 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうん
+
+2022-06-25 16:57:17,725 (batch_beam_search_online:167) DEBUG: Finished processing block: 79
+2022-06-25 16:57:17,757 (batch_beam_search_online:148) DEBUG: Start processing block: 80
+2022-06-25 16:57:17,757 (batch_beam_search_online:151) DEBUG:   Feature length: 328, current position: 69
+2022-06-25 16:57:17,758 (batch_beam_search_online:186) DEBUG: position 69
+2022-06-25 16:57:17,837 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:17,838 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうん
+2022-06-25 16:57:17,839 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:17,839 (batch_beam_search_online:186) DEBUG: position 70
+2022-06-25 16:57:17,917 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:17,918 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじなっちゃうとおもうんで
+2022-06-25 16:57:17,919 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:17,919 (batch_beam_search_online:186) DEBUG: position 71
+2022-06-25 16:57:17,997 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:17,997 (batch_beam_search_online:283) INFO: -26.28 * 0.5 = -13.14 for decoder
+2022-06-25 16:57:17,997 (batch_beam_search_online:283) INFO:  -7.89 * 0.5 =  -3.95 for ctc
+2022-06-25 16:57:17,997 (batch_beam_search_online:285) INFO: total log probability: -17.09
+2022-06-25 16:57:17,997 (batch_beam_search_online:286) INFO: normalized log probability: -0.23
+2022-06-25 16:57:17,997 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:17,998 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないってゆうかんじなっちゃうとおもうんで
+
+2022-06-25 16:57:17,998 (batch_beam_search_online:167) DEBUG: Finished processing block: 80
+2022-06-25 16:57:18,033 (batch_beam_search_online:148) DEBUG: Start processing block: 81
+2022-06-25 16:57:18,033 (batch_beam_search_online:151) DEBUG:   Feature length: 332, current position: 70
+2022-06-25 16:57:18,034 (batch_beam_search_online:186) DEBUG: position 70
+2022-06-25 16:57:18,114 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:18,115 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうんで
+2022-06-25 16:57:18,115 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:18,115 (batch_beam_search_online:186) DEBUG: position 71
+2022-06-25 16:57:18,195 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:18,196 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうんでー
+2022-06-25 16:57:18,197 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:18,197 (batch_beam_search_online:186) DEBUG: position 72
+2022-06-25 16:57:18,277 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:18,277 (batch_beam_search_online:283) INFO: -24.71 * 0.5 = -12.35 for decoder
+2022-06-25 16:57:18,277 (batch_beam_search_online:283) INFO:  -9.52 * 0.5 =  -4.76 for ctc
+2022-06-25 16:57:18,277 (batch_beam_search_online:285) INFO: total log probability: -17.11
+2022-06-25 16:57:18,277 (batch_beam_search_online:286) INFO: normalized log probability: -0.23
+2022-06-25 16:57:18,277 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:18,278 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうんでー
+
+2022-06-25 16:57:18,278 (batch_beam_search_online:167) DEBUG: Finished processing block: 81
+2022-06-25 16:57:18,311 (batch_beam_search_online:148) DEBUG: Start processing block: 82
+2022-06-25 16:57:18,311 (batch_beam_search_online:151) DEBUG:   Feature length: 336, current position: 71
+2022-06-25 16:57:18,312 (batch_beam_search_online:186) DEBUG: position 71
+2022-06-25 16:57:18,393 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:18,394 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうんでー
+2022-06-25 16:57:18,395 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:18,395 (batch_beam_search_online:186) DEBUG: position 72
+2022-06-25 16:57:18,476 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:18,476 (batch_beam_search_online:283) INFO: -24.51 * 0.5 = -12.25 for decoder
+2022-06-25 16:57:18,476 (batch_beam_search_online:283) INFO:  -9.51 * 0.5 =  -4.76 for ctc
+2022-06-25 16:57:18,476 (batch_beam_search_online:285) INFO: total log probability: -17.01
+2022-06-25 16:57:18,476 (batch_beam_search_online:286) INFO: normalized log probability: -0.23
+2022-06-25 16:57:18,476 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:18,477 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうんでー
+
+2022-06-25 16:57:18,477 (batch_beam_search_online:167) DEBUG: Finished processing block: 82
+2022-06-25 16:57:18,477 (batch_beam_search_online:148) DEBUG: Start processing block: 83
+2022-06-25 16:57:18,477 (batch_beam_search_online:151) DEBUG:   Feature length: 340, current position: 71
+2022-06-25 16:57:18,478 (batch_beam_search_online:186) DEBUG: position 71
+2022-06-25 16:57:18,560 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:18,561 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうんでー
+2022-06-25 16:57:18,562 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:18,562 (batch_beam_search_online:186) DEBUG: position 72
+2022-06-25 16:57:18,643 (batch_beam_search_online:233) INFO: Detected hyp(s) reaching EOS in this block.
+2022-06-25 16:57:18,643 (batch_beam_search_online:283) INFO: -24.58 * 0.5 = -12.29 for decoder
+2022-06-25 16:57:18,643 (batch_beam_search_online:283) INFO:  -9.51 * 0.5 =  -4.76 for ctc
+2022-06-25 16:57:18,643 (batch_beam_search_online:285) INFO: total log probability: -17.04
+2022-06-25 16:57:18,643 (batch_beam_search_online:286) INFO: normalized log probability: -0.23
+2022-06-25 16:57:18,643 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 2
+2022-06-25 16:57:18,644 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうんでー
+
+2022-06-25 16:57:18,644 (batch_beam_search_online:167) DEBUG: Finished processing block: 83
+2022-06-25 16:57:18,644 (batch_beam_search_online:148) DEBUG: Start processing block: 84
+2022-06-25 16:57:18,644 (batch_beam_search_online:151) DEBUG:   Feature length: 344, current position: 71
+2022-06-25 16:57:18,645 (batch_beam_search_online:186) DEBUG: position 71
+2022-06-25 16:57:18,729 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:18,730 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうんでー
+2022-06-25 16:57:18,730 (batch_beam_search_online:249) DEBUG: remained hypotheses: 2
+2022-06-25 16:57:18,730 (batch_beam_search_online:186) DEBUG: position 72
+2022-06-25 16:57:18,815 (batch_beam_search:308) DEBUG: the number of running hypothes: 2
+2022-06-25 16:57:18,816 (batch_beam_search:315) DEBUG: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうんでー<sos/eos>
+2022-06-25 16:57:18,817 (batch_beam_search_online:246) INFO: no hypothesis. Finish decoding.
+2022-06-25 16:57:18,817 (batch_beam_search_online:283) INFO: -24.69 * 0.5 = -12.34 for decoder
+2022-06-25 16:57:18,818 (batch_beam_search_online:283) INFO:  -9.51 * 0.5 =  -4.76 for ctc
+2022-06-25 16:57:18,818 (batch_beam_search_online:285) INFO: total log probability: -17.10
+2022-06-25 16:57:18,818 (batch_beam_search_online:286) INFO: normalized log probability: -0.23
+2022-06-25 16:57:18,818 (batch_beam_search_online:287) INFO: total number of ended hypotheses: 4
+2022-06-25 16:57:18,819 (batch_beam_search_online:292) INFO: best hypo: ちょっとなんかそのびーるのーのみほうだいっていうかんじだとーたぶんののーおんなろこーがわがのみほうだいできないっていうかんじなっちゃうとおもうんでー
+
+2022-06-25 16:57:18,819 (batch_beam_search_online:167) DEBUG: Finished processing block: 84
+2022-06-25 16:57:18,820 (internal:138) INFO: Internal process exited

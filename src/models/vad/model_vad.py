@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import torch.nn.utils.rnn as rnn_utils
 from itertools import chain
 
-from src.models.vad import VAD
+from src.models.vad.vad import VAD
 
 torch.autograd.set_detect_anomaly(True)
 

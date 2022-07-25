@@ -220,14 +220,14 @@ class ATRDataset(Dataset):
 #             turn[:pad] = 0
 #             #turn[-pad:] = 0
             
-            length = len(turn)
-            target = np.zeros([length-pad, self.N])
+#             length = len(turn)
+#             target = np.zeros([length-pad, self.N])
 
-            for i in range(length-pad):
-                n = len(turn[i:i+self.N])
-                tmp = np.zeros(self.N)
-                tmp[:n] = turn[i:i+self.N]
-                target[i] = tmp
+#             for i in range(length-pad):
+#                 n = len(turn[i:i+self.N])
+#                 tmp = np.zeros(self.N)
+#                 tmp[:n] = turn[i:i+self.N]
+#                 target[i] = tmp
 
             batch = {"ch": ch,
                      "offset": offset,
@@ -237,7 +237,7 @@ class ATRDataset(Dataset):
                      "vad": vad_label,
                      "turn": turn_label,
                      "last_ipu": last_ipu,
-                     "target": target, #turn_timing_target,
+                     "target": vad_label, #turn_timing_target,
                     }
 
             batch_list.append(batch)

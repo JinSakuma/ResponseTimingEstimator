@@ -84,6 +84,7 @@ class ATRDataset(Dataset):
     def get_turn_info(self, file_name):
         # 各種ファイルの読み込み
         df_turns_path = os.path.join(DATAROOT, 'dataframe3/{}.csv'.format(file_name))
+        df_turn_text_path = os.path.join(DATAROOT, 'dataframe0526/{}.csv'.format(file_name))
         df_vad_path = os.path.join(DATAROOT,'vad/{}.csv'.format(file_name))
         json_turn_path = os.path.join(DATAROOT, 'samples/json/{}_samples.json'.format(file_name))
         feat_list = os.path.join(DATAROOT, 'samples/CNN_AE/{}/*_spec.npy'.format(file_name))
@@ -92,6 +93,7 @@ class ATRDataset(Dataset):
         wav_list = sorted(glob.glob(wav_list))
         
         df = pd.read_csv(df_turns_path)
+        df_turn_text = pd.read_csv(df_turn_text_path)
         df_vad = pd.read_csv(df_vad_path)
 
         with open(json_turn_path, 'r') as jf:
@@ -167,10 +169,17 @@ class ATRDataset(Dataset):
                 continue
                 
             # text
+            contexts = df_turn_text['text'].iloc[max(0, t-3):t].tolist()
+            spks = df_turn_text['spk'].iloc[max(0, t-3):t].tolist()
+            context = ''
+            for s in range(len(spks)):
+                context += '<spk{}>'.format(spks[s]+1)+str(contexts[s])
+            
             text_path = '_'.join(wav_path.replace('wav', 'text2').split('_')[:-1])+'.csv'
             df_text = pd.read_csv(text_path)
             df_text[pd.isna(df_text['asr_recog'])] = ''
             text = df_text['asr_recog'].tolist()
+            text = [txt+context for txt in text]
             # Delayの調節
             # tmp = text[-1]
             # n = self.asr_delay1//self.frame_length-self.asr_delay2//self.frame_length

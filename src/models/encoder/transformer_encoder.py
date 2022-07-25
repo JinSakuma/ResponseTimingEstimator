@@ -5,8 +5,6 @@ import torch.nn.functional as F
 import torch.nn.utils.rnn as rnn_utils
 from itertools import chain
 
-from src.models.rtg import RTG
-
 torch.autograd.set_detect_anomaly(True)
 
 

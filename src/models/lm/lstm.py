@@ -7,21 +7,15 @@ from itertools import chain
 torch.autograd.set_detect_anomaly(True)
 
 
-# phoneme_list = ['a', 'i', 'u', 'e', 'o', 'a:', 'i:', 'u:', 'e:', 'o:', 
-#                 'b', 'by', 'k', 'ky', 'g', 'gy', 's', 'sh', 'z', 'zy', 'j',
-#                 't', 'ts', 'ty', 'ch', 'd', 'dy', 'n', 'ny', 'hy', 'p', 'py', 'm', 'my',
-#                 'y', 'r', 'ry', 'w', 'f', 'q', 'N', ':', '<eou>', '<pad>'
-#                ]
-
-
 class LSTMModel(nn.Module):
 
-    def __init__(self, device, input_dim, hidden_dim, vocab_size, nlayers=1):
+    def __init__(self, config, device, input_dim, hidden_dim, vocab_size, nlayers=1):
         super().__init__()
         
         self.device = device
+        PAD = 0
         
-        self.embed = torch.nn.Embedding(vocab_size, input_dim, padding_idx=vocab_size-1)
+        self.embed = torch.nn.Embedding(vocab_size, input_dim, padding_idx=PAD)
         self.lstm = torch.nn.LSTM(
                 input_size=input_dim,
                 hidden_size=hidden_dim,
@@ -30,7 +24,10 @@ class LSTMModel(nn.Module):
             )
 
         self.fc = nn.Linear(hidden_dim, vocab_size)
-        self.criterion = nn.CrossEntropyLoss(ignore_index=vocab_size-1).to(device)
+        
+        weights = torch.ones(vocab_size)
+        weights[-1] = config.optim_params.loss_weight
+        self.criterion = nn.CrossEntropyLoss(ignore_index=PAD, weight=weights).to(device)
 
     def forward(self, inputs, input_lengths):
         t = max(input_lengths)
@@ -42,10 +39,7 @@ class LSTMModel(nn.Module):
             input_lengths, 
             batch_first=True,
             enforce_sorted=False,
-        )
-        
-        # if len(inputs.shape)==2:
-        #     inputs = inputs.unsqueeze(0)
+        )        
         
         outputs, _ = self.lstm(inputs, None)
         outputs, _ = rnn_utils.pad_packed_sequence(
@@ -58,21 +52,21 @@ class LSTMModel(nn.Module):
         logits = self.fc(outputs)
         return logits
     
-    def forward_step(self, inputs):
+    def forward_step(self, inputs, hidden=None):
         embs = self.embed(inputs)
-        outputs, _ = self.lstm(embs, None)
+        outputs, hidden = self.lstm(embs, hidden)
         logits = self.fc(outputs)
                 
-        return logits
+        return logits, hidden
 
     def get_loss(self, logits, targets):
         return self.criterion(logits, targets.long())
         # return self.criterion(logits, targets.float())
 
-    def get_acc(self, outputs, targets):
-        # pred = torch.round(torch.sigmoid(outputs))
-        _, pred = torch.max(outputs.data, 1)
-        correct = (pred == targets).sum().float()
-        acc = correct / targets.size(0)
-        return acc.detach().cpu()
+#     def get_acc(self, outputs, targets):
+#         # pred = torch.round(torch.sigmoid(outputs))
+#         _, pred = torch.max(outputs.data, 1)
+#         correct = (pred == targets).sum().float()
+#         acc = correct / targets.size(0)
+#         return acc.detach().cpu()
    

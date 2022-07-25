@@ -14,10 +14,29 @@ from tqdm import tqdm
 
 DATAROOT="/mnt/aoni04/jsakuma/data/ATR-Fujie"
 
+spk_file_path = '/mnt/aoni04/jsakuma/data/ATR2022/speaker_ids.csv'
+df_spk=pd.read_csv(spk_file_path, encoding="shift-jis")
+
+name_mapping = {'F1(伊藤)': 'F1',
+                'F2(不明)': 'F2',
+                'F3(中川)': 'F3',
+                'F4(川村)': 'F4',
+                'M1(黒河内)': 'M1',
+                'M2(平林)': 'M2',
+                'M3(浜田)': 'M3',
+                'M4(不明)': 'M4'
+               }
+
+df_spk['operator'] =  df_spk['オペレータ'].map(lambda x: name_mapping[x])
+
+filenames = df_spk['ファイル名'].to_list()
+spk_ids = df_spk['operator'].to_list()
+spk_dict  =dict(zip(filenames, spk_ids))
+
 # 直前の発話のみ
 # 出力: CNN-AE feature, VAD出力ラベル, 最後のIPU=1ラベル
 class ATRDataset(Dataset):
-    def __init__(self, config, split='train'):
+    def __init__(self, config, split='train', speaker_list=None):
         self.config = config
         
         name_path = "/mnt/aoni04/jsakuma/data/ATR2022/asr/names/{}.txt".format(split)
@@ -25,6 +44,8 @@ class ATRDataset(Dataset):
             lines = f.readlines()
     
         self.file_names = [line.replace('\n', '') for line in lines]
+        if speaker_list is not None:
+            self.file_names = [name for name in self.file_names if spk_dict[name+'.wav'] in speaker_list]
         
         self.offset = 200  # VADのhang over
         self.frame_length = 50  # 1frame=50ms
@@ -123,7 +144,7 @@ class ATRDataset(Dataset):
 #             turn_user = np.ones(len(turn_user)) - turn_user
 #             turn_agent = np.ones(len(turn_agent)) - turn_agent
             
-            if ch == 0 and next_ch == 0:
+            if ch == 0 and next_ch != 0:
                 vad_label = vad_user
                 last_ipu = last_ipu_user
             else:
@@ -277,14 +298,13 @@ def create_dataloader(dataset, batch_size, shuffle=True, pin_memory=True, num_wo
     )
     return loader
 
-def get_dataset(config, split="train"):
-    dataset = ATRDataset(config, split)
+def get_dataset(config, split="train", speaker_list=None):
+    dataset = ATRDataset(config, split, speaker_list)
     return dataset
-
 
 def get_dataloader(dataset, config, split="train"):
     if split=="train":
-        shuffle = True
+        shuffle = False
     else:
         shuffle = False
     dataloader = create_dataloader(dataset, config.optim_params.batch_size, shuffle=shuffle)

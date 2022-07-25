@@ -1,19 +1,31 @@
 import os
 import json
 import torch
+import random
 import argparse
 import numpy as np
 from dotmap import DotMap
 
-from src.datasets.dataset3 import get_dataloader, get_dataset
+from src.datasets.dataset_timing_char import get_dataloader, get_dataset
 # from src.datasets.dataset_rtnet import get_dataloader, get_dataset
 from src.utils.utils import load_config
 from src.utils.trainer_timing import trainer
-from src.models.timing.model import TimingEstimator
+#from src.models.timing.model2 import TimingEstimator
+from src.models.timing.model_w_lm import TimingEstimator
+#from src.models.timing.model_w_lm2 import TimingEstimator
+
+
+def seed_everything(seed):
+    random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    np.random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
 
 
 def run(args):
     config = load_config(args.config)
+    seed_everything(config.seed)
     if args.gpuid >= 0:
         config.gpu_device = args.gpuid
         

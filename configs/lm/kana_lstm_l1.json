@@ -1,6 +1,6 @@
 {
     "exp_base": "exp",
-    "exp_name": "lm/kana/M1/lstm_l1_lr5",
+    "exp_name": "lm/kana/M1/lstm_l1_lr5_3",
     "cuda": true,
     "gpu_device": 1,
     "seed": 1234,

@@ -5,10 +5,10 @@ import argparse
 import numpy as np
 from dotmap import DotMap
 
-from src.datasets.dataset import get_dataloader, get_dataset
+from src.datasets.dataset_vad import get_dataloader, get_dataset
 from src.utils.utils import load_config
 from src.utils.trainer_vad import trainer
-from src.models.model_vad import VoiceActivityDetactor
+from src.models.vad.model_vad import VoiceActivityDetactor
 
 
 def run(args):

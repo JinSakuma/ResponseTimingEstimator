@@ -27,11 +27,12 @@ class PositionalEncoding(nn.Module):
 
 class TransformerModel(nn.Module):
 
-    def __init__(self, device, vocab_size, d_model, n_head=2, n_hid=256, n_layer=1, dropout=0.1):
+    def __init__(self, config, device, vocab_size, d_model, n_head=2, n_hid=256, n_layer=1, dropout=0.1):
         super(TransformerModel, self).__init__()
         
         self.model_type = 'Transformer'
         self.vocab_size = vocab_size
+        PAD = 0
         self.d_model = d_model
         self.n_hid = n_hid
         self.n_head = n_head
@@ -44,7 +45,9 @@ class TransformerModel(nn.Module):
         self.transformer_encoder = TransformerEncoder(encoder_layers, n_layer)
         self.decoder = nn.Linear(d_model, vocab_size)
         
-        self.criterion = nn.CrossEntropyLoss(ignore_index=vocab_size-1).to(device)
+        weights = torch.ones(vocab_size)
+        weights[-1] = config.optim_params.loss_weight
+        self.criterion = nn.CrossEntropyLoss(ignore_index=PAD, weight=weights).to(device)
 
         self.init_weights()
 
