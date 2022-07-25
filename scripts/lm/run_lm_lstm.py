@@ -1,18 +1,28 @@
 import os
 import json
+import random
 import torch
 import argparse
 import numpy as np
 from dotmap import DotMap
 
-from src.datasets.dataset_early import get_dataloader, get_dataset
+from src.datasets.dataset_char_recog import get_dataloader, get_dataset
 from src.utils.utils import load_config
-from src.utils.trainer_vad import trainer
-from src.models.model_eou import EoUDetactor
+from src.utils.trainer_lm import trainer
+from src.models.lm.model import LSTMLM
+
+
+def seed_everything(seed):
+    random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    np.random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
 
 
 def run(args):
     config = load_config(args.config)
+    seed_everything(config.seed)
     if args.gpuid >= 0:
         config.gpu_device = args.gpuid
         
@@ -21,9 +31,11 @@ def run(args):
     else:
         device = torch.device('cpu')
     
+#     train_dataset = get_dataset(config, 'train')
+#     val_dataset = get_dataset(config, 'valid')
     train_dataset = get_dataset(config, 'train', ['M1'])
     val_dataset = get_dataset(config, 'valid', ['M1'])
-    # test_dataset = get_dataset(config, 'test')
+#     test_dataset = get_dataset(config, 'test')
     
     train_loader = get_dataloader(train_dataset, config, 'train')
     val_loader = get_dataloader(val_dataset, config, 'valid')
@@ -34,7 +46,7 @@ def run(args):
     del train_dataset
     del val_dataset
     
-    model = EoUDetactor(config, device)
+    model = LSTMLM(config, device)
     model.to(device)
     
     parameters = model.configure_optimizer_parameters()

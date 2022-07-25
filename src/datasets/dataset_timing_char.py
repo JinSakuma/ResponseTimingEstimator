@@ -218,17 +218,14 @@ class ATRDataset(Dataset):
 #                 downs = downs[downs<timing]
 #                 if len(downs)>0:
 #                     eou = downs[-1]
-#                     new_offset = (timing - eou) * 50                
+#                     offset = (timing - eou) * 50                
 #                 else:
-#                     new_offset = offset
-#                     pass
-#             else:
-#                 new_offset = offset
+#                     pass               
                 
             if offset > 3000 or offset < -500:
                 continue
 
-#             if new_offset > 3000 or new_offset < -1000:
+#             if offset > 2000 or offset < -1000:
 #                 continue                
                 
             # text

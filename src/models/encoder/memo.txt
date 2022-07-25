@@ -1,2 +1,0 @@
-timie_encoder3 : N-bestの方式を更新
-timie_encoder4 : LMをTransformerに変更

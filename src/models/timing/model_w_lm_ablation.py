@@ -4,14 +4,10 @@ import torch.nn.functional as F
 import torch.nn.utils.rnn as rnn_utils
 from itertools import chain
 
-from src.models.timing.rtg_0609 import RTG
+from src.models.timing.rtg import RTG
 from src.models.encoder.acoustic_encoder import AcousticEncoder
-# from src.models.encoder.timing_encoder2 import TimingEncoder
 from src.models.encoder.timing_encoder6 import TimingEncoder
-# from src.models.encoder.timing_encoder5 import TimingEncoder
-#from src.models.encoder.timing_encoder3 import TimingEncoder
 from src.models.encoder.transformer_encoder import TransformerEncoder
-#from src.models.encoder.transformer_encoder_context import TransformerEncoder
 
 torch.autograd.set_detect_anomaly(True)
 

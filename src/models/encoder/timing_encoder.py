@@ -4,11 +4,36 @@ import torch.nn.functional as F
 import torch.nn.utils.rnn as rnn_utils
 from itertools import chain
 
+import numpy as np
+from queue import PriorityQueue
+import operator
+
 from src.utils.utils import load_config
 from src.models.vad.vad import VAD
 from src.models.lm.model import LSTMLM
 
 torch.autograd.set_detect_anomaly(True)
+
+
+path = '/mnt/aoni04/jsakuma/development/espnet-g05-1.8/egs2/atr/asr1/data/jp_token_list/char/tokens.txt'
+with open(path) as f:
+    lines =f.readlines()
+    
+tokens = [line.split()[0] for line in lines]
+
+def token2idx(token): 
+    if token != token or token == '':
+        return [0]
+    
+    token = token.replace('<eou>', '')
+    idxs = [tokens.index(t) for t in token]+[len(tokens)-1]
+    
+    return idxs
+
+def idx2token(idxs): 
+    token = [tokens[idx] for idx in idxs]
+    
+    return token
 
 
 silence_dict_train={}
@@ -22,6 +47,12 @@ n_word_dict_val={}
 n_word_dict_test={}
 
 n_word_dict = {'train': n_word_dict_train, 'val': n_word_dict_val, 'test': n_word_dict_test}
+
+n_best_score_dict_train={}
+n_best_score_dict_val={}
+n_best_score_dict_test={}
+
+n_best_score_dict = {'train': n_best_score_dict_train, 'val': n_best_score_dict_val, 'test': n_best_score_dict_test}
 
 class TimingEncoder(nn.Module):
 
@@ -41,6 +72,9 @@ class TimingEncoder(nn.Module):
         self.is_use_n_word=is_use_n_word
         
         self.reset_frame = 5
+        self.beam_width = config.model_params.n_best
+        self.EOU_id = config.model_params.eou_id
+        self.max_n_word = config.model_params.max_n_word
         
         if is_use_silence:
             vad_model_path = config.model_params.vad_model_path
@@ -105,14 +139,14 @@ class TimingEncoder(nn.Module):
         
         return silence.unsqueeze(1).to(self.device)
     
-    def lm_generate(self, inp, max_len=10, eou_idx=125):
+    def lm_generate(self, inp):
         n = len(inp)
         outputs = inp.detach().cpu().tolist()
         prev = inp.unsqueeze(0)
         flg = False
         with torch.no_grad():
             hidden = None
-            for i in range(max_len):
+            for i in range(self.max_n_word):
                 out, hidden = self.lm.lm.forward_step(prev, hidden)
 
                 _, pred = torch.topk(out[0][-1], 1)
@@ -120,7 +154,7 @@ class TimingEncoder(nn.Module):
                 idx = int(pred[-1].detach().cpu())
                 outputs += [idx]
 
-                if idx == eou_idx:
+                if idx == self.EOU_id:
                     flg=True
                     break
 
@@ -147,7 +181,7 @@ class TimingEncoder(nn.Module):
         if indice not in n_word_dict[split]:
             rest = []
             pre = [0]
-            n = 10
+            n = self.max_n_word
             for j in range(len(idxs)):
                 if idxs[j] != pre:
                     inp = torch.tensor(idxs[j])
@@ -166,8 +200,136 @@ class TimingEncoder(nn.Module):
         else:
             n_word = n_word_dict[split][indice]
         
-        return n_word.to(self.device)
+        return n_word.to(self.device)    
 
+    def get_n_best_length(self, inp):        
+        endnodes = []
+        with torch.no_grad():        
+            decoder_output, hidden = self.lm.lm.forward_step(inp.unsqueeze(0))
+            prob = torch.softmax(decoder_output, dim=-1)
+
+            prob_, indexes = torch.topk(prob, self.beam_width)
+            prob_ = prob_[0][-1] 
+            indexes = indexes[0][-1]
+
+            n_end = 0
+            cur_nodes = PriorityQueue()
+            for i in range(len(indexes)):        
+                n = BeamSearchNode(hidden, None, indexes[i], prob_[i], 1)
+                cur_nodes.put((-prob_[i], i+100*(0+1), n))
+
+            cnt = 1
+            while True:
+                if cur_nodes.qsize()== 0:            
+                    break
+                    
+                if cnt >= self.max_n_word:
+                    for bw in range(self.beam_width):
+                        p, _, cur_node = cur_nodes.get()
+                        endnodes.append(cur_node)
+                    break
+
+#                 elif n_end >= self.beam_width:
+#                     break
+
+                nxt_nodes = PriorityQueue()
+
+                eou_prob_tmp = 0
+                for bw in range(self.beam_width):
+                    if cur_nodes.qsize()== 0:            
+                        break
+                
+                    p, _, cur_node = cur_nodes.get()            
+                    idx = cur_node.wordid
+                    hidden = cur_node.hidden_state
+
+                    if cur_node.wordid.item() == self.EOU_id:
+                        n_end+=1
+                        endnodes.append(cur_node)
+                        continue
+
+                    decoder_output, hidden = self.lm.lm.forward_step(idx.unsqueeze(0).unsqueeze(0), hidden)
+                    prob = torch.softmax(decoder_output, dim=-1)
+
+
+                    prob_, indexes = torch.topk(prob, self.beam_width)
+                    prob_ = prob_[0][-1] 
+                    indexes = indexes[0][-1]
+
+                    for i in range(len(indexes)):                                    
+                        n = BeamSearchNode(hidden, cur_node, indexes[i], cur_node.prob*prob_[i], cnt+1)
+                        # n = BeamSearchNode(hidden, cur_node, indexes[i], cur_node.prob+prob_[i]/float(cnt+1), cnt+1)
+                        try:
+                            nxt_nodes.put((-prob_[i], i+100*(bw+1), n))
+                        except:
+                            print(prob_[i])
+                            print(aaaaaaaaaa)                            
+                            
+
+                cur_nodes = nxt_nodes        
+                cnt += 1
+
+        return endnodes
+    
+    def get_n_word_n_best_scores(self, idxs, indice, split):
+        """ Fusion multi-modal inputs
+        Args:
+            vad_pred: acoustic feature (N, 1)
+            indice: data idx 
+            split: training phase
+            
+        Returns:
+            outputs: silence count (N, beam_width)
+        """
+        
+        if indice not in n_best_score_dict[split]:
+
+            pre = [0]
+            n_best_scores = np.zeros([len(idxs), self.max_n_word])
+#             texts = []
+            n_score = np.zeros(self.max_n_word)
+            n_score[-1] = 1
+            for j in range(len(idxs)):                
+                if idxs[j] != pre:
+                    inp = torch.tensor(idxs[j])
+                    pre = idxs[j]
+                    
+                    endnodes = self.get_n_best_length(inp.to(self.device))
+                    context = inp.detach().cpu().tolist()
+
+                    utterances = []
+                    scores = []
+                    n_score = np.zeros(self.max_n_word)
+#                     total = 0
+                    for node in endnodes:
+                        utterance = []
+                        n = node
+                        score = n.prob
+                        while n is not None:
+                            utterance.append(n.wordid.item())        
+                            n = n.prevNode        
+
+                        utterances.append(context+utterance[::-1])
+                        length = len(utterance)
+                        n_score[length-1:]+=score.item()
+                        scores.append(score.item())
+                        
+                else:
+                    pass
+
+                n_best_scores[j] = n_score
+#                 texts.append(text)
+                
+            
+            n_best_scores = torch.tensor(n_best_scores)
+            n_best_score_dict[split][indice] = n_best_scores
+            
+        else:
+            n_best_scores = n_best_score_dict[split][indice]
+        
+        return n_best_scores.to(self.device)
+    
+    
     def forward(self, feats, idxs, input_lengths, indices, split):
         """ Fusion multi-modal inputs
         Args:
@@ -180,7 +342,7 @@ class TimingEncoder(nn.Module):
         """
         b, n, h = feats.shape
         silences = None
-        n_words = None
+        n_words = None               
         
         # silence encoding                            
         max_len = max(input_lengths)  
@@ -193,15 +355,20 @@ class TimingEncoder(nn.Module):
                 silence = self.get_silence(vad_preds[i][:input_lengths[i]], indices[i], split)                
                 silences[i][:len(silence)] = silence                
         
-        # Estimate Characters to the EoU        
-        if self.is_use_n_word:
-            n_words = torch.zeros([b, max_len, 1]).to(self.device)
+        # Estimate Characters to the EoU
+        n_words = torch.zeros([b, max_len, self.max_n_word]).to(self.device)
+        if self.is_use_n_word:            
             for i in range(b): 
-                n_word = self.get_n_word(idxs[i], indices[i], split)
+                if self.beam_width == 0: 
+                    n_words = torch.zeros([b, max_len, 1]).to(self.device)
+                    n_word = self.get_n_word(idxs[i], indices[i], split)
+                else:                    
+                    n_word = self.get_n_word_n_best_scores(idxs[i], indices[i], split)
+
                 n_words[i][:len(n_word)] = n_word
         
         if silences is not None and n_words is not None:
-            x_t = torch.cat([silences, n_words], dim=-1)
+            x_t = torch.cat([silences, n_words], dim=-1)            
         elif silences is not None:
             x_t = silences
         else:
@@ -216,7 +383,7 @@ class TimingEncoder(nn.Module):
         
         b, n, h = feats.shape
         silences = None
-        n_words = None
+        n_words = None                    
         
         # silence encoding                            
         max_len = max(input_lengths)  
@@ -232,11 +399,33 @@ class TimingEncoder(nn.Module):
         # Estimate Characters to the EoU        
         if self.is_use_n_word:
             n_words = torch.zeros([b, max_len, 1]).to(self.device)
-            for i in range(b): 
+            for i in range(b):                
                 n_word = self.get_n_word(idxs[i], indices[i], split)
                 n_words[i][:len(n_word)] = n_word
     
         return vad_preds, silences, n_words
+    
+    
+class BeamSearchNode(object):
+    def __init__(self, hidden_state, previousNode, wordId, prob, length):
+        '''
+        :param hiddenstate:
+        :param previousNode:
+        :param wordId:
+        :param logProb:
+        :param length:
+        '''
+        self.hidden_state = hidden_state
+        self.prevNode = previousNode
+        self.wordid = wordId
+        self.prob = prob
+        self.leng = length
+
+#     def eval(self, alpha=1.0):
+#         reward = 0
+#         # Add here a function for shaping a reward
+
+#         return self.logp / float(self.leng - 1 + 1e-6) + alpha * reward
     
     
 # class SilenceEncoding(nn.Module):

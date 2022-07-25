@@ -164,6 +164,9 @@ class ATRDataset(Dataset):
             
             timing = timing-start
             
+            if offset > 3000 or offset < -500:
+                continue
+                
 #             if df['next_sys_uttr_start'].iloc[t]-df['offset'].iloc[t] == df['end'].iloc[t]:
 #                 is_barge_in = False
 #             else:

@@ -6,13 +6,10 @@ import argparse
 import numpy as np
 from dotmap import DotMap
 
-from src.datasets.dataset_timing_char3 import get_dataloader, get_dataset
-# from src.datasets.dataset_rtnet import get_dataloader, get_dataset
+from src.datasets.dataset_timing_char import get_dataloader, get_dataset
 from src.utils.utils import load_config
 from src.utils.trainer_timing import trainer
-#from src.models.timing.model2 import TimingEstimator
 from src.models.timing.model_w_lm_ablation import TimingEstimator
-#from src.models.timing.model_w_lm2 import TimingEstimator
 
 
 def seed_everything(seed):

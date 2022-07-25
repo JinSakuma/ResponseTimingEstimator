@@ -6,13 +6,10 @@ import argparse
 import numpy as np
 from dotmap import DotMap
 
-from src.datasets.dataset_timing_char3 import get_dataloader, get_dataset
-#from src.datasets.dataset5_ import get_dataloader, get_dataset
+from src.datasets.dataset_timing_char import get_dataloader, get_dataset
 from src.utils.utils import load_config
 from src.utils.trainer_turn_shift import trainer
-from src.models.gmf.model2 import GMFModel
-#from src.models.gmf.model2_early import GMFModel
-#from src.models.gmf.baseline import BaselineModel
+from src.models.gmf.model import GMFModel
 
 
 def seed_everything(seed):

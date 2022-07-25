@@ -4,12 +4,10 @@ import torch.nn.functional as F
 import torch.nn.utils.rnn as rnn_utils
 from itertools import chain
 
-from src.models.timing.rtg_0609 import RTG
-from src.models.encoder.acoustic_encoder import AcousticEncoder
-# from src.models.encoder.timing_encoder2 import TimingEncoder
-from src.models.encoder.timing_encoder4 import TimingEncoder
+from src.models.timing.rtg import RTG
 from src.models.encoder.transformer_encoder import TransformerEncoder
-#from src.models.encoder.transformer_encoder_context import TransformerEncoder
+from src.models.encoder.acoustic_encoder import AcousticEncoder
+from src.models.encoder.timing_encoder import TimingEncoder
 
 torch.autograd.set_detect_anomaly(True)
 
@@ -19,7 +17,7 @@ class TimingEstimator(nn.Module):
     def __init__(self, config, device):
         super().__init__()
         self.config = config
-        self.device = device               
+        self.device = device
         
         self.R = 60
         
@@ -52,7 +50,7 @@ class TimingEstimator(nn.Module):
             self.config.model_params.timing_input_dim,
             self.config.model_params.timing_encoding_dim,
             is_use_silence=True,
-            is_use_n_word=True,
+            is_use_n_word=False,
         )
         self.timing_encoder = te       
         
