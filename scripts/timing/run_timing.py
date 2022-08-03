@@ -6,7 +6,7 @@ import argparse
 import numpy as np
 from dotmap import DotMap
 
-from src.datasets.dataset_timing_char3 import get_dataloader, get_dataset
+from src.datasets.dataset_timing_char import get_dataloader, get_dataset
 # from src.datasets.dataset_rtnet import get_dataloader, get_dataset
 from src.utils.utils import load_config
 from src.utils.trainer_timing import trainer
@@ -37,6 +37,10 @@ def run(args):
     
     train_dataset = get_dataset(config, 'train', ['M1'])
     val_dataset = get_dataset(config, 'valid', ['M1'])
+
+    #train_dataset = get_dataset(config, 'train', ['M1', 'M2', 'M3', 'M4', 'F3', 'F4'])
+    #val_dataset = get_dataset(config, 'valid', ['M1', 'M2', 'M3', 'M4', 'F3', 'F4'])
+    
     #train_dataset = get_dataset(config, 'train')
     #val_dataset = get_dataset(config, 'valid')
     # test_dataset = get_dataset(config, 'test')

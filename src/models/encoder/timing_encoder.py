@@ -355,9 +355,9 @@ class TimingEncoder(nn.Module):
                 silence = self.get_silence(vad_preds[i][:input_lengths[i]], indices[i], split)                
                 silences[i][:len(silence)] = silence                
         
-        # Estimate Characters to the EoU
-        n_words = torch.zeros([b, max_len, self.max_n_word]).to(self.device)
-        if self.is_use_n_word:            
+        # Estimate Characters to the EoU        
+        if self.is_use_n_word:
+            n_words = torch.zeros([b, max_len, self.max_n_word]).to(self.device)
             for i in range(b): 
                 if self.beam_width == 0: 
                     n_words = torch.zeros([b, max_len, 1]).to(self.device)

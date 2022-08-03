@@ -1,0 +1,4 @@
+model_bert: RTG, 最適化範囲=全て
+model_bert2: RTG, 最適化範囲=最後のIPU
+model_bert2_2: RTG, 最適化範囲=最後の2つのIPU
+model_bert3: gmfのacoustic encoderとsemantic encoder利用, 最適化範囲=全て

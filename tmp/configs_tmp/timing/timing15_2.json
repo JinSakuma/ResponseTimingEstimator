@@ -1,0 +1,41 @@
+{
+    "exp_base": "exp",
+    "exp_name": "timing/M1_3000_500/delay200/model_w_lm15_n_best3_lr3_char_s123",
+    "cuda": true,
+    "gpu_device": 1,
+    "seed": 123,
+    "data_loader_workers": 1,
+    "data_params": {
+        "frame_length": 50,
+        "sampling_rate": 16000,
+        "asr_decoder_delay": 200,
+        "n_context": 0
+    },
+    "model_params": {
+        "num_layers": 2,
+        "input_dim": 128,
+        "output_dim": 10,
+        "hidden_dim": 512,
+        "semantic_encoding_dim": 128,
+        "acoustic_hidden_dim": 512,
+        "acoustic_encoding_dim": 128,
+        "timing_input_dim": 6,
+        "n_best": 3,
+        "eou_id": 1314,
+        "max_n_word": 5,
+        "timing_encoding_dim": 128,
+        "vad_hidden_dim": 512,
+        "vad_model_path": "/mnt/aoni04/jsakuma/development/ATR-Trek/exp/vad/M1/vad_offset200/best_val_loss_model.pth",
+        "lm_config_path": "/mnt/aoni04/jsakuma/development/ATR-Trek/configs/lm/char_lstm_l3.json",
+        "lm_model_path": "/mnt/aoni04/jsakuma/development/ATR-Trek/exp/lm/char/M1/lstm_l3_lr4_weighted_0625/best_val_loss_model.pth",
+        "bidirectional": false
+    },
+    "optim_params": {
+        "batch_size": 4,
+        "learning_rate": 1e-3,
+        "weight_decay": 0,
+        "grad_clip": 1,
+        "validate_freq": 5
+    },
+    "num_epochs": 30
+}
