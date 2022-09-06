@@ -2,11 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
-*.ipynb
+#*.ipynb
+*.npy
+*.csv
 */memo.txt
 
 # notebook/
-*/npy/
 espnet/
 espnet2/
 exp/
