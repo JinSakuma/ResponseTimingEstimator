@@ -12,5 +12,5 @@ espnet/
 espnet2/
 exp/
 samples/
-vad/inputs/*
-vad/outputs/*
+vad/inputs/
+vad/outputs/
