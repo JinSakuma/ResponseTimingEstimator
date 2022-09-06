@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import torch.nn.utils.rnn as rnn_utils
 from itertools import chain
 
-from src.models.vad2 import VAD
+from src.models.vad.vad2 import VAD
 # from src.models.vad_ce import VAD
 #from src.models.vad_softlabel import VAD
 

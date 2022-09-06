@@ -5,11 +5,8 @@ __pycache__/
 *.ipynb
 */memo.txt
 
-notebook/
+# notebook/
 espnet/
 espnet2/
 exp/
 samples/
-_old/
-src/models/_old/
-

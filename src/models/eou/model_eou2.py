@@ -4,8 +4,8 @@ import torch.nn.functional as F
 import torch.nn.utils.rnn as rnn_utils
 from itertools import chain
 
-from src.models.vad2 import VAD
-from src.models.transformer_encoder import TransformerEncoder
+from src.models.vad.vad2 import VAD
+from src.models.encoder.transformer_encoder import TransformerEncoder
 from src.models.gmf.gmf import AcousticEncoder #, SemanticEncoder
 
 torch.autograd.set_detect_anomaly(True)

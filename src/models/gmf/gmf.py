@@ -1,3 +1,4 @@
+import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -14,9 +15,9 @@ import transformers
 BERT = 'cl-tohoku/bert-base-japanese-v2'
 tokenizer = BertTokenizer.from_pretrained(BERT, do_lower_case=True)
 # config = BertConfig(vocab_size_or_config_json_file=32000, hidden_size=768, num_hidden_layers=12, num_attention_heads=12, intermediate_size=3072)
-config = BertConfig()
+#config = BertConfig()
 # config = BertConfig(vocab_size_or_config_json_file=32000, hidden_size=768, num_hidden_layers=12, num_attention_heads=12, intermediate_size=3072)
-bert_model = BertModel.from_pretrained(BERT, output_hidden_states=True, output_attentions=True)
+#bert_model = BertModel.from_pretrained(BERT, output_hidden_states=True, output_attentions=True)
 
 
 
@@ -74,9 +75,14 @@ class SemanticEncoder(nn.Module):
         self.device = device
         self.max_length = 70
         
-        self.linear = nn.Linear(bert_hidden_dim,
-                                encoding_dim,
-                               )
+        ntokens = len(tokenizer) # the size of vocabulary
+        emsize = 300 # embedding dimension
+        nout = encoding_dim # embedding dimension
+        nhid = 300 # the dimension of the feedforward network model in nn.TransformerEncoder
+        nlayers = 3 # the number of nn.TransformerEncoderLayer in nn.TransformerEncoder
+        nhead = 2 # the number of heads in the multiheadattention models
+        dropout = 0.2 # the dropout value
+        self.transformer = TransformerModel(ntokens, emsize, nout, nhead, nhid, nlayers, dropout)
         
     def forward(self, inputs):
         """ Fusion multi-modal inputs
@@ -96,10 +102,8 @@ class SemanticEncoder(nn.Module):
         labels = result['input_ids']
         masks = result['attention_mask']
 
-        bert_model.to(self.device)
-        output = bert_model(labels.to(self.device), attention_mask=masks.to(self.device))
-        pooled_output = output[1]
-        pooled_output = self.linear(pooled_output)
+        output = self.transformer(labels.to(self.device).transpose(0, 1), (1-masks).bool().to(self.device))
+        pooled_output = output.transpose(0, 1)[:, 0, :]
         
         return pooled_output
     
@@ -136,7 +140,8 @@ class GatedFusionBlock(nn.Module):
                  acoustic_dim,
                  semantic_dim,
                  timing_dim,
-                 encoding_dim):
+                 encoding_dim,
+                 weights):
         super().__init__()
         
         self.device = device
@@ -146,8 +151,8 @@ class GatedFusionBlock(nn.Module):
         
         self.fc_g = nn.Linear(encoding_dim*2, encoding_dim, bias=False)
         self.fc_y = nn.Linear(encoding_dim, 2)
-        
-        self.criterion = nn.CrossEntropyLoss().to(device)
+                
+        self.criterion = nn.CrossEntropyLoss(weight=weights).to(device)
         
         
     def forward(self, r_a, r_s, r_t):
@@ -176,3 +181,60 @@ class GatedFusionBlock(nn.Module):
    
     def get_loss(self, probs, targets):
         return self.criterion(probs, targets)
+    
+class TransformerModel(nn.Module):
+
+    def __init__(self, ntoken, ninp, nout, nhead, nhid, nlayers, dropout=0.5):
+        super(TransformerModel, self).__init__()
+        from torch.nn import TransformerEncoder, TransformerEncoderLayer
+        self.model_type = 'Transformer'
+        self.src_mask = None
+        self.pos_encoder = PositionalEncoding(ninp, dropout)
+        encoder_layers = TransformerEncoderLayer(ninp, nhead, nhid, dropout)
+        self.transformer_encoder = TransformerEncoder(encoder_layers, nlayers)
+        self.encoder = nn.Embedding(ntoken, ninp)
+        self.ninp = ninp
+        self.decoder = nn.Linear(ninp, nout)
+
+        self.init_weights()
+
+#     def _generate_square_subsequent_mask(self, sz):
+#         mask = (torch.triu(torch.ones(sz, sz)) == 1).transpose(0, 1)
+#         mask = mask.float().masked_fill(mask == 0, float('-inf')).masked_fill(mask == 1, float(0.0))
+#         return mask
+
+    def init_weights(self):
+        initrange = 0.1
+        self.encoder.weight.data.uniform_(-initrange, initrange)
+        self.decoder.bias.data.zero_()
+        self.decoder.weight.data.uniform_(-initrange, initrange)
+
+    def forward(self, src, mask):
+#         if self.src_mask is None or self.src_mask.size(0) != src.size(0):
+#             device = src.device
+#             mask = self._generate_square_subsequent_mask(src.size(0)).to(device)
+#             self.src_mask = mask
+
+        src = self.encoder(src) * math.sqrt(self.ninp)
+        src = self.pos_encoder(src)
+        output = self.transformer_encoder(src, src_key_padding_mask=mask)
+        output = self.decoder(output)
+        return output
+    
+class PositionalEncoding(nn.Module):
+
+    def __init__(self, d_model, dropout=0.1, max_len=5000):
+        super(PositionalEncoding, self).__init__()
+        self.dropout = nn.Dropout(p=dropout)
+
+        pe = torch.zeros(max_len, d_model)
+        position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
+        div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
+        pe[:, 0::2] = torch.sin(position * div_term)
+        pe[:, 1::2] = torch.cos(position * div_term)
+        pe = pe.unsqueeze(0).transpose(0, 1)
+        self.register_buffer('pe', pe)
+
+    def forward(self, x):
+        x = x + self.pe[:x.size(0), :]
+        return self.dropout(x)
