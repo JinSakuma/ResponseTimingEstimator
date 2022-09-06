@@ -6,6 +6,7 @@ __pycache__/
 */memo.txt
 
 # notebook/
+*/npy/
 espnet/
 espnet2/
 exp/
