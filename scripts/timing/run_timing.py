@@ -35,11 +35,11 @@ def run(args):
     else:
         device = torch.device('cpu')
     
-    train_dataset = get_dataset(config, 'train', ['M1'])
-    val_dataset = get_dataset(config, 'valid', ['M1'])
+    #train_dataset = get_dataset(config, 'train', ['M1'])
+    #val_dataset = get_dataset(config, 'valid', ['M1'])
 
-    #train_dataset = get_dataset(config, 'train', ['M1', 'M2', 'M3', 'M4', 'F3', 'F4'])
-    #val_dataset = get_dataset(config, 'valid', ['M1', 'M2', 'M3', 'M4', 'F3', 'F4'])
+    train_dataset = get_dataset(config, 'train', ['M1', 'M2', 'M3', 'M4', 'F3', 'F4'])
+    val_dataset = get_dataset(config, 'valid', ['M1', 'M2', 'M3', 'M4', 'F3', 'F4'])
     
     #train_dataset = get_dataset(config, 'train')
     #val_dataset = get_dataset(config, 'valid')

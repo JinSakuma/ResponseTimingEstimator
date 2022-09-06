@@ -1,9 +1,9 @@
 {
     "exp_base": "exp",
-    "exp_name": "timing/test/delay200/model_w_lm0714_n_best3_lr3_char_s12345",
+    "exp_name": "timing/all/delay200/model_w_lm0714_n_best3_lr3_char_s123",
     "cuda": true,
-    "gpu_device": 1,
-    "seed": 12345,
+    "gpu_device": 0,
+    "seed": 123,
     "data_loader_workers": 1,
     "data_params": {
         "frame_length": 50,

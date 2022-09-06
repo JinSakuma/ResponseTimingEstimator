@@ -80,14 +80,15 @@ file_names_val = sorted(file_names_val)
 file_names_test = sorted(file_names_test)
 file_dict = {'train': file_names_train, 'valid': file_names_val, 'test': file_names_test}
 
-for split in ['train', 'valid', 'test']:
-    path_names = os.path.join(root, 'names', split+'.txt')
-    for j in tqdm(range(len(file_dict[split]))): 
-        with open(path_names, mode='a') as f:
-            f.write(file_dict[split][j]+'\n')
+# for split in ['train', 'valid', 'test']:
+#     path_names = os.path.join(root, 'names', split+'.txt')
+#     for j in tqdm(range(len(file_dict[split]))): 
+#         with open(path_names, mode='a') as f:
+#             f.write(file_dict[split][j]+'\n')
 
 if __name__ == "__main__":
-    for split in ['train', 'valid', 'test']:
+    #for split in ['train', 'valid', 'test']:
+    for split in ['train']:
         text_list = []
         utt2spk_list = []
         scp_list = []
@@ -109,8 +110,8 @@ if __name__ == "__main__":
                 if df_text_user['start1'].iloc[i] != df_text_user['start1'].iloc[i]:
                     continue
                 
-                start=int(df_text_user['start1'].iloc[i])*1000
-                end=int(df_text_user['end1'].iloc[i])*1000+OFFSET
+                start=int(df_text_user['start1'].iloc[i]*1000-OFFSET)
+                end=int(df_text_user['end1'].iloc[i]*1000+OFFSET)
                 
                 if end-start<2000:
                     continue
@@ -129,24 +130,24 @@ if __name__ == "__main__":
                 os.makedirs(wav_out_dir, exist_ok=True)
 
                 wav_out_path = os.path.join(wav_out_dir, name)
-                if split!='train':
-                    save_turn_wav(wavpath, wav_out_path, start, end)
+                #if split!='train':
+                save_turn_wav(wavpath, wav_out_path, start, end)
                 
                 text_list.append(uttr_id+' '+text+'\n')
                 utt2spk_list.append(uttr_id+' '+spk_id+'\n')
                 scp_list.append(uttr_id+' '+wav_out_path+'\n')
                 uttrs.append(uttr_id)
         
-#         idxs = np.argsort(uttrs)
-#         for j in tqdm(idxs):                 
-#             with codecs.open(path_text,"a","utf-8") as f:
-#                 f.write(text_list[j])
+        idxs = np.argsort(uttrs)
+        for j in tqdm(idxs):                 
+            with codecs.open(path_text,"a","utf-8") as f:
+                f.write(text_list[j])
             
-#             with open(path_wavscp, mode='a') as f:
-#                 f.write(scp_list[j])
+            with open(path_wavscp, mode='a') as f:
+                f.write(scp_list[j])
 
-#             with open(path_utt2spk, mode='a') as f:
-#                 f.write(utt2spk_list[j])
+            with open(path_utt2spk, mode='a') as f:
+                f.write(utt2spk_list[j])
 
 #             with open(path_spk2utt, mode='a') as f:
 #                 f.write(spk2utt_list[j])         

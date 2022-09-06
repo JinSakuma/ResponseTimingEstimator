@@ -79,11 +79,11 @@ file_names_val = sorted(file_names_val)
 file_names_test = sorted(file_names_test)
 file_dict = {'train': file_names_train, 'valid': file_names_val, 'test': file_names_test}
 
-for split in ['train', 'valid', 'test']:
-    path_names = os.path.join(root, 'names', split+'.txt')
-    for j in tqdm(range(len(file_dict[split]))): 
-        with open(path_names, mode='a') as f:
-            f.write(file_dict[split][j]+'\n')
+# for split in ['train', 'valid', 'test']:
+#     path_names = os.path.join(root, 'names', split+'.txt')
+#     for j in tqdm(range(len(file_dict[split]))): 
+#         with open(path_names, mode='a') as f:
+#             f.write(file_dict[split][j]+'\n')
 
 # if __name__ == "__main__":
 #     for split in ['train', 'valid', 'test']:
