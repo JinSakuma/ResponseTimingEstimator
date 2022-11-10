@@ -21,6 +21,8 @@ class VAD(nn.Module):
 
         self.fc = nn.Linear(hidden_dim, 1)
         self.criterion = nn.BCEWithLogitsLoss(reduction='sum').to(device)
+        
+        self.reset_state()
 
     def forward(self, inputs, input_lengths):
         t = max(input_lengths)
@@ -35,7 +37,7 @@ class VAD(nn.Module):
         # if len(inputs.shape)==2:
         #     inputs = inputs.unsqueeze(0)
         
-        outputs, _ = self.lstm(inputs, None)
+        outputs, self.hidden_state = self.lstm(inputs, self.hidden_state)
         outputs, _ = rnn_utils.pad_packed_sequence(
             outputs, 
             batch_first=True,
@@ -47,6 +49,9 @@ class VAD(nn.Module):
         #print(logits.shape)
         logits = logits.view(batch, -1)
         return logits
+    
+    def reset_state(self):
+        self.hidden_state = None
 
     def recog(self, inputs, input_lengths):
         outs = []

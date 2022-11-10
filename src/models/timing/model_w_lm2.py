@@ -5,9 +5,9 @@ import torch.nn.utils.rnn as rnn_utils
 from itertools import chain
 
 from src.models.timing.rtg import RTG
-from src.models.encoder.transformer_encoder import TransformerEncoder
 from src.models.encoder.acoustic_encoder import AcousticEncoder
 from src.models.encoder.timing_encoder import TimingEncoder
+from src.models.encoder.transformer_encoder import TransformerEncoder
 
 torch.autograd.set_detect_anomaly(True)
 
@@ -17,7 +17,7 @@ class TimingEstimator(nn.Module):
     def __init__(self, config, device):
         super().__init__()
         self.config = config
-        self.device = device
+        self.device = device               
         
         self.R = 60
         
@@ -50,7 +50,7 @@ class TimingEstimator(nn.Module):
             self.config.model_params.timing_input_dim,
             self.config.model_params.timing_encoding_dim,
             is_use_silence=True,
-            is_use_n_word=False,
+            is_use_n_word=True,
         )
         self.timing_encoder = te       
         
@@ -71,19 +71,18 @@ class TimingEstimator(nn.Module):
         return parameters
 
     def forward(self, batch, split='train'):
-        chs = batch[0]
+        texts_ = batch[0]
         texts = batch[1]
-        kanas = batch[2]
-        idxs = batch[3]
-        vad = batch[4]
-        #turn = batch[5].to(self.device)
-        #last_ipu = batch[6].to(self.device)
-        targets = batch[7].to(self.device)
-        feats = batch[8].to(self.device)
-        input_lengths = batch[9] #.to(self.device)
-        offsets = batch[10] #.to(self.device)
-        indices = batch[11] #.to(self.device)
-        batch_size = int(len(chs))
+        idxs = batch[2]
+        vad = batch[3]
+#         turn = batch[4]#.to(self.device)
+        targets = batch[5].to(self.device)
+        feats = batch[6].to(self.device)
+        input_lengths = batch[7] #.to(self.device)
+        offsets = batch[8] #.to(self.device)
+        indices = batch[9] #.to(self.device)
+        wav_paths = batch[10] #.to(self.device)
+        batch_size = int(len(vad))        
 
         loss, acc = 0, 0        
         
@@ -100,30 +99,8 @@ class TimingEstimator(nn.Module):
         outputs = {
             f'{split}_loss': loss,
         }
-        
-        self.reset_state()
 
         return outputs
-    
-    def inference(self, batch, split='val'):        
-        feats = batch[0].to(self.device)
-        input_lengths = batch[1]
-        texts = batch[2]
-        idxs = batch[3]
-        indices = batch[4]        
-        
-        r_a = self.acoustic_encoder(feats, input_lengths)
-        r_s = self.semantic_encoder(texts)
-        r_t = self.timing_encoder(feats, idxs, input_lengths, indices, split)                
-        embs = torch.cat([r_s, r_a, r_t], dim=-1)              
-                    
-        outputs = self.timing_model(embs, input_lengths)        
-        return outputs
-    
-    def reset_state(self):
-        self.acoustic_encoder.reset_state()
-        self.timing_encoder.reset_state()
-        self.timing_model.reset_state()
     
 #     def f1_score(self, outputs, labels):
 

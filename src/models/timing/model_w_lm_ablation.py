@@ -6,7 +6,7 @@ from itertools import chain
 
 from src.models.timing.rtg import RTG
 from src.models.encoder.acoustic_encoder import AcousticEncoder
-from src.models.encoder.timing_encoder6 import TimingEncoder
+from src.models.encoder.timing_encoder import TimingEncoder
 from src.models.encoder.transformer_encoder import TransformerEncoder
 
 torch.autograd.set_detect_anomaly(True)

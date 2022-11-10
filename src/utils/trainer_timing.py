@@ -95,26 +95,29 @@ def val(model, data_loader, deivce):
     return loss #, cer #, (dialog_p, dialog_r, dialog_f1, dialog_acc), (system_p, system_r, system_f1, system_acc)
 
 def trainer(num_epochs, model, loader_dict, optimizer, device, outdir, is_use_wandb=False):
-	
-	best_val_loss = 1000000000
-	for epoch in range(num_epochs):
-		print("Epoch:{}".format(epoch+1))
-		train_loss = train(model, optimizer, loader_dict["train"], device)
-		val_loss = val(model, loader_dict["val"], device)
-		#val_dialog_p, val_dialog_r, val_dialog_f1, val_dialog_acc = val_dialog
-		#val_system_p, val_system_r, val_system_f1, val_system_acc = val_system
 
-		print("Train loss: {}".format(train_loss))
-		#print("Train WER: {}".format(train_cer))
-		print("Val loss: {}".format(val_loss))
-		#print("Val WER: {}".format(val_cer))
-		#print("Val dialog f1: {}".format(val_dialog_f1))
-		#print("Val system f1: {}".format(val_system_f1))
-# 		if best_val_loss>val_loss:
-# 			best_val_loss = val_loss
-# 			torch.save(model.state_dict(), os.path.join(outdir, "best_val_loss_model.pth"))
-		torch.save(model.state_dict(), os.path.join(outdir, "model_epoch{}_loss{:.3f}.pth".format(epoch+1, val_loss)))
-			#torch.save(model.asr_model.state_dict(), os.path.join(outdir, "asr_best_val_loss_model.pth"))
+    best_val_loss = 1000000000
+    for epoch in range(num_epochs):
+        print("Epoch:{}".format(epoch+1))
+        train_loss = train(model, optimizer, loader_dict["train"], device)
+        val_loss = val(model, loader_dict["val"], device)
+        #val_dialog_p, val_dialog_r, val_dialog_f1, val_dialog_acc = val_dialog
+        #val_system_p, val_system_r, val_system_f1, val_system_acc = val_system
+
+        print("Train loss: {}".format(train_loss))
+        #print("Train WER: {}".format(train_cer))
+        print("Val loss: {}".format(val_loss))
+        #print("Val WER: {}".format(val_cer))
+        #print("Val dialog f1: {}".format(val_dialog_f1))
+        #print("Val system f1: {}".format(val_system_f1))
+        if best_val_loss > val_loss:
+            best_val_loss = val_loss
+            torch.save(model.state_dict(), os.path.join(outdir, "best_val_loss_model.pth"))
+            #torch.save(model.state_dict(), os.path.join(outdir, "model_epoch{}_loss{:.3f}.pth".format(epoch+1, val_loss)))
+            #torch.save(model.asr_model.state_dict(), os.path.join(outdir, "asr_best_val_loss_model.pth"))
+
+        with open(os.path.join(outdir, 'loss.txt'), 'a') as f:
+            f.write(str(val_loss)+'\n')
 
 # 		if is_use_wandb:
 # 			wandb.log({

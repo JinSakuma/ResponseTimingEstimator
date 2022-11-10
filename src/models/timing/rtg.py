@@ -21,6 +21,7 @@ class RTG(nn.Module):
 
         self.fc = nn.Linear(hidden_dim, 1)
         self.criterion = nn.BCEWithLogitsLoss(reduction='sum').to(device)
+        self.reset_state()
 
     def forward(self, inputs, input_lengths):
         b, n, h = inputs.shape                
@@ -36,7 +37,7 @@ class RTG(nn.Module):
         # outputs : batch_size x maxlen x hidden_dim
         # rnn_h   : num_layers * num_directions, batch_size, hidden_dim
         # rnn_c   : num_layers * num_directions, batch_size, hidden_dim
-        outputs, _ = self.lstm(inputs, None)
+        outputs, self.hidden_state = self.lstm(inputs, self.hidden_state)
         h, _ = rnn_utils.pad_packed_sequence(
             outputs, 
             batch_first=True,
@@ -48,6 +49,9 @@ class RTG(nn.Module):
         b, n, c = logits.shape
         logits = logits.view(b, -1)
         return logits
+    
+    def reset_state(self):
+        self.hidden_state = None
    
     def get_loss(self, probs, targets):
         return self.criterion(probs, targets.float())
