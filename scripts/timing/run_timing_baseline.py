@@ -8,14 +8,12 @@ from dotmap import DotMap
 
 from src.utils.utils import load_config
 from src.datasets.dataset_timing import get_dataloader, get_dataset
-from src.utils.trainer_timing import trainer
+from src.utils.trainer_timing_cv import trainer
 from src.utils.tester_timing import tester
-from src.models.timing.model_proposed import System
-from src.models.timing.model_baseline import BaselineSystem
+from src.models.timing.model_baseline import TimingEstimator
 
 
 SPEAKERS = ['M1']
-FILES = ['M1']
 
 def seed_everything(seed):
     random.seed(seed)
@@ -24,9 +22,10 @@ def seed_everything(seed):
     np.random.seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
     
-def cross_validation(config, model, device, cv_id, out_name):        
-    train_dataset = get_dataset(config, cv_id, split='train', subsets=FILES, speaker_list=SPEAKERS)
-    val_dataset = get_dataset(config, cv_id, split='test', subsets=FILES, speaker_list=SPEAKERS)
+def cross_validation(config, device, cv_id, out_name, speaker_list):    
+
+    train_dataset = get_dataset(config, cv_id, split='train', subsets=["all"], speaker_list=speaker_list)
+    val_dataset = get_dataset(config, cv_id, split='test', subsets=["all"], speaker_list=speaker_list)
     
     train_loader = get_dataloader(train_dataset, config, shuffle=True)
     val_loader = get_dataloader(val_dataset, config, shuffle=False)
@@ -37,10 +36,7 @@ def cross_validation(config, model, device, cv_id, out_name):
     del train_dataset
     del val_dataset
     
-    if model == 'baseline':
-        model = BaselineSystem(config, device)
-    else:
-        model = System(config, device)
+    model = TimingEstimator(config, device)
     model.to(device)
     
     parameters = model.configure_optimizer_parameters()
@@ -83,10 +79,8 @@ def run(args):
     if config.cuda:
         device = torch.device('cuda:{}'.format(config.gpu_device))
     else:
-        device = torch.device('cpu')
-        
-    config.model_params.lm_model_path = os.path.join(config.model_params.lm_model_path, "cv{}".format(str(args.cv_id)), "best_val_bacc_model.pth")
-        
+        device = torch.device('cpu')          
+                
     if args.cv_id == 1:
         trainset = ["M1_sub1", "M1_sub2", "M1_sub3", "M1_sub4"]
         testset = ["M1_sub5"]
@@ -105,12 +99,11 @@ def run(args):
     else:
         NotImplemented
                 
-    cross_validation(config, args.model, device, int(args.cv_id), "cv{}".format(int(args.cv_id)))
+    cross_validation(config, device, int(args.cv_id), "cv{}".format(int(args.cv_id)), speaker_list=SPEAKERS)
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('config', type=str, default='configs/config.path', help='path to config file')
-    parser.add_argument('--model', type=str, default='baseline', choices=['baseline', 'proposed'], help='model type')
     parser.add_argument('--gpuid', type=int, default=-1, help='gpu device id')
     parser.add_argument('--cv_id', type=int, default=0, help='id for the cross validation settings')
     args = parser.parse_args()

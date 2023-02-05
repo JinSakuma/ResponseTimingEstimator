@@ -54,12 +54,45 @@ class LSTMLM(nn.Module):
         b, n, c = outputs.shape
         loss = loss+self.lm.get_loss(outputs.view(b*n, -1), targets.view(-1))
         
-        # TODO: accuracy calculation
-        acc = 0
+        tpr, tnr, bAcc = 0, 0, 0
+        if split!='train':
+            _, preds = torch.max(outputs.data, -1)        
+            EOU = 2306
+            for i in range(batch_size):
+                prd = preds[i][:input_lengths[i]].detach().cpu()
+                trt = targets[i][:input_lengths[i]].detach().cpu()
 
+                TP, FP, FN, TN = 0, 0, 0, 0
+                for i in range(len(prd)):
+                    if trt[i]==EOU and prd[i]==EOU:
+                        TP+=1
+                    elif trt[i]==EOU and prd[i]!=EOU:
+                        FN+=1
+                    elif trt[i]!=EOU and prd[i]==EOU:
+                        FP+=1
+                    else:
+                        TN+=1
+
+                if TP+FN>0:
+                    tpr += TP / (TP+FN)
+                else:
+                    tpr += 0
+
+                if TN+FP > 0:
+                    tnr += TN / (TN+FP)
+                else:
+                    tnr += 0
+                    
+                bAcc += (tpr+tnr)/2
+        
+        # TODO: accuracy calculation
+#         acc = 0
         outputs = {
             f'{split}_loss': loss,
-            f'{split}_acc': acc,
+            f'{split}_tpr': tpr,
+            f'{split}_tnr': tnr,
+            f'{split}_cnt': batch_size,
+#             f'{split}_acc': acc,
         }
 
         return outputs

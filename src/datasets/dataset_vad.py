@@ -12,11 +12,6 @@ import pandas as pd
 from tqdm import tqdm
 
 
-DATAROOT="/mnt/aoni04/jsakuma/data/ATR-Fujie"
-
-spk_file_path = '/mnt/aoni04/jsakuma/data/ATR2022/speaker_ids.csv'
-df_spk=pd.read_csv(spk_file_path, encoding="shift-jis")
-
 name_mapping = {'F1(伊藤)': 'F1',
                 'F2(不明)': 'F2',
                 'F3(中川)': 'F3',
@@ -27,36 +22,32 @@ name_mapping = {'F1(伊藤)': 'F1',
                 'M4(不明)': 'M4'
                }
 
-df_spk['operator'] =  df_spk['オペレータ'].map(lambda x: name_mapping[x])
-
-filenames = df_spk['ファイル名'].to_list()
-spk_ids = df_spk['operator'].to_list()
-spk_dict  =dict(zip(filenames, spk_ids))
-
 # 直前の発話のみ
 # 出力: CNN-AE feature, VAD出力ラベル, 最後のIPU=1ラベル
 class ATRDataset(Dataset):
     def __init__(self, config, split='train', speaker_list=None):
         self.config = config
+        self.data_dir = self.config.data_params.data_dir
         
-        name_path = "/mnt/aoni04/jsakuma/data/ATR2022/asr/names/{}.txt".format(split)
+        name_path = os.path.join(self.data_dir, "asr/names/{}.txt".format(split))
         with open(name_path) as f:
             lines = f.readlines()
     
         self.file_names = [line.replace('\n', '') for line in lines]
+        
+        spk_file_path = os.path.join(self.data_dir, 'speaker_ids.csv')
+        df_spk=pd.read_csv(spk_file_path, encoding="shift-jis")
+        df_spk['operator'] =  df_spk['オペレータ'].map(lambda x: name_mapping[x])
+        filenames = df_spk['ファイル名'].to_list()
+        spk_ids = df_spk['operator'].to_list()
+        spk_dict  =dict(zip(filenames, spk_ids))
         if speaker_list is not None:
             self.file_names = [name for name in self.file_names if spk_dict[name+'.wav'] in speaker_list]
         
-        self.offset = 200  # VADのhang over
-        self.frame_length = 50  # 1frame=50ms
-        self.sample_rate = 16000
-        self.max_positive_length = 20 # システム発話のターゲットの最大長(0/1の1の最大長) [frame]
-        self.N = 10  # 現時刻含めたNフレーム先の発話状態を予測
-        
-        # self.asr_delay1 = 200  # 実際のASRの遅延 [ms]
-        # self.asr_delay2 = 200  # 実験用の仮のASRの遅延 [ms]
-        
-        self.delta = 5  # ターン終了先読みのためにターゲットをずらす大きさ
+        self.frame_length = config.data_params.frame_size  # 1frame=50ms
+        self.sample_rate = config.data_params.sampling_rate
+        self.max_positive_length = config.data_params.max_positive_length # システム発話のターゲットの最大長(0/1の1の最大長) [frame]
+        self.text_dir = config.data_params.text_dir
         
         self.data = self.get_data()
         
@@ -85,11 +76,11 @@ class ATRDataset(Dataset):
     
     def get_turn_info(self, file_name):
         # 各種ファイルの読み込み
-        df_turns_path = os.path.join(DATAROOT, 'dataframe3/{}.csv'.format(file_name))
-        df_vad_path = os.path.join(DATAROOT,'vad/{}.csv'.format(file_name))
-        json_turn_path = os.path.join(DATAROOT, 'samples/json/{}_samples.json'.format(file_name))
-        feat_list = os.path.join(DATAROOT, 'samples/CNN_AE/{}/*_spec.npy'.format(file_name))
-        wav_list = os.path.join(DATAROOT, 'samples/wav/{}/*.wav'.format(file_name))
+        df_turns_path = os.path.join(self.data_dir, 'dataframe/{}.csv'.format(file_name))
+        df_vad_path = os.path.join(self.data_dir,'vad/{}.csv'.format(file_name))
+        json_turn_path = os.path.join(self.data_dir, 'samples/json/{}_samples.json'.format(file_name))
+        feat_list = os.path.join(self.data_dir, 'samples/CNN_AE/{}/*_spec.npy'.format(file_name))
+        wav_list = os.path.join(self.data_dir, 'samples/wav/{}/*.wav'.format(file_name))
         feat_list = sorted(glob.glob(feat_list))
         wav_list = sorted(glob.glob(wav_list))
         
@@ -123,14 +114,13 @@ class ATRDataset(Dataset):
             feat_name_part = feat_path.split('/')[-1].split('_')[:-1]
             feat_file_name = '_'.join(feat_name_part[:-1])
             wav_name_part = wav_path.split('/')[-1].split('_')[:-1]
-            wav_file_name = '_'.join(wav_name_part)
+            wav_file_name = '_'.join(wav_name_part)           
             
             assert feat_file_name == wav_file_name, "file name mismatch! check the feat-file and wav-file!"
             
             ch = df['spk'].iloc[t]
             offset = df['offset'].iloc[t]
             next_ch = df['next_spk'].iloc[t]
-            # text = df['text'].iloc[t]
             start=turn_info['start'][t]//self.frame_length
             end = turn_info['end'][t]//self.frame_length
             cur_usr_uttr_end = turn_info['cur_usr_uttr_end'][t]//self.frame_length
@@ -154,90 +144,20 @@ class ATRDataset(Dataset):
             last_ipu_user = self.get_last_ipu(vad_user)
             last_ipu_agent = self.get_last_ipu(vad_agent)
 
-    #             turn_user = np.ones(len(turn_user)) - turn_user
-    #             turn_agent = np.ones(len(turn_agent)) - turn_agent
-
             if ch == 0 and next_ch != 0:
                 vad_label = vad_user
                 last_ipu = last_ipu_user
             else:
-                continue
-                
-            # text
-            text_path = '_'.join(wav_path.replace('wav', 'text2').split('_')[:-1])+'.csv'
-            df_text = pd.read_csv(text_path)
-            df_text[pd.isna(df_text['asr_recog'])] = ''
-            text = df_text['asr_recog'].tolist()
-            
-            
-#             # EoU先読みのためのターンラベルの調節
-#             turn_label = np.zeros(len(turn_timing_target))
-#             eou = np.where(turn_timing_target==1)[0][0]-(abs(offset)//50*offset//abs(offset))
-#             turn_label[eou:] = 1
-            
-#             # tmp = turn_label[-1]
-#             n = min(self.delta, len(turn_label)-1)
-#             assert self.delta<len(turn_label)-1, "turn is too short"
-            
-#             m = len(turn_label[eou-n:eou])
-#             turn_label[eou-n:eou] = 1 # [i/10 for i in range(0, 10, 10//n)][:m]
-            #turn_label = np.hstack([turn_label[n:], np.array([tmp]*n)])  # ターンが終了した方を1とする 
-                    
-#             res=vad_label[:-1]-vad_label[1:]
-#             timing = np.where(turn_timing_target==1)[0][0] #-(abs(offset)//50*offset//abs(offset))
-#             starts = (np.where(res==-1)[0]+1).tolist()
-#             if vad_label[0]>0:
-#                 starts = [0]+starts
-#             ends = (np.where(res==1)[0]+1).tolist()
-#             turn_label = np.zeros(len(vad_label))            
-#             for i in range(len(ends)):
-#                 start = starts[i]
-#                 end = ends[i]
-                
-#                 if i == len(ends)-1:
-#                     end_ = len(turn_label)
-#                 else:
-#                     end_ = starts[i+1]
-                
-#                 n = min(self.delta, end-start)
-#                 m = len(turn_label[end-n:end_])
-#                 turn_label[end-n:end_] = 1
-                #turn_label[start:end_] = 0
-#                 if start < timing and timing < end:
-#                     turn_label[end-n:] = 2 #[i/10 for i in range(0, 10, 10//n)][:m]
-#                 else:
-#                     turn_label[end-n:end_] = 1
-                    
-                    
-                    
-                #turn_label[end-n:end] = [i/10 for i in range(0, 10, 10//n)][:m]
-            #  turn_label = 1 - (np.hstack([vad_label[n:], np.array([tmp]*n)]))  # ターンが終了した方を1とする 
-                
-#                 vad_label = vad_agent
-#                 last_ipu = last_ipu_agent
-                
-#             pad = self.offset//self.frame_length
-#             turn[:pad] = 0
-#             #turn[-pad:] = 0
-            
-#             length = len(turn)
-#             target = np.zeros([length-pad, self.N])
-
-#             for i in range(length-pad):
-#                 n = len(turn[i:i+self.N])
-#                 tmp = np.zeros(self.N)
-#                 tmp[:n] = turn[i:i+self.N]
-#                 target[i] = tmp
+                continue                
 
             batch = {"ch": ch,
                      "offset": offset,
-                     "text": text,
                      "feat_path": feat_path,
                      "wav_path": wav_path,
                      "vad": vad_label,
                      "turn": turn_label,
                      "last_ipu": last_ipu,
-                     "target": vad_label, #turn_timing_target,
+                     "target": vad_label,
                     }
 
             batch_list.append(batch)
@@ -246,57 +166,21 @@ class ATRDataset(Dataset):
     
     def get_data(self):
         data = []
-        for file_name in tqdm(self.file_names):
-        # for file_name in tqdm(self.file_names[:30]):    
+        for file_name in tqdm(self.file_names):  
             data += self.get_turn_info(file_name)
             
-        return data
-            
-#     def train_test_split(
-#             self,
-#             data,
-#             split,
-#             train_frac = 0.8,
-#             val_frac = 0.1,
-#             return_indices = False,
-#         ):
-        
-#         num_rows = len(data)
-#         num_train = int(num_rows * train_frac)
-#         num_val = int(num_rows * val_frac)
-#         indices = np.arange(num_rows)
-
-#         seed = np.random.RandomState(42)  # fix seed so reproducible splitting
-#         seed.shuffle(indices)
-
-#         train_indices = indices[:num_train]
-#         val_indices = indices[num_train:num_train+num_val]
-#         test_indices = indices[num_train+num_val:]
-
-#         train_data = [data[i] for i in train_indices]
-#         val_data = [data[i] for i in val_indices]
-#         test_data = [data[i] for i in test_indices]
-
-#         data_dict = {"train": train_data, "val": val_data, "test": test_data}
-#         indices_dict = {"train": train_indices, "val": val_indices, "test": test_indices}
-        
-#         if return_indices:
-#             return data_dict[split], indices_dict[split]
-
-#         return data_dict[split]
+        return data            
         
     def __getitem__(self, index):
         batch = self.data[index]
         feat = np.load(batch['feat_path'])
         #wav = self.read_wav(batch['wav_path'])
-        text = batch['text']
         vad = batch['vad']
         turn = batch['turn']
         last_ipu = batch['last_ipu']
         target = batch['target']
         
-        length = min(len(feat), len(vad), len(turn), len(target), len(text))
-        batch['text'] = text[:length]
+        length = min(len(feat), len(vad), len(turn), len(target))
         batch['vad'] = vad[:length]
         batch['turn'] = turn[:length]
         batch['last_ipu'] = last_ipu[:length]
@@ -305,58 +189,43 @@ class ATRDataset(Dataset):
         batch['indices'] = index
         
         wav_len = int(length * self.sample_rate * self.frame_length / 1000)
-        #batch['wav'] = wav[:wav_len]
         
         assert len(batch['feat'])==len(batch['vad']), "error"
         
         return list(batch.values())
 
     def __len__(self):
-        # raise NotImplementedError
         return len(self.data)
     
 
 def collate_fn(batch):
-    chs, offsets, texts, feat_paths, wav_paths, vad, turn, last_ipu, targets, feats, indices = zip(*batch)
-    #chs, texts, feat_paths, wav_paths, vad, turn, last_ipu, targets, feats, wavs = zip(*batch)
+    chs, offsets, feat_paths, wav_paths, vad, turn, last_ipu, targets, feats, indices = zip(*batch)
     
     batch_size = len(chs)
     
     max_len = max([len(f) for f in feats])
-    #max_wav_len = max([len(w) for w in wavs])
     feat_dim = feats[0].shape[-1]
     
-    text_ = []
     vad_ = torch.zeros(batch_size, max_len).long()
-    #turn_ = torch.zeros(batch_size, max_len).long()
     turn_ = torch.zeros(batch_size, max_len).float()
     last_ipu_ = torch.zeros(batch_size, max_len).long()
     target_ = torch.ones(batch_size, max_len).long()*(-100)
     feat_ = torch.zeros(batch_size, max_len, feat_dim)
-    #wav_ = torch.zeros(batch_size, max_wav_len)
     
     input_lengths = []
-    #wav_lengths = []
     for i in range(batch_size):
         l1 = len(feats[i])
         input_lengths.append(l1)
-        
-        # l2 = len(wavs[i])
-        #wav_lengths.append(l2)
-        
-        text_.append(texts[i]+['[PAD]']*(max_len-l1))
-        vad_[i, :l1] = torch.tensor(vad[i]).long()       
-        # turn_[i, :l1] = torch.tensor(turn[i]).long()       
+            
+        vad_[i, :l1] = torch.tensor(vad[i]).long()               
         turn_[i, :l1] = torch.tensor(turn[i]).float()       
         last_ipu_[i, :l1] = torch.tensor(last_ipu[i]).long()
         target_[i, :l1] = torch.tensor(targets[i]).long()       
         feat_[i, :l1] = torch.tensor(feats[i])
-        #wav_[i, :l2] = torch.from_numpy(wavs[i].astype(np.float32)).clone()
         
     input_lengths = torch.tensor(input_lengths).long()
-    #wav_lengths = torch.tensor(wav_lengths).long()
         
-    return chs, text_, vad_, turn_, last_ipu_, target_, feat_, input_lengths, offsets, indices, #wav_, wav_lengths, wav_paths
+    return chs, vad_, turn_, last_ipu_, target_, feat_, input_lengths, offsets, indices, #wav_, wav_lengths, wav_paths
     
     
 def create_dataloader(dataset, batch_size, shuffle=True, pin_memory=True, num_workers=2):

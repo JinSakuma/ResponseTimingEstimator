@@ -14,9 +14,6 @@ from tqdm import tqdm
 
 DATAROOT="/mnt/aoni04/jsakuma/data/ATR-Fujie"
 
-
-DATAROOT="/mnt/aoni04/jsakuma/data/ATR-Fujie"
-
 spk_file_path = '/mnt/aoni04/jsakuma/data/ATR2022/speaker_ids.csv'
 df_spk=pd.read_csv(spk_file_path, encoding="shift-jis")
 
@@ -84,11 +81,11 @@ class ATRDataset(Dataset):
     
     def get_turn_info(self, file_name):
         # 各種ファイルの読み込み
-        df_turns_path = os.path.join(DATAROOT, 'dataframe/{}.csv'.format(file_name))
+        df_turns_path = os.path.join(DATAROOT, 'dataframe3/{}.csv'.format(file_name))
         df_vad_path = os.path.join(DATAROOT,'vad/{}.csv'.format(file_name))
         json_turn_path = os.path.join(DATAROOT, 'samples/json/{}_samples.json'.format(file_name))
         feat_list = os.path.join(DATAROOT, 'samples/CNN_AE/{}/*_spec.npy'.format(file_name))
-        wav_list = os.path.join(DATAROOT, 'samples/wav/{}/*.wav'.format(file_name))
+        wav_list = os.path.join(DATAROOT, 'samples1124/wav/{}/*.wav'.format(file_name))
         feat_list = sorted(glob.glob(feat_list))
         wav_list = sorted(glob.glob(wav_list))
         
@@ -130,7 +127,7 @@ class ATRDataset(Dataset):
             
 #             if wav_path != '/mnt/aoni04/jsakuma/data/ATR-Fujie/samples/wav/20131106-5_04/20131106-5_04_037_ch0.wav':
 #                 continue
-            
+                    
             if end - timing > self.max_positive_length:  # システム発話をどれくらいとるか
                 end = timing + self.max_positive_length
             
@@ -149,16 +146,28 @@ class ATRDataset(Dataset):
             last_ipu_user = self.get_last_ipu(vad_user)
             last_ipu_agent = self.get_last_ipu(vad_agent)
             
-            eou = (timing-start)-(abs(offset)//50*(offset//abs(offset))) + 1
+            #eou = (timing-start)-(abs(offset)//50*(offset//abs(offset))) + 1
+            #eou = (timing-start)#-(abs(offset)//50*(offset//abs(offset))) + 1
+            eou = cur_usr_uttr_end-start
             
 #             turn_user = np.ones(len(turn_user)) - turn_user
 #             turn_agent = np.ones(len(turn_agent)) - turn_agent
-            
+  
+# original
             if ch == 0 and next_ch != 0:
                 vad_label = vad_user
                 last_ipu = last_ipu_user
             else:
                 continue
+                
+            if offset > 3000 or offset < -500:
+                continue
+                
+#             if ch == 1:
+#                 vad_label = vad_user
+#                 last_ipu = last_ipu_user
+#             else:
+#                 continue               
                 
 #                 vad_label = vad_agent
 #                 last_ipu = last_ipu_agent
@@ -249,9 +258,9 @@ class ATRDataset(Dataset):
         batch['feat'] = feat[:length]
         
 #         wav_len = int(length * self.sample_rate * self.frame_length / 1000)
-        wav_len = int(eou * self.sample_rate * self.frame_length / 1000)
+        wav_len = int((eou+1) * self.sample_rate * self.frame_length / 1000)
         
-        batch['wav'] = wav[:wav_len]
+        batch['wav'] = wav#[:wav_len]
         
         assert len(batch['feat'])==len(batch['vad']), "error"
         

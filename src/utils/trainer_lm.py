@@ -2,7 +2,6 @@ import torch
 import numpy as np
 import os
 from tqdm import tqdm
-import wandb
 
 
 def train(model, optimizer, data_loader, device):
@@ -61,11 +60,12 @@ def val(model, data_loader, deivce):
 
     return loss, tpr, tnr
 
-def trainer(num_epochs, model, loader_dict, optimizer, device, outdir):
+def trainer(num_epochs, model, loader_dict, optimizer, device, outdir, phasename):
 
     best_val_loss = 1000000000
+    best_val_bacc = 0
     for epoch in range(num_epochs):
-        print("Epoch:{}".format(epoch+1))
+        print("Exp:{}, Epoch:{}".format(phasename, epoch+1))
         train_loss, train_tpr, train_tnr = train(model, optimizer, loader_dict["train"], device)
         val_loss, val_tpr, val_tnr = val(model, loader_dict["val"], device)
 
@@ -75,8 +75,9 @@ def trainer(num_epochs, model, loader_dict, optimizer, device, outdir):
         print("Val loss: {}".format(val_loss))
         print("Val TPR: {}".format(val_tpr))
         print("Val TNR: {}".format(val_tnr))
-        if best_val_loss>val_loss:
-            best_val_loss = val_loss
-            torch.save(model.state_dict(), os.path.join(outdir, "best_val_loss_model.pth"))
+        val_bacc = (val_tpr+val_tnr)/2
+        if best_val_bacc<val_bacc:
+            best_val_bacc = val_bacc
+            torch.save(model.state_dict(), os.path.join(outdir, "best_val_bacc_model.pth"))
 
 

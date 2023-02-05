@@ -12,7 +12,8 @@ from transformers import BertTokenizer, BertModel, BertForMaskedLM, BertConfig
 import transformers
 
 # BERT = 'bert-base-uncased'
-BERT = 'cl-tohoku/bert-base-japanese-v2'
+#BERT = 'cl-tohoku/bert-base-japanese-v2'
+BERT = '/mnt/aoni04/jsakuma/transformers/'#'cl-tohoku/bert-base-japanese-v2'
 tokenizer = BertTokenizer.from_pretrained(BERT, do_lower_case=True)
 # config = BertConfig(vocab_size_or_config_json_file=32000, hidden_size=768, num_hidden_layers=12, num_attention_heads=12, intermediate_size=3072)
 #config = BertConfig()

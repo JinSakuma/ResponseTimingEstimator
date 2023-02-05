@@ -2,7 +2,6 @@ import torch
 import numpy as np
 import os
 from tqdm import tqdm
-import wandb
 
 
 def train(model, optimizer, data_loader, device):

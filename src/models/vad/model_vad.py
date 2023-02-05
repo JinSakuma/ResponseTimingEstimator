@@ -36,17 +36,17 @@ class VoiceActivityDetactor(nn.Module):
         return parameters
 
     def forward(self, batch, split='train'):
-        chs = batch[0]
-        texts = batch[1]
-        vad_labels = batch[2].to(self.device)
-        #turn = batch[3].to(self.device)
-        #last_ipu = batch[4].to(self.device)
-        targets = batch[5].to(self.device)
-        feats = batch[6].to(self.device)
-        input_lengths = batch[7] #.to(self.device)
-        offsets = batch[8] #.to(self.device)
+        chs = batch[0]        
+        vad_labels = batch[1].to(self.device)
+        #turn = batch[2].to(self.device)
+        #last_ipu = batch[3].to(self.device)
+        targets = batch[4].to(self.device)
+        feats = batch[5].to(self.device)
+        input_lengths = batch[6] #.to(self.device)
+        offsets = batch[7] #.to(self.device)
         batch_size = int(len(chs))
 
+        self.vad.reset_state()
         
         vad_loss, vad_acc = 0, 0
         outputs = self.vad(feats, input_lengths)

@@ -2,7 +2,6 @@ import torch
 import numpy as np
 import os
 from tqdm import tqdm
-import wandb
 
 
 def train(model, optimizer, data_loader, device):
@@ -61,11 +60,11 @@ def val(model, data_loader, deivce):
 
     return loss, acc
 
-def trainer(num_epochs, model, loader_dict, optimizer, device, outdir, is_use_wandb=False):
+def trainer(num_epochs, model, loader_dict, optimizer, device, outdir, phasename, is_use_wandb=False):
 	
 	best_val_loss = 1000000000
 	for epoch in range(num_epochs):
-		print("Epoch:{}".format(epoch+1))
+		print("Exp:{}, Epoch:{}".format(phasename, epoch+1))
 		train_loss, train_acc = train(model, optimizer, loader_dict["train"], device)
 		val_loss, val_acc = val(model, loader_dict["val"], device)
 
