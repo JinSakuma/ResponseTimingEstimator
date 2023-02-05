@@ -1,0 +1,44 @@
+{
+    "exp_base": "exp",
+    "exp_name": "test/turn_shift/gmf_lr4_alpha2_char_s1234",
+    "cuda": true,
+    "gpu_device": 0,
+    "seed": 1234,
+    "data_loader_workers": 1,
+    "data_params": {
+        "data_dir": "/mnt/aoni04/jsakuma/data/ATR-Trek",
+        "token_list_path": "/mnt/aoni04/jsakuma/development/espnet-g05-1.8/egs2/atr6/asr1/data/my_token_list/char/tokens.txt",
+        "text_dir": "/mnt/aoni04/jsakuma/data/ATR-Trek/texts/text_cbs-t",
+        "frame_size": 50,
+        "sampling_rate": 16000,
+        "max_positive_length": 20,
+        "asr_decoder_delay": 100,
+        "max_timing": 2000,
+        "min_timing": -500,
+        "n_context": 0
+    },
+    "model_params": {
+        "num_layers": 2,
+        "acoustic_input_dim": 128,
+        "timing_input_dim": 4,
+        "acoustic_hidden_dim": 512,
+        "acoustic_encoding_dim": 128,
+        "semantic_encoding_dim": 128,
+        "timing_encoding_dim": 128,
+        "encoding_dim": 128,
+        "bert_hidden_dim": 768,
+        "bidirectional": false
+    },
+    "loss_params": {
+        "loss_weight": 2
+    },
+    "optim_params": {
+        "batch_size": 4,
+        "learning_rate": 1e-4,
+        "weight_decay": 0,
+        "grad_clip": 1,
+        "validate_freq": 5
+    },
+    "num_epochs": 20,
+    "validate": true
+}
