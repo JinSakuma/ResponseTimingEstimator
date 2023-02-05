@@ -14,10 +14,6 @@ import transformers
 # BERT = 'bert-base-uncased'
 BERT = '/mnt/aoni04/jsakuma/transformers/'#'cl-tohoku/bert-base-japanese-v2'
 tokenizer = BertTokenizer.from_pretrained(BERT, do_lower_case=True)
-# config = BertConfig(vocab_size_or_config_json_file=32000, hidden_size=768, num_hidden_layers=12, num_attention_heads=12, intermediate_size=3072)
-#config = BertConfig()
-# config = BertConfig(vocab_size_or_config_json_file=32000, hidden_size=768, num_hidden_layers=12, num_attention_heads=12, intermediate_size=3072)
-#bert_model = BertModel.from_pretrained(BERT, output_hidden_states=True, output_attentions=True)
 
 
 class TransformerModel(nn.Module):
@@ -36,11 +32,6 @@ class TransformerModel(nn.Module):
 
         self.init_weights()
 
-#     def _generate_square_subsequent_mask(self, sz):
-#         mask = (torch.triu(torch.ones(sz, sz)) == 1).transpose(0, 1)
-#         mask = mask.float().masked_fill(mask == 0, float('-inf')).masked_fill(mask == 1, float(0.0))
-#         return mask
-
     def init_weights(self):
         initrange = 0.1
         self.encoder.weight.data.uniform_(-initrange, initrange)
@@ -48,11 +39,6 @@ class TransformerModel(nn.Module):
         self.decoder.weight.data.uniform_(-initrange, initrange)
 
     def forward(self, src, mask):
-#         if self.src_mask is None or self.src_mask.size(0) != src.size(0):
-#             device = src.device
-#             mask = self._generate_square_subsequent_mask(src.size(0)).to(device)
-#             self.src_mask = mask
-
         src = self.encoder(src) * math.sqrt(self.ninp)
         src = self.pos_encoder(src)
         output = self.transformer_encoder(src, src_key_padding_mask=mask)
@@ -130,7 +116,7 @@ class TransformerEncoder(nn.Module):
                            return_tensors='pt')
         
         labels = result['input_ids']
-        masks = result['attention_mask']
+        masks = result['attention_mask']       
 
         output = self.transformer(labels.to(self.device).transpose(0, 1), (1-masks).bool().to(self.device))
         pooled_output = output.transpose(0, 1)[:, 0, :]

@@ -7,7 +7,7 @@ from itertools import chain
 torch.autograd.set_detect_anomaly(True)
 
 
-class RTG(nn.Module):
+class TimingEstimator(nn.Module):
 
     def __init__(self, device, input_dim, hidden_dim):
         super().__init__()

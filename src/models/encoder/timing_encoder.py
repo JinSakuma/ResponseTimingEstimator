@@ -1,3 +1,5 @@
+# IPU Lengthを入れる
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -14,45 +16,6 @@ from src.models.lm.model import LSTMLM
 
 torch.autograd.set_detect_anomaly(True)
 
-
-path = '/mnt/aoni04/jsakuma/development/espnet-g05-1.8/egs2/atr/asr1/data/jp_token_list/char/tokens.txt'
-with open(path) as f:
-    lines =f.readlines()
-    
-tokens = [line.split()[0] for line in lines]
-
-def token2idx(token): 
-    if token != token or token == '':
-        return [0]
-    
-    token = token.replace('<eou>', '')
-    idxs = [tokens.index(t) for t in token]+[len(tokens)-1]
-    
-    return idxs
-
-def idx2token(idxs): 
-    token = [tokens[idx] for idx in idxs]
-    
-    return token
-
-
-silence_dict_train={}
-silence_dict_val={}
-silence_dict_test={}
-
-silence_dict = {'train': silence_dict_train, 'val': silence_dict_val, 'test': silence_dict_test}
-
-n_word_dict_train={}
-n_word_dict_val={}
-n_word_dict_test={}
-
-n_word_dict = {'train': n_word_dict_train, 'val': n_word_dict_val, 'test': n_word_dict_test}
-
-n_best_score_dict_train={}
-n_best_score_dict_val={}
-n_best_score_dict_test={}
-
-n_best_score_dict = {'train': n_best_score_dict_train, 'val': n_best_score_dict_val, 'test': n_best_score_dict_test}
 
 class TimingEncoder(nn.Module):
 
@@ -83,19 +46,35 @@ class TimingEncoder(nn.Module):
                 self.config.model_params.input_dim,
                 self.config.model_params.vad_hidden_dim,
             )
-            self.vad = vad        
-            self.vad.load_state_dict(torch.load(vad_model_path), strict=False)
+            self.vad = vad
+            if device == torch.device('cpu'):
+                self.load_state_dict(torch.load(vad_model_path, map_location=torch.device('cpu')), strict=False)
+            else:            
+#                 self.load_state_dict(torch.load(vad_model_path), strict=False)
+                self.load_state_dict(torch.load(vad_model_path), strict=False)
         
         if is_use_n_word:
             lm_config_path = config.model_params.lm_config_path
-            lm_model_path = config.model_params.lm_model_path
+            lm_model_path = config.model_params.lm_model_path 
+            print('LM pretrained weight path')
+            print(lm_model_path)
             lm_config = load_config(lm_config_path)    
             self.lm = LSTMLM(lm_config, device)
-            self.lm.load_state_dict(torch.load(lm_model_path), strict=False)
+            if device == torch.device('cpu'):           
+                self.lm.load_state_dict(torch.load(lm_model_path, map_location=torch.device('cpu')))#, strict=False)
+            else:
+                self.lm.load_state_dict(torch.load(lm_model_path)) #, strict=False)
         
         self.linear = nn.Linear(input_dim,
                                 encoding_dim,
                                )
+        
+        self.set_cash()
+
+    def set_cash(self):       
+        self.silence_dict = {'train': {}, 'val': {}, 'test': {}}
+        self.n_word_dict = {'train': {}, 'val': {}, 'test': {}}
+        self.n_best_score_dict = {'train': {}, 'val': {}, 'test': {}}        
         
     def get_silence(self, uttr_pred, indice, split):
         """ Fusion multi-modal inputs
@@ -108,36 +87,45 @@ class TimingEncoder(nn.Module):
             outputs: silence count (N, 1)
         """
         
-        if indice not in silence_dict[split]:
+        if indice not in self.silence_dict[split]:
             uttr_pred = torch.sigmoid(uttr_pred)
             uttr_pred = uttr_pred.detach().cpu()
             silence = torch.zeros(len(uttr_pred))#.to(self.device)
-            silence[0] = uttr_pred[0]
+            utter_length = torch.zeros(len(uttr_pred))#.to(self.device)
+            silence[0] = uttr_pred[0]           
             et = 0
             cnt = 0
             pre = 0
+            ul = 0
             for i, u in enumerate(uttr_pred):
                 uu = 1 - u
                 et += uu  # 尤度を足す
                 if uu > 0.5:  # 尤度が0.5以上なら非発話区間
                     cnt = 0
-                if pre >= 0.5 and uu < 0.5:  # 尤度が0.5以下になったらカウント開始
-                    cnt += 1
+                    ul = 0
+                else:
+                    ul += 1
+                    
+                if pre >= 0.5 and uu < 0.5:  # 尤度が0.5以下になったらカウント
+                    cnt += 1                    
                 elif uu < 0.5 and cnt > 0:  # カウントが始まっていればカウント
                     cnt += 1
+                    
                 if cnt > self.reset_frame:  # 一定時間カウントされたらリセット
                     et = 0
-                    cnt = 0
+                    cnt = 0                    
 
                 silence[i] = et
+                utter_length[i] = ul
                 pre = uu
                 
-            silence_dict[split][indice] = silence
+            self.silence_dict[split][indice] = (silence, utter_length)
             
         else:
-            silence = silence_dict[split][indice]
+            silence, utter_length = self.silence_dict[split][indice]
         
-        return silence.unsqueeze(1).to(self.device)
+        dialog_length = torch.tensor(np.arange(len(silence)))
+        return silence.unsqueeze(1).to(self.device), utter_length.unsqueeze(1).to(self.device), dialog_length.unsqueeze(1).to(self.device)
     
     def lm_generate(self, inp):
         n = len(inp)
@@ -178,7 +166,7 @@ class TimingEncoder(nn.Module):
             outputs: silence count (N, 1)
         """
         
-        if indice not in n_word_dict[split]:
+        if indice not in self.n_word_dict[split]:
             rest = []
             pre = [0]
             n = self.max_n_word
@@ -194,11 +182,11 @@ class TimingEncoder(nn.Module):
                 rest.append(n)            
             
             n_word = torch.tensor(rest).unsqueeze(1)
-            n_word_dict[split][indice] = n_word
+            self.n_word_dict[split][indice] = n_word
             
             
         else:
-            n_word = n_word_dict[split][indice]
+            n_word = self.n_word_dict[split][indice]
         
         return n_word.to(self.device)    
 
@@ -282,7 +270,7 @@ class TimingEncoder(nn.Module):
             outputs: silence count (N, beam_width)
         """
         
-        if indice not in n_best_score_dict[split]:
+        if indice not in self.n_best_score_dict[split]:
 
             pre = [0]
             n_best_scores = np.zeros([len(idxs), self.max_n_word])
@@ -322,15 +310,15 @@ class TimingEncoder(nn.Module):
                 
             
             n_best_scores = torch.tensor(n_best_scores)
-            n_best_score_dict[split][indice] = n_best_scores
+            self.n_best_score_dict[split][indice] = n_best_scores
             
         else:
-            n_best_scores = n_best_score_dict[split][indice]
+            n_best_scores = self.n_best_score_dict[split][indice]
         
         return n_best_scores.to(self.device)
     
     
-    def forward(self, feats, idxs, input_lengths, indices, split):
+    def forward(self, feats, idxs, input_lengths, indices, split, debug=False):
         """ Fusion multi-modal inputs
         Args:
             feats: acoustic feature (batch_size, N, input_dim)
@@ -351,9 +339,15 @@ class TimingEncoder(nn.Module):
                 vad_preds = self.vad(feats, input_lengths)
 
             silences = torch.zeros([b, max_len, 1]).to(self.device)
+            utter_lengths = torch.zeros([b, max_len, 1]).to(self.device)
+            dialog_lengths = torch.zeros([b, max_len, 1]).to(self.device)
             for i in range(b):                
-                silence = self.get_silence(vad_preds[i][:input_lengths[i]], indices[i], split)                
+                silence, utter_length, dialog_length = self.get_silence(vad_preds[i][:input_lengths[i]], indices[i], split)                
                 silences[i][:len(silence)] = silence
+                utter_lengths[i][:len(utter_length)] = utter_length
+                dialog_lengths[i][:len(dialog_length)] = dialog_length
+                
+            silences = torch.cat([silences, utter_lengths, dialog_lengths], dim=-1)                
                 
             self.vad.reset_state()
         
@@ -370,13 +364,16 @@ class TimingEncoder(nn.Module):
                 n_words[i][:len(n_word)] = n_word
         
         if silences is not None and n_words is not None:
-            x_t = torch.cat([silences, n_words], dim=-1)            
+            x_t = torch.cat([silences, n_words], dim=-1)
         elif silences is not None:
             x_t = silences
         else:
             x_t = n_words
             
-        r_t = self.linear(x_t)        
+        r_t = self.linear(x_t) 
+        
+        if debug:
+            return r_t, silences#torch.sigmoid(vad_preds)
         
         return r_t
     
@@ -473,157 +470,3 @@ class BeamSearchNode(object):
         self.wordid = wordId
         self.prob = prob
         self.leng = length
-
-#     def eval(self, alpha=1.0):
-#         reward = 0
-#         # Add here a function for shaping a reward
-
-#         return self.logp / float(self.leng - 1 + 1e-6) + alpha * reward
-    
-    
-# class SilenceEncoding(nn.Module):
-
-#     def __init__(self, d_model, dropout=0.1, max_len=300):
-#         super(SilenceEncoding, self).__init__()
-#         self.dropout = nn.Dropout(p=dropout)
-#         self.max_len = max_len
-#         pe = torch.zeros(max_len, d_model)
-#         position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
-#         div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
-#         pe[:, 0::2] = torch.sin(position * div_term)
-#         pe[:, 1::2] = torch.cos(position * div_term)
-#         pe = pe.unsqueeze(0)#.transpose(0, 1)
-#         self.register_buffer('pe', pe)
-
-#     def forward(self, src, silence):
-#         tmp = torch.zeros(1, src.size(1), src.size(2))
-#         for i, s in enumerate(silence): 
-#             if s>0:
-#                 if s >= self.max_len:
-#                     tmp[:, i, :] = self.pe[:, int(self.max_len-1), :]
-#                     #tmp[:, i, :] = self.pe[:, int(s):int(s)+1, :]
-#                 else:
-#                     tmp[:, i, :] = self.pe[:, int(s), :]
-#                     #tmp[:, i, :] = self.pe[:, int(s):int(s)+1, :]
-
-#         device = src.device
-#         src = src + tmp.to(device)
-#         return self.dropout(src)
-    
-    
-# silence_dict_train={}
-# silence_dict_val={}
-# silence_dict_test={}
-
-# silence_dict = {'train': silence_dict_train, 'val': silence_dict_val, 'test': silence_dict_test}
-
-
-# class RTG(nn.Module):
-
-#     def __init__(self, device, input_dim, hidden_dim, silence_encoding_type="concat"):
-#         super().__init__()
-        
-#         self.device = device
-#         self.silence_encoding_type = silence_encoding_type
-#         if silence_encoding_type=="concat":
-#             input_dim += 1
-
-#         self.lstm = torch.nn.LSTM(
-#                 input_size=input_dim,
-#                 hidden_size=hidden_dim,
-#                 batch_first=True,
-#             )
-
-#         self.fc = nn.Linear(hidden_dim, 1)
-#         self.criterion = nn.BCEWithLogitsLoss(reduction='sum').to(device)
-
-# #     def get_silence_count(self, uttr_label):
-# #         silence = torch.zeros(len(uttr_label)).to(self.device)
-# #         silence[0] = uttr_label[0]
-# #         for i, u in enumerate(uttr_label):
-# #             if u == 1:
-# #                 silence[i] = 0
-# #             else:
-# #                 silence[i] = silence[i-1]+1
-# #         return silence.unsqueeze(1)
-    
-#     def get_silence(self, uttr_pred, indice, split):
-        
-#         if indice not in silence_dict[split]:
-#             uttr_pred = torch.sigmoid(uttr_pred)
-#             uttr_pred = uttr_pred.detach().cpu()
-#             silence = torch.zeros(len(uttr_pred))#.to(self.device)
-#             silence[0] = uttr_pred[0]
-#             et = 0
-#             cnt = 0
-#             pre = 0
-#             for i, u in enumerate(uttr_pred):
-#                 uu = 1 - u
-#                 et += uu  # 尤度を足す
-#                 if uu > 0.5:  # 尤度が0.5以上なら非発話区間
-#                     cnt = 0
-#                 if pre >= 0.5 and uu < 0.5:  # 尤度が0.5以下になったらカウント開始
-#                     cnt += 1
-#                 elif uu < 0.5 and cnt > 0:  # カウントが始まっていればカウント
-#                     cnt += 1
-#                 if cnt > 25:  # 一定時間カウントされたらリセット
-#                     et = 0
-#                     cnt = 0
-
-#                 silence[i] = et
-#                 pre = uu
-                
-#             silence_dict[split][indice] = silence
-            
-#         else:
-#             silence = silence_dict[split][indice]
-        
-#         return silence.unsqueeze(1).to(self.device)
-
-#     def forward(self, inputs, uttr_preds, input_lengths, indices, split):
-#         b, n, h = inputs.shape        
-#         if self.silence_encoding_type=="concat":
-#             max_len = max(input_lengths)
-#             inputs_ = torch.zeros(b, max_len, h+1).to(self.device)
-#             for i in range(b):
-#                 silence = self.get_silence(uttr_preds[i][:input_lengths[i]], indices[i], split)
-#                 inp = torch.cat([inputs[i][:input_lengths[i]], silence], dim=-1)
-#                 inputs_[i, :input_lengths[i]] = inp
-#         else:
-#             inputs_ = inputs
-#             pass
-#             # raise Exception('Not implemented')
-
-#         #inputs = inputs.unsqueeze(0)
-        
-#         t = max(input_lengths)
-       
-#         inputs = rnn_utils.pack_padded_sequence(
-#             inputs_, 
-#             input_lengths, 
-#             batch_first=True,
-#             enforce_sorted=False,
-#         )
-
-#         # outputs : batch_size x maxlen x hidden_dim
-#         # rnn_h   : num_layers * num_directions, batch_size, hidden_dim
-#         # rnn_c   : num_layers * num_directions, batch_size, hidden_dim
-#         outputs, _ = self.lstm(inputs, None)
-#         h, _ = rnn_utils.pad_packed_sequence(
-#             outputs, 
-#             batch_first=True,
-#             padding_value=0.,
-#             total_length=t,
-#         )        
-        
-#         logits = self.fc(h)
-#         b, n, c = logits.shape
-#         logits = logits.view(b, -1)
-#         return logits
-   
-#     def get_loss(self, probs, targets):
-#         return self.criterion(probs, targets.float())
-
-
-
-

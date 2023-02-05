@@ -44,10 +44,10 @@ class CNNAutoEncoder:
         """
         
         if device == 'cpu':
-            self.device = torch.device('cuda')
+            self.device = torch.device(device)
             tr0006_18 = base.load(18, 'csj_0006', 'CSJ0006', device=self.device, map_location='cpu')
         else:
-            self.device = torch.device('cpu')
+            self.device = torch.device(device)
             tr0006_18 = base.load(18, 'csj_0006', 'CSJ0006', device=self.device, map_location='cuda')
         self.ae2 = tr0006_18.autoencoder
         
@@ -97,21 +97,25 @@ class CNNAutoEncoder:
         with torch.no_grad():
             #spectrogramの作成
             result = self.generator.input_wave(x)
+            
+            image_in = torch.tensor(np.stack(result)).float().to(self.device)
+            image_in = image_in.unsqueeze(1)           
+            feature, power = self.ae2.encode(image_in)
 
-            power = []
-            feature = []
-            #中間層出力 (encode)
-            for j in range(len(result)):
-                image_in = result[j].reshape(1, self._image_height, self._image_width)
-                image_in = torch.tensor(image_in).float().to(self.device)
-                # 中間層出力
-                x, l2 = self.ae2.encode(image_in)
-                #print(x.shape)
-                power.append(l2[0].detach().cpu().data.numpy())
-                feature.append(x[0].detach().cpu().data.numpy())
+#             power = []
+#             feature = []
+#             #中間層出力 (encode)
+#             for j in range(len(result)):
+#                 image_in = result[j].reshape(1, self._image_height, self._image_width)
+#                 image_in = torch.tensor(image_in).float().to(self.device)
+#                 # 中間層出力
+#                 x, l2 = self.ae2.encode(image_in)
+#                 #print(x.shape)
+#                 power.append(l2[0].detach().cpu().data.numpy())
+#                 feature.append(x[0].detach().cpu().data.numpy())
 
-        power = np.vstack(power)
-        feature = np.vstack(feature)
+#         power = np.vstack(power)
+#         feature = np.vstack(feature)
         return feature, power
     
     def extract_streaming(self, x):

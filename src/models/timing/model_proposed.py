@@ -12,12 +12,12 @@ from src.models.timing.feature_extractor import FeatureExtractor
 torch.autograd.set_detect_anomaly(True)
 
 
-class BaselineSystem(nn.Module):
+class System(nn.Module):
 
     def __init__(self, config, device):
         super().__init__()
         self.config = config
-        self.device = device
+        self.device = device               
         
         self.R = 60
         
@@ -40,7 +40,7 @@ class BaselineSystem(nn.Module):
             self.config,
             self.device,
             is_use_silence=True,
-            is_use_n_word=False,
+            is_use_n_word=True,
         )
         self.feature_extractor = feature_extractor
 
@@ -66,8 +66,8 @@ class BaselineSystem(nn.Module):
         offsets = batch[10] #.to(self.device)
         indices = batch[11] #.to(self.device)
         batch_size = int(len(chs))
-                
-        embs = self.feature_extractor(feats, idxs, input_lengths, texts, indices, split)
+        
+        embs = self.feature_extractor(feats, idxs, input_lengths, texts, indices, split)                    
         outputs = self.timing_model(embs, input_lengths)
         
         loss, acc = 0, 0
@@ -77,21 +77,8 @@ class BaselineSystem(nn.Module):
         outputs = {
             f'{split}_loss': loss,
         }
-        
-        self.reset_state()
 
-        return outputs
-    
-    def inference(self, batch, split='val'):        
-        feats = batch[0].to(self.device)
-        input_lengths = batch[1]
-        texts = batch[2]
-        idxs = batch[3]
-        indices = batch[4]        
-        
-        embs = self.feature_extractor(feats, idxs, input_lengths, texts, indices, split)
-                    
-        outputs = self.timing_model(embs, input_lengths)        
+        self.reset_state()
         return outputs
     
     def reset_state(self):
