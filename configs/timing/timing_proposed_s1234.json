@@ -8,7 +8,7 @@
     "data_params": {
         "data_dir": "/mnt/aoni04/jsakuma/data/ATR-Trek",
         "token_list_path": "/mnt/aoni04/jsakuma/development/espnet-g05-1.8/egs2/atr6/asr1/data/my_token_list/char/tokens.txt",
-        "text_dir": "/mnt/aoni04/jsakuma/data/ATR-Trek/texts/text_cbs-t",
+        "text_dir": "/mnt/aoni04/jsakuma/data/ATR-Trek/texts/text_cbs-t_non_parallel",
         "frame_size": 50,
         "sampling_rate": 16000,
         "max_positive_length": 20,

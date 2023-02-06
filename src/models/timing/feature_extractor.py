@@ -4,7 +4,8 @@ import torch.nn.functional as F
 import torch.nn.utils.rnn as rnn_utils
 from itertools import chain
 
-from src.models.encoder.transformer_encoder import TransformerEncoder
+#from src.models.encoder.transformer_encoder import TransformerEncoder
+from src.models.encoder.transformer_encoder_mytokenizer import TransformerEncoder
 from src.models.encoder.acoustic_encoder import AcousticEncoder
 from src.models.encoder.timing_encoder import TimingEncoder
 
@@ -61,7 +62,8 @@ class FeatureExtractor(nn.Module):
     def forward(self, feats, idxs, input_lengths, texts, indices, split):
         
         r_a = self.acoustic_encoder(feats, input_lengths)
-        r_s = self.semantic_encoder(texts)
+#         r_s = self.semantic_encoder(texts)
+        r_s = self.semantic_encoder(idxs, input_lengths)  # from src.models.encoder.transformer_encoder_mytokenizer import TransformerEncoderのbaai
         r_t = self.timing_encoder(feats, idxs, input_lengths, indices, split)   
         
         embs = torch.cat([r_s, r_a, r_t], dim=-1)              

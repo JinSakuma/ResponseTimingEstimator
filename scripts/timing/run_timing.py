@@ -15,7 +15,7 @@ from src.models.timing.model_baseline import BaselineSystem
 
 
 SPEAKERS = ['M1']
-FILES = ['M1']
+FILES = ['all']
 
 def seed_everything(seed):
     random.seed(seed)

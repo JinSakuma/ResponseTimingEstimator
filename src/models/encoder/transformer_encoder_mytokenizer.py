@@ -8,14 +8,6 @@ from itertools import chain
 torch.autograd.set_detect_anomaly(True)
 
 
-from transformers import BertTokenizer, BertModel, BertForMaskedLM, BertConfig
-import transformers
-
-# BERT = 'bert-base-uncased'
-BERT = '/mnt/aoni04/jsakuma/transformers/'#'cl-tohoku/bert-base-japanese-v2'
-tokenizer = BertTokenizer.from_pretrained(BERT, do_lower_case=True)
-
-
 class TransformerModel(nn.Module):
 
     def __init__(self, ntoken, ninp, nout, nhead, nhid, nlayers, dropout=0.5):
@@ -71,8 +63,13 @@ class TransformerEncoder(nn.Module):
         self.config = config
         self.device = device
         self.max_length = 70
-        
-        ntokens = len(tokenizer) # the size of vocabulary
+                        
+        path = self.config.data_params.token_list_path
+        with open(path) as f:
+            lines =f.readlines()
+        self.tokens = [line.split()[0] for line in lines]
+        ntokens = len(self.tokens) # the size of vocabulary
+                
         emsize = 300 # embedding dimension
         nout = self.config.model_params.semantic_encoding_dim # embedding dimension
         nhid = 300 # the dimension of the feedforward network model in nn.TransformerEncoder
@@ -84,12 +81,27 @@ class TransformerEncoder(nn.Module):
 #         self.linear = nn.Linear(self.config.model_params.bert_hidden_dim,
 #                                 self.config.model_params.semantic_encoding_dim,
 #                                )
+
+    def tokenize(self, inputs, maxlength=70):
+        labels = []
+        masks = []
+        for inp in inputs:
+            if len(inp) < maxlength:
+                labels.append(inp+[0]*(maxlength-len(inp)))
+                masks.append([1]*len(inp)+[0]*(maxlength-len(inp)))
+            else:
+                labels.append(inp[-maxlength:])
+                masks.append([1]*maxlength)
+
+        return torch.tensor(labels), torch.tensor(masks)
         
-    def forward(self, inputs):
         
+    def forward(self, inputs, input_lengths):
+        
+        max_input_length = max(input_lengths)
         batch_size = len(inputs)
-        bert_inputs_list = []
-        bert_input_lengths_list = []
+        inputs_list = []
+        input_lengths_list = []
         batch_idx_list = []
         for i in range(batch_size):
             text = inputs[i]
@@ -97,43 +109,36 @@ class TransformerEncoder(nn.Module):
             idx_list = []
             pre = None
             for idx, t in enumerate(text):
-                if t == '[PAD]':
-                    pass
-                elif pre != t:
+#                 if t == '[PAD]':
+#                     pass
+                if pre != t:
                     transcripts.append(t)
                     idx_list.append(idx)
                     pre = t
-            idx_list.append(len(text)) 
+            idx_list.append(max_input_length) 
 
-            bert_inputs_list += transcripts
-            bert_input_lengths_list.append(len(transcripts))
-            batch_idx_list.append(idx_list)            
-            
-        result = tokenizer(bert_inputs_list,
-                           max_length=self.max_length,
-                           padding="max_length",
-                           truncation=True,
-                           return_tensors='pt')
+            inputs_list += transcripts
+            input_lengths_list.append(len(transcripts))
+            batch_idx_list.append(idx_list)
         
-        labels = result['input_ids']
-        masks = result['attention_mask']       
+        labels, masks = self.tokenize(inputs_list, self.max_length)        
 
         output = self.transformer(labels.to(self.device).transpose(0, 1), (1-masks).bool().to(self.device))
         pooled_output = output.transpose(0, 1)[:, 0, :]
         #pooled_output = self.linear(pooled_output)
         
-        bacth_bert_feat = []
+        bacth_feat = []
         for i in range(batch_size):
             idx_list = batch_idx_list[i]
-            start_idx = sum(bert_input_lengths_list[:i])
+            start_idx = sum(input_lengths_list[:i])
 
-            bert_feat = []
+            feat = []
             for j, idx in enumerate(idx_list[:-1]):
-                bert_feat[idx_list[j]:idx_list[j+1]] = [pooled_output[start_idx+j].unsqueeze(0)]*(idx_list[j+1]-idx_list[j])
+                feat[idx_list[j]:idx_list[j+1]] = [pooled_output[start_idx+j].unsqueeze(0)]*(idx_list[j+1]-idx_list[j])
 
-            bert_feat = torch.cat(bert_feat)
-            bacth_bert_feat.append(bert_feat.unsqueeze(0))
+            feat = torch.cat(feat)
+            bacth_feat.append(feat.unsqueeze(0))
 
-        bacth_bert_feat = torch.cat(bacth_bert_feat)
+        bacth_feat = torch.cat(bacth_feat)
         
-        return bacth_bert_feat
+        return bacth_feat
