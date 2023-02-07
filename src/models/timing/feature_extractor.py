@@ -69,6 +69,22 @@ class FeatureExtractor(nn.Module):
         embs = torch.cat([r_s, r_a, r_t], dim=-1)              
         return embs
     
+    def streaming_inference(self, feats, idxs, input_lengths, texts, indices, split, debug=False):
+        
+        r_a = self.acoustic_encoder(feats, input_lengths)
+#         r_s = self.semantic_encoder(texts)
+        r_s = self.semantic_encoder(idxs, input_lengths)  # from src.models.encoder.transformer_encoder_mytokenizer import TransformerEncoderの場合
+        r_t = self.timing_encoder.streaming_inference(feats, idxs, input_lengths, indices, split, debug)
+        if debug:
+            r_t, silence, vad_preds = r_t
+        
+        embs = torch.cat([r_s, r_a, r_t], dim=-1)
+        
+        if debug:
+            return embs, silence, vad_preds
+        
+        return embs
+    
     def reset_state(self):
         self.acoustic_encoder.reset_state()
         self.timing_encoder.reset_state()

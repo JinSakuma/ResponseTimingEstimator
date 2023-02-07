@@ -83,9 +83,10 @@ class TimingEncoder(nn.Module):
         self.pre = 0
         self.et = 0
         self.ul = 0
+        self.total = 0
         self.pre_token = [0]
         
-    def get_silence(self, uttr_pred, indice, split, inference=False):
+    def get_silence(self, uttr_pred, indice, split, streaming_inference=False):
         """ Fusion multi-modal inputs
         Args:
             vad_pred: acoustic feature (N, 1)
@@ -96,7 +97,7 @@ class TimingEncoder(nn.Module):
             outputs: silence count (N, 1)
         """
         
-        if (indice not in self.silence_dict[split]) or inference:
+        if (indice not in self.silence_dict[split]) or streaming_inference:
             uttr_pred = torch.sigmoid(uttr_pred)
             uttr_pred = uttr_pred.detach().cpu()
             silence = torch.zeros(len(uttr_pred))#.to(self.device)
@@ -123,6 +124,7 @@ class TimingEncoder(nn.Module):
                 silence[i] = self.et
                 utter_length[i] = self.ul
                 self.pre = uu
+                self.total += 1
                 
             self.silence_dict[split][indice] = (silence, utter_length)
             
@@ -130,7 +132,55 @@ class TimingEncoder(nn.Module):
             silence, utter_length = self.silence_dict[split][indice]
         
         dialog_length = torch.tensor(np.arange(len(silence)))
-        return silence.unsqueeze(1).to(self.device), utter_length.unsqueeze(1).to(self.device), dialog_length.unsqueeze(1).to(self.device)       
+        return silence.unsqueeze(1).to(self.device), utter_length.unsqueeze(1).to(self.device), dialog_length.unsqueeze(1).to(self.device)
+    
+    def get_silence_streaming(self, uttr_pred, indice, split, streaming_inference=False):
+        """ Fusion multi-modal inputs
+        Args:
+            vad_pred: acoustic feature (N, 1)
+            indice: data idx 
+            split: training phase
+            
+        Returns:
+            outputs: silence count (N, 1)
+        """
+        
+        if (indice not in self.silence_dict[split]) or streaming_inference:
+            uttr_pred = torch.sigmoid(uttr_pred)
+            uttr_pred = uttr_pred.detach().cpu()
+            silence = torch.zeros(len(uttr_pred))#.to(self.device)
+            utter_length = torch.zeros(len(uttr_pred))#.to(self.device)
+            silence[0] = uttr_pred[0]                       
+            for i, u in enumerate(uttr_pred):
+                uu = 1 - u
+                self.et += uu  # 尤度を足す
+                if uu > 0.5:  # 尤度が0.5以上なら非発話区間
+                    self.cnt = 0
+                    self.ul = 0
+                else:
+                    self.ul += 1
+                    
+                if self.pre >= 0.5 and uu < 0.5:  # 尤度が0.5以下になったらカウント
+                    self.cnt += 1                    
+                elif uu < 0.5 and self.cnt > 0:  # カウントが始まっていればカウント
+                    self.cnt += 1
+                    
+                if self.cnt > self.reset_frame:  # 一定時間カウントされたらリセット
+                    self.et = 0
+                    self.cnt = 0                    
+
+                silence[i] = self.et
+                utter_length[i] = self.ul
+                self.pre = uu
+                self.total += 1
+                
+            self.silence_dict[split][indice] = (silence, utter_length)
+            
+        else:
+            silence, utter_length = self.silence_dict[split][indice]
+               
+        dialog_length = torch.tensor([self.total])
+        return silence.unsqueeze(1).to(self.device), utter_length.unsqueeze(1).to(self.device), dialog_length.unsqueeze(1).to(self.device)    
     
     def lm_generate(self, inp):
         n = len(inp)
@@ -322,7 +372,7 @@ class TimingEncoder(nn.Module):
         
         return n_best_scores.to(self.device)
     
-    def get_n_word_n_best_scores_inference(self, idxs, indice, split):
+    def get_n_word_n_best_scores_streaming(self, idxs, indice, split):
         """ Fusion multi-modal inputs
         Args:
             vad_pred: acoustic feature (N, 1)
@@ -430,7 +480,7 @@ class TimingEncoder(nn.Module):
         
         return r_t
     
-    def inference(self, feats, idxs, input_lengths, indices, split='val'):
+    def streaming_inference(self, feats, idxs, input_lengths, indices, split, debug=False):
         """ Fusion multi-modal inputs
         Args:
             feats: acoustic feature (batch_size, N, input_dim)
@@ -445,15 +495,23 @@ class TimingEncoder(nn.Module):
         n_words = None               
         
         # silence encoding                            
-        max_len = max(input_lengths)
+        max_len = max(input_lengths)  
         if self.is_use_silence:
             with torch.no_grad():
                 vad_preds = self.vad(feats, input_lengths)
 
             silences = torch.zeros([b, max_len, 1]).to(self.device)
+            utter_lengths = torch.zeros([b, max_len, 1]).to(self.device)
+            dialog_lengths = torch.zeros([b, max_len, 1]).to(self.device)
             for i in range(b):                
-                silence = self.get_silence(vad_preds[i][:input_lengths[i]], indices[i], split)                
-                silences[i][:len(silence)] = silence                
+                silence, utter_length, dialog_length = self.get_silence_streaming(vad_preds[i][:input_lengths[i]], indices[i], split, streaming_inference=True)                
+                silences[i][:len(silence)] = silence
+                utter_lengths[i][:len(utter_length)] = utter_length
+                dialog_lengths[i][:len(dialog_length)] = dialog_length
+                
+            silences = torch.cat([silences, utter_lengths, dialog_lengths], dim=-1)                
+                
+            self.vad.reset_state()
         
         # Estimate Characters to the EoU        
         if self.is_use_n_word:
@@ -463,20 +521,71 @@ class TimingEncoder(nn.Module):
                     n_words = torch.zeros([b, max_len, 1]).to(self.device)
                     n_word = self.get_n_word(idxs[i], indices[i], split)
                 else:                    
-                    n_word = self.get_n_word_n_best_scores_inference(idxs[i], indices[i], split)
+                    n_word = self.get_n_word_n_best_scores_streaming(idxs[i], indices[i], split)
 
                 n_words[i][:len(n_word)] = n_word
         
         if silences is not None and n_words is not None:
-            x_t = torch.cat([silences, n_words], dim=-1)            
+            x_t = torch.cat([silences, n_words], dim=-1)
         elif silences is not None:
             x_t = silences
         else:
             x_t = n_words
             
-        r_t = self.linear(x_t)
+        r_t = self.linear(x_t) 
         
-        return r_t    
+        if debug:
+            return r_t, silences, torch.sigmoid(vad_preds)
+        
+        return r_t
+    
+#     def streaming_inference(self, feats, idxs, input_lengths, indices, split='val'):
+#         """ Fusion multi-modal inputs
+#         Args:
+#             feats: acoustic feature (batch_size, N, input_dim)
+#             idxs: idx of lm tokens (batch_size, M)
+#             input_lengths: list of input lengths (batch_size)
+            
+#         Returns:
+#             outputs: timing representation (N, encoding_dim)
+#         """
+#         b, n, h = feats.shape
+#         silences = None
+#         n_words = None               
+        
+#         # silence encoding                            
+#         max_len = max(input_lengths)
+#         if self.is_use_silence:
+#             with torch.no_grad():
+#                 vad_preds = self.vad(feats, input_lengths)
+
+#             silences = torch.zeros([b, max_len, 1]).to(self.device)
+#             for i in range(b):                
+#                 silence = self.get_silence(vad_preds[i][:input_lengths[i]], indices[i], split)                
+#                 silences[i][:len(silence)] = silence                
+        
+#         # Estimate Characters to the EoU        
+#         if self.is_use_n_word:
+#             n_words = torch.zeros([b, max_len, self.max_n_word]).to(self.device)
+#             for i in range(b): 
+#                 if self.beam_width == 0: 
+#                     n_words = torch.zeros([b, max_len, 1]).to(self.device)
+#                     n_word = self.get_n_word(idxs[i], indices[i], split)
+#                 else:                    
+#                     n_word = self.get_n_word_n_best_scores_inference(idxs[i], indices[i], split)
+
+#                 n_words[i][:len(n_word)] = n_word
+        
+#         if silences is not None and n_words is not None:
+#             x_t = torch.cat([silences, n_words], dim=-1)            
+#         elif silences is not None:
+#             x_t = silences
+#         else:
+#             x_t = n_words
+            
+#         r_t = self.linear(x_t)
+        
+#         return r_t, silence    
     
     def get_features(self, feats, idxs, input_lengths, indices, split):
         

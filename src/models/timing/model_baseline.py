@@ -82,16 +82,19 @@ class BaselineSystem(nn.Module):
 
         return outputs
     
-    def inference(self, batch, split='val'):        
+    def streaming_inference(self, batch, split='val', debug=False):        
         feats = batch[0].to(self.device)
         input_lengths = batch[1]
         texts = batch[2]
         idxs = batch[3]
         indices = batch[4]        
         
-        embs = self.feature_extractor(feats, idxs, input_lengths, texts, indices, split)
+        embs, silence, vad_preds = self.feature_extractor.streaming_inference(feats, idxs, input_lengths, texts, indices, split, debug)
                     
-        outputs = self.timing_model(embs, input_lengths)        
+        outputs = self.timing_model(embs, input_lengths)
+        if debug:
+            return outputs, silence, vad_preds
+        
         return outputs
     
     def reset_state(self):
