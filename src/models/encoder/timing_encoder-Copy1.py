@@ -82,10 +82,10 @@ class TimingEncoder(nn.Module):
         self.cnt = 0        
         self.pre = 0
         self.et = 0
-        self.ul = 0
+        self.total = 0
         self.pre_token = [0]
         
-    def get_silence(self, uttr_pred, indice, split, inference=False):
+    def get_silence(self, uttr_pred, indice, split):
         """ Fusion multi-modal inputs
         Args:
             vad_pred: acoustic feature (N, 1)
@@ -96,33 +96,37 @@ class TimingEncoder(nn.Module):
             outputs: silence count (N, 1)
         """
         
-        if (indice not in self.silence_dict[split]) or inference:
+        if indice not in self.silence_dict[split]:
             uttr_pred = torch.sigmoid(uttr_pred)
             uttr_pred = uttr_pred.detach().cpu()
             silence = torch.zeros(len(uttr_pred))#.to(self.device)
             utter_length = torch.zeros(len(uttr_pred))#.to(self.device)
-            silence[0] = uttr_pred[0]                       
+            silence[0] = uttr_pred[0]           
+            et = 0
+            cnt = 0
+            pre = 0
+            ul = 0
             for i, u in enumerate(uttr_pred):
                 uu = 1 - u
-                self.et += uu  # 尤度を足す
+                et += uu  # 尤度を足す
                 if uu > 0.5:  # 尤度が0.5以上なら非発話区間
-                    self.cnt = 0
-                    self.ul = 0
+                    cnt = 0
+                    ul = 0
                 else:
-                    self.ul += 1
+                    ul += 1
                     
-                if self.pre >= 0.5 and uu < 0.5:  # 尤度が0.5以下になったらカウント
-                    self.cnt += 1                    
-                elif uu < 0.5 and self.cnt > 0:  # カウントが始まっていればカウント
-                    self.cnt += 1
+                if pre >= 0.5 and uu < 0.5:  # 尤度が0.5以下になったらカウント
+                    cnt += 1                    
+                elif uu < 0.5 and cnt > 0:  # カウントが始まっていればカウント
+                    cnt += 1
                     
-                if self.cnt > self.reset_frame:  # 一定時間カウントされたらリセット
-                    self.et = 0
-                    self.cnt = 0                    
+                if cnt > self.reset_frame:  # 一定時間カウントされたらリセット
+                    et = 0
+                    cnt = 0                    
 
-                silence[i] = self.et
-                utter_length[i] = self.ul
-                self.pre = uu
+                silence[i] = et
+                utter_length[i] = ul
+                pre = uu
                 
             self.silence_dict[split][indice] = (silence, utter_length)
             
@@ -130,7 +134,44 @@ class TimingEncoder(nn.Module):
             silence, utter_length = self.silence_dict[split][indice]
         
         dialog_length = torch.tensor(np.arange(len(silence)))
-        return silence.unsqueeze(1).to(self.device), utter_length.unsqueeze(1).to(self.device), dialog_length.unsqueeze(1).to(self.device)       
+        return silence.unsqueeze(1).to(self.device), utter_length.unsqueeze(1).to(self.device), dialog_length.unsqueeze(1).to(self.device)
+    
+    def get_silence_streaming(self, uttr_pred, indice, split):
+        """ Fusion multi-modal inputs
+        Args:
+            vad_pred: acoustic feature (N, 1)
+            indice: data idx 
+            split: training phase
+            
+        Returns:
+            outputs: silence count (N, 1)
+        """
+        
+        
+        uttr_pred = torch.sigmoid(uttr_pred)
+        uttr_pred = uttr_pred.detach().cpu()
+
+        u = uttr_pred[0]
+        uu = 1 - u
+        self.et += uu  # 尤度を足す
+        if uu > 0.5:  # 尤度が0.5以上なら非発話区間
+            self.cnt = 0
+        if self.pre >= 0.5 and uu < 0.5:  # 尤度が0.5以下になったらカウント開始
+            self.cnt += 1
+        elif uu < 0.5 and self.cnt > 0:  # カウントが始まっていればカウント
+            self.cnt += 1
+        if self.cnt > self.reset_frame:  # 一定時間カウントされたらリセット
+            self.et = 0
+            self.cnt = 0
+
+        silence = torch.tensor([self.et])
+        self.pre = uu
+        self.total += 1
+        
+        #return silence.unsqueeze(1).to(self.device)
+    
+        utter_length = torch.tensor([self.total])
+        return silence.unsqueeze(1).to(self.device), utter_length.unsqueeze(1).to(self.device)
     
     def lm_generate(self, inp):
         n = len(inp)
@@ -322,54 +363,6 @@ class TimingEncoder(nn.Module):
         
         return n_best_scores.to(self.device)
     
-    def get_n_word_n_best_scores_inference(self, idxs, indice, split):
-        """ Fusion multi-modal inputs
-        Args:
-            vad_pred: acoustic feature (N, 1)
-            indice: data idx 
-            split: training phase
-            
-        Returns:
-            outputs: silence count (N, beam_width)
-        """
-                
-        self.pre_token = [0]
-        n_best_scores = np.zeros([len(idxs), self.max_n_word])
-        n_score = np.zeros(self.max_n_word)
-        n_score[-1] = 1
-        for j in range(len(idxs)):          
-            if idxs[j] != self.pre_token:
-                inp = torch.tensor(idxs[j])
-                self.pre_token = idxs[j]
-
-                endnodes = self.get_n_best_length(inp.to(self.device))
-                context = inp.detach().cpu().tolist()
-
-                utterances = []
-                scores = []
-                n_score = np.zeros(self.max_n_word)
-                for node in endnodes:
-                    utterance = []
-                    n = node
-                    score = n.prob
-                    while n is not None:
-                        utterance.append(n.wordid.item())        
-                        n = n.prevNode        
-
-                    utterances.append(context+utterance[::-1])
-                    length = len(utterance)
-                    n_score[length-1:]+=score.item()
-                    scores.append(score.item())
-
-            else:
-                pass
-
-            n_best_scores[j] = n_score
-
-
-        n_best_scores = torch.tensor(n_best_scores)
-        
-        return n_best_scores.to(self.device)
     
     def forward(self, feats, idxs, input_lengths, indices, split, debug=False):
         """ Fusion multi-modal inputs
@@ -455,6 +448,7 @@ class TimingEncoder(nn.Module):
                 silence = self.get_silence(vad_preds[i][:input_lengths[i]], indices[i], split)                
                 silences[i][:len(silence)] = silence                
         
+        # TODO: streeaming対応
         # Estimate Characters to the EoU        
         if self.is_use_n_word:
             n_words = torch.zeros([b, max_len, self.max_n_word]).to(self.device)
@@ -463,7 +457,7 @@ class TimingEncoder(nn.Module):
                     n_words = torch.zeros([b, max_len, 1]).to(self.device)
                     n_word = self.get_n_word(idxs[i], indices[i], split)
                 else:                    
-                    n_word = self.get_n_word_n_best_scores_inference(idxs[i], indices[i], split)
+                    n_word = self.get_n_word_n_best_scores(idxs[i], indices[i], split)
 
                 n_words[i][:len(n_word)] = n_word
         
@@ -476,7 +470,10 @@ class TimingEncoder(nn.Module):
             
         r_t = self.linear(x_t)
         
-        return r_t    
+        return r_t
+    
+    def reset_state(self):
+        self.vad.reset_state()
     
     def get_features(self, feats, idxs, input_lengths, indices, split):
         

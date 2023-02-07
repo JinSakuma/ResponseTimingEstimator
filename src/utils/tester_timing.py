@@ -145,18 +145,12 @@ def tester(config, device, test_loader, model, model_dir, out_dir, resume_name, 
             offsets = batch[10] #.to(self.device)
             indices = batch[11] #.to(self.device)
             is_barge_in = batch[12] #.to(self.device)
-            batch_size = int(len(chs))
+            batch_size = int(len(chs))            
 
-            loss, acc = 0, 0        
-
-            r_s = model.semantic_encoder(texts)
-            r_t = model.timing_encoder(feats, idxs, input_lengths, indices, split)        
-            r_a = model.acoustic_encoder(feats, input_lengths)
-
-            embs = torch.cat([r_s, r_a, r_t], dim=-1)              
-
+            embs = model.feature_extractor(feats, idxs, input_lengths, texts, indices, split)
             outputs = model.timing_model(embs, input_lengths)        
 
+            loss, acc = 0, 0
             out_list, label_list, uttr_list, silence_list = [], [], [], []
             for i in range(batch_size):
                 loss = loss+model.timing_model.get_loss(outputs[i][:input_lengths[i]], targets[i][:input_lengths[i]])

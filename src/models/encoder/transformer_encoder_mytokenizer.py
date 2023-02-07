@@ -121,7 +121,7 @@ class TransformerEncoder(nn.Module):
             input_lengths_list.append(len(transcripts))
             batch_idx_list.append(idx_list)
         
-        labels, masks = self.tokenize(inputs_list, self.max_length)        
+        labels, masks = self.tokenize(inputs_list, self.max_length)
 
         output = self.transformer(labels.to(self.device).transpose(0, 1), (1-masks).bool().to(self.device))
         pooled_output = output.transpose(0, 1)[:, 0, :]
