@@ -32,7 +32,7 @@
         "timing_encoding_dim": 128,
         "vad_hidden_dim": 512,
         "vad_model_path": "/mnt/aoni04/jsakuma/development/ATR-Trek/exp/vad/M1/vad_offset200/best_val_loss_model.pth",
-        "lm_config_path": "/mnt/aoni04/jsakuma/development/ATR-Trek/configs/lm_cbs-t/char_lstm_l1_cv.json",
+        "lm_config_path": "/mnt/aoni04/jsakuma/development/ATR-Trek/configs/syuron_lm/char_lstm_l1_cv.json",
         "lm_model_path": "/mnt/aoni04/jsakuma/development/ATR-Trek/exp/lm_cv2/char/M1/lstm_l1_lr4_weighted3_parallel",
         "bidirectional": false
     },
