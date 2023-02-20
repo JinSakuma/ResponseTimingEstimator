@@ -62,7 +62,7 @@ TRAIN_SIZE=0.8
 VAL_SIZE = 0.1
 TEST_SIZE = 0.1
 SEED = 0
-root='/mnt/aoni04/jsakuma/data/ATR2022/asr'
+root=<outdir>
 
 user_list = sorted(glob.glob('/mnt/aoni04/jsakuma/data/ATR/ATR-Trek/Text_User/*_L.xls'))
 agent_list = sorted(glob.glob('/mnt/aoni04/jsakuma/data/ATR/ATR-Trek/Text_Agent/*.csv'))
