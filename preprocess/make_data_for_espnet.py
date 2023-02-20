@@ -10,7 +10,6 @@ import json
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 
-
 def get_text_file(name):
     text_user_path = '/mnt/aoni04/jsakuma/data/ATR/ATR-Trek/Text_User/{}_L.xls'.format(name)
     text_agent_path = '/mnt/aoni04/jsakuma/data/ATR/ATR-Trek/Text_Agent/{}.csv'.format(name)
