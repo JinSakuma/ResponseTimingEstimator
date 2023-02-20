@@ -85,64 +85,64 @@ for split in ['train', 'valid', 'test']:
         with open(path_names, mode='a') as f:
             f.write(file_dict[split][j]+'\n')
 
-# if __name__ == "__main__":
-#     for split in ['train', 'valid', 'test']:
-#         text_list = []
-#         utt2spk_list = []
-#         scp_list = []
-#         uttrs = []
+if __name__ == "__main__":
+    for split in ['train', 'valid', 'test']:
+        text_list = []
+        utt2spk_list = []
+        scp_list = []
+        uttrs = []
         
-#         path_text = os.path.join(root, 'data/{}/text'.format(split))
-#         path_wavscp = os.path.join(root, 'data/{}/wav.scp'.format(split))
-#         path_utt2spk = os.path.join(root, 'data/{}/utt2spk'.format(split))
+        path_text = os.path.join(root, 'data/{}/text'.format(split))
+        path_wavscp = os.path.join(root, 'data/{}/wav.scp'.format(split))
+        path_utt2spk = os.path.join(root, 'data/{}/utt2spk'.format(split))
         
-#         #print(path_text)
+        #print(path_text)
         
-#         file_names_list = file_dict[split]
-#         for idx, file_name in enumerate(tqdm(file_names_list)):
-#             _, df_text_agent = get_text_file(file_name) 
-#             wavpath = os.path.join(root.replace('/asr_agent', ''), 'wav_mono/{}_agent.wav'.format(file_name))
-#             cnt = 0
-#             for i in range(len(df_text_agent)):
-#                 if df_text_agent['start'].iloc[i] != df_text_agent['start'].iloc[i]:
-#                     continue
+        file_names_list = file_dict[split]
+        for idx, file_name in enumerate(tqdm(file_names_list)):
+            _, df_text_agent = get_text_file(file_name) 
+            wavpath = os.path.join(root.replace('/asr_agent', ''), 'wav_mono/{}_agent.wav'.format(file_name))
+            cnt = 0
+            for i in range(len(df_text_agent)):
+                if df_text_agent['start'].iloc[i] != df_text_agent['start'].iloc[i]:
+                    continue
                 
-#                 start=int(df_text_agent['start'].iloc[i])
-#                 end=int(df_text_agent['end'].iloc[i])
+                start=int(df_text_agent['start'].iloc[i])
+                end=int(df_text_agent['end'].iloc[i])
                 
-#                 if end-start<2000:
-#                     continue
+                if end-start<2000:
+                    continue
                     
-#                 cnt += 1
+                cnt += 1
                 
-#                 text = df_text_agent['text'].iloc[i]
-#                 text = text.replace('　', '').replace('、', '').replace('。', '')
+                text = df_text_agent['text'].iloc[i]
+                text = text.replace('　', '').replace('、', '').replace('。', '')
 
-#                 spk_id = 'U{:04}'.format(idx)
-#                 uttr_id = spk_id+'_'+file_name.replace('-', '_')+'_{:03}'.format(cnt)
-#                 name = spk_id+'_'+file_name.replace('-', '_')+'_{:03}.wav'.format(cnt)
+                spk_id = 'U{:04}'.format(idx)
+                uttr_id = spk_id+'_'+file_name.replace('-', '_')+'_{:03}'.format(cnt)
+                name = spk_id+'_'+file_name.replace('-', '_')+'_{:03}.wav'.format(cnt)
 
-#                 wav_out_dir = os.path.join(root, 'wav', file_name)
-#                 os.makedirs(wav_out_dir, exist_ok=True)
+                wav_out_dir = os.path.join(root, 'wav', file_name)
+                os.makedirs(wav_out_dir, exist_ok=True)
 
-#                 wav_out_path = os.path.join(wav_out_dir, name)
-#                 save_turn_wav(wavpath, wav_out_path, start, end)
+                wav_out_path = os.path.join(wav_out_dir, name)
+                save_turn_wav(wavpath, wav_out_path, start, end)
                 
-#                 text_list.append(uttr_id+' '+text+'\n')
-#                 utt2spk_list.append(uttr_id+' '+spk_id+'\n')
-#                 scp_list.append(uttr_id+' '+wav_out_path+'\n')
-#                 uttrs.append(uttr_id)
+                text_list.append(uttr_id+' '+text+'\n')
+                utt2spk_list.append(uttr_id+' '+spk_id+'\n')
+                scp_list.append(uttr_id+' '+wav_out_path+'\n')
+                uttrs.append(uttr_id)
         
-#         idxs = np.argsort(uttrs)
-#         for j in tqdm(idxs):                 
-#             with codecs.open(path_text,"a","utf-8") as f:
-#                 f.write(text_list[j])
+        idxs = np.argsort(uttrs)
+        for j in tqdm(idxs):                 
+            with codecs.open(path_text,"a","utf-8") as f:
+                f.write(text_list[j])
             
-#             with open(path_wavscp, mode='a') as f:
-#                 f.write(scp_list[j])
+            with open(path_wavscp, mode='a') as f:
+                f.write(scp_list[j])
 
-#             with open(path_utt2spk, mode='a') as f:
-#                 f.write(utt2spk_list[j])
+            with open(path_utt2spk, mode='a') as f:
+                f.write(utt2spk_list[j])
 
-#             # with open(path_spk2utt, mode='a') as f:
-#             #     f.write(spk2utt_list[j])         
+            # with open(path_spk2utt, mode='a') as f:
+            #     f.write(spk2utt_list[j])         
